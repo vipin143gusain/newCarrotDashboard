@@ -1,8 +1,8 @@
 import CommonCard from '@/components/common_card.component';
 import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
+import { NoDataFound } from '@/styles/noDataFound';
 import { CommonGridActions } from '@/utils/grid_actions';
 import Lottie from 'react-lottie';
-
 
 export interface CategoryGridProps {
   categoryData?:
@@ -80,19 +80,9 @@ const CategoryGrid = (props: CategoryGridProps & CommonGridActions) => {
         ))
       )}
       {!loadingData && categoryData && categoryData.length === 0 && (
-        <p
-          style={{
-            textAlign: 'center',
-            width: '100%',
-            margin: '100px auto',
-            display: 'block',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: 'red'
-          }}
-        >
-          --------------------- No Data Found ---------------------
-        </p>
+        <NoDataFound>
+          <p>--------------------- No Data Found ---------------------</p>
+        </NoDataFound>
       )}
     </>
   );

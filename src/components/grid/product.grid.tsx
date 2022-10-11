@@ -1,8 +1,8 @@
 import CommonCard from '@/components/common_card.component';
 import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
+import { NoDataFound } from '@/styles/noDataFound';
 import { CommonGridActions } from '@/utils/grid_actions';
 import Lottie from 'react-lottie';
-
 
 export interface ProductGridProps {
   productData?: Array<{
@@ -23,7 +23,7 @@ export interface ProductGridProps {
   prodDefault?: any;
   dispatch?: any;
   getProduct?: any;
-  loadingData?:any
+  loadingData?: any;
 }
 
 const ProductGrid = (props: ProductGridProps & CommonGridActions) => {
@@ -81,22 +81,13 @@ const ProductGrid = (props: ProductGridProps & CommonGridActions) => {
         ))
       )}
       {!loadingData && productData && productData.length === 0 && (
-        <p
-          style={{
-            textAlign: 'center',
-            width: '100%',
-            margin: '100px auto',
-            display: 'block',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: 'red'
-          }}
-        >
-          --------------------- No Data Found ---------------------
-        </p>
+        <NoDataFound>
+          <p>--------------------- No Data Found ---------------------</p>
+        </NoDataFound>
       )}
     </>
   );
 };
 
 export default ProductGrid;
+  

@@ -1,17 +1,17 @@
+import { LoginContext } from '@/contexts/login.context';
+import { OfferTypes } from '@/models/types/offers';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
 import {
   Button,
   Card, CardActions, CardContent,
   CardHeader,
   CardMedia, Divider, Grid, styled, TextField, Typography
 } from '@mui/material';
-
-import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
-
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-
-import { LoginContext } from '@/contexts/login.context';
-import { OfferTypes } from '@/models/types/offers';
 import { useContext } from 'react';
+
+
+
 
 interface FeedCardProps {
   offerTypes: OfferTypes;

@@ -1,8 +1,8 @@
 import FeedCard from '@/components/feed_card.component';
 import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
+import { NoDataFound } from '@/styles/noDataFound';
 import { CommonGridActions } from '@/utils/grid_actions';
 import Lottie from 'react-lottie';
-
 
 export interface FeedGridProps {
   data?: Array<{
@@ -15,7 +15,7 @@ export interface FeedGridProps {
     media_type: string;
     qc_status_asset: string;
     widget_type?: any;
-    video_thumbnail: string;
+    video_thumbnail?: any;
     media_file: string;
     display_order?: number;
     description: string;
@@ -24,7 +24,7 @@ export interface FeedGridProps {
   defaultValue?: any;
   setDefaultValue?: any;
   qc_status_asset?: string;
-  loadingData?:any
+  loadingData?: any;
 }
 
 const FeedGrid = (props: FeedGridProps & CommonGridActions) => {
@@ -35,7 +35,7 @@ const FeedGrid = (props: FeedGridProps & CommonGridActions) => {
   return (
     <>
       {loadingData ? (
-           <Lottie
+        <Lottie
           options={{
             loop: true,
             autoplay: true,
@@ -74,19 +74,9 @@ const FeedGrid = (props: FeedGridProps & CommonGridActions) => {
         ))
       )}
       {!loadingData && data && data.length === 0 && (
-        <p
-          style={{
-            textAlign: 'center',
-            width: '100%',
-            margin: '100px auto',
-            display: 'block',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: 'red'
-          }}
-        >
-          --------------------- No Data Found ---------------------
-        </p>
+        <NoDataFound>
+          <p>--------------------- No Data Found ---------------------</p>
+        </NoDataFound>
       )}
     </>
   );

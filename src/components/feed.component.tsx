@@ -1,6 +1,6 @@
 import { singleOfferOne } from '@/models/templates/forms/feed_page/single_offer';
 import { OfferTypes } from '@/models/types/offers';
-import { CommonForm } from '../CommonForm/common_form';
+import { CommonForm } from '../components/common_form.component';
 
 interface FeedProps {
   feedType: OfferTypes;

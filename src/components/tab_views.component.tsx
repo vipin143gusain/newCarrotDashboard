@@ -211,7 +211,7 @@ const TaskSearch = (
 
   // const [activeStep, setActiveStep] = useState(0);
   const [prodDefault, setProdDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       id: '',
       name: '',
@@ -228,7 +228,7 @@ const TaskSearch = (
   });
 
   const [editProdDefault, setEditProdDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       id: '',
       name: '',
@@ -245,7 +245,7 @@ const TaskSearch = (
   });
 
   const [categoryDefault, setCategoryDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       id: '',
       name: '',
@@ -259,7 +259,7 @@ const TaskSearch = (
     }
   });
   const [editCategoryDefault, setEditCategoryDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       id: '',
       name: 'avinash',
@@ -274,7 +274,7 @@ const TaskSearch = (
   });
 
   const [feedDefault, setFeedDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       widget_type: 'single_offer',
       widget_id: 2,
@@ -303,7 +303,7 @@ const TaskSearch = (
   });
 
   const [editFeedDefault, setEditFeedDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       widget_type: 'single_offer',
       widget_id: 2,
@@ -332,7 +332,7 @@ const TaskSearch = (
   });
 
   const [addOfferDefault, setAddOfferDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       id: 0,
       title: '',
@@ -348,7 +348,7 @@ const TaskSearch = (
   });
 
   const [editAddOfferDefault, setEditAddOfferDefault] = useState({
-    purpose:"",
+    purpose: '',
     defaultValues: {
       id: 0,
       title: '',
@@ -362,7 +362,6 @@ const TaskSearch = (
       qc_status: ''
     }
   });
-
 
   const onResetForm = (value) => {
     return (value = null);
@@ -736,144 +735,174 @@ const TaskSearch = (
     setformType(event.target.value);
   };
 
-  const approveProduct = (id)=>{
+  const approveProduct = (id) => {
     let data = {
       approver_id: 255,
-      approver_name: "Vipin_admin",
-      approver_notes: "data approved",
+      approver_name: 'Vipin_admin',
+      approver_notes: 'data approved'
     };
 
-      _serveAPI({method:"PATCH",endPoint:`api/qcintegration/approve/${id}`,data}).then((res) => {
+    _serveAPI({
+      method: 'PATCH',
+      endPoint: `api/qcintegration/approve/${id}`,
+      data
+    })
+      .then((res) => {
         notify('success', res.message);
         dispatch(getProduct({ walletId: 279, qc_status: filter }));
         dispatch(setModalState(false));
       })
       .catch((err) => console.log('error adding feed', err));
-  }
+  };
 
-  const rejectProduct = (id)=>{
+  const rejectProduct = (id) => {
     let data = {
       approver_id: 255,
-      approver_name: "Vipin_admin",
-      approver_notes: "data rejected",
+      approver_name: 'Vipin_admin',
+      approver_notes: 'data rejected'
     };
 
-      _serveAPI({method:"PATCH",endPoint:`api/qcintegration/reject/${id}`,data}).then((res) => {
+    _serveAPI({
+      method: 'PATCH',
+      endPoint: `api/qcintegration/reject/${id}`,
+      data
+    })
+      .then((res) => {
         notify('success', res.message);
         dispatch(getProduct({ walletId: 279, qc_status: filter }));
         dispatch(setModalState(false));
       })
       .catch((err) => console.log('error adding feed', err));
-  }
+  };
 
-  const prodWithDraw = async(id)=>{
-    _serveAPI({endPoint:`api/wallet/product/v2/withdrawn/${id}`,method:"PUT" }).then(res=>{
-      notify("success",res.message);
+  const prodWithDraw = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/product/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => {
+      notify('success', res.message);
       dispatch(getProduct({ walletId: 279, qc_status: filter }));
-    })
-  }
-  const categoryWithDraw = async(id)=>{
-    _serveAPI({endPoint:`api/wallet/category/v2/withdrawn/${id}`,method:"PUT" }).then(res=>{
-      notify("success",res.message);
+    });
+  };
+  const categoryWithDraw = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/category/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => {
+      notify('success', res.message);
       dispatch(getCategory({ walletId: 279, qc_status: filter }));
-    })
-  }
+    });
+  };
 
-  const feedWithDraw = async(id)=>{
-    _serveAPI({endPoint:`api/wallet/banner/v2/withdrawn/${id}`,method:"PUT" }).then(res=>{
-      notify("success",res.message);
+  const feedWithDraw = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/banner/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => {
+      notify('success', res.message);
       dispatch(getFeedCards({ walletId: 279, qc_status: filter }));
-    })
-  }
+    });
+  };
 
-  const addOfferWithDraw = async(id)=>{
-    _serveAPI({endPoint:`api/wallet/offer/v2/withdrawn/${id}`,method:"PUT" }).then(res=>{
-      notify("success",res.message);
+  const addOfferWithDraw = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/offer/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => {
+      notify('success', res.message);
       dispatch(getOffer({ walletId: 279, qc_status: filter }));
-    })
-  }
+    });
+  };
 
-  const fetchProdEditRequest = async(id)=>{
-    _serveAPI({endPoint:`api/wallet/product/v2/getEditedRequest/${id}`,method:"GET" }).then(res=>{
+  const fetchProdEditRequest = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/product/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => {
       const prodEditedVal = JSON.parse(res.data[0].reference_payload);
-      if(prodEditedVal?.qc_status_asset){
+      if (prodEditedVal?.qc_status_asset) {
         delete prodEditedVal.qc_status_asset;
       }
       setEditProdDefault({
         ...editProdDefault,
-        purpose:res.data[0].purpose,
-        defaultValues:{
+        purpose: res.data[0].purpose,
+        defaultValues: {
           ...prodDefault.defaultValues,
           ...prodEditedVal
         }
-      })
-      prodDefault.purpose=res.data[0].purpose;
-      console.log(prodDefault.defaultValues)
+      });
+      prodDefault.purpose = res.data[0].purpose;
+      console.log(prodDefault.defaultValues);
       setProdDefault({
         ...prodDefault
       });
-    })
-  }
-  const fetchCategoryEditRequest = async(id)=>{
-    _serveAPI({endPoint:`api/wallet/category/v2/getEditedRequest/${id}`,method:"GET" }).then(res=>{
+    });
+  };
+  const fetchCategoryEditRequest = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/category/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => {
       const categoryEditedVal = JSON.parse(res.data[0].reference_payload);
       delete categoryEditedVal.qc_status_asset;
       setEditCategoryDefault({
         ...editCategoryDefault,
-        purpose:res.data[0].purpose,
-        defaultValues:{
+        purpose: res.data[0].purpose,
+        defaultValues: {
           ...categoryDefault.defaultValues,
           ...categoryEditedVal
         }
-      })
-      categoryDefault.purpose=res.data[0].purpose;
-      setCategoryDefault({
-        ...categoryDefault,
       });
-
-    })
-
-  }
-  const fetchFeedEditRequest = async(id)=>{
-    _serveAPI({endPoint:`api/wallet/banner/v2/getEditedRequest/${id}`,method:"GET" }).then(res=>{
+      categoryDefault.purpose = res.data[0].purpose;
+      setCategoryDefault({
+        ...categoryDefault
+      });
+    });
+  };
+  const fetchFeedEditRequest = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/banner/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => {
       const feedEditedVal = JSON.parse(res.data[0].reference_payload);
       delete feedEditedVal.qc_status_asset;
       setEditFeedDefault({
         ...editFeedDefault,
-        purpose:res.data[0].purpose,
-        defaultValues:{
+        purpose: res.data[0].purpose,
+        defaultValues: {
           ...feedDefault.defaultValues,
           ...feedEditedVal
         }
       });
-      feedDefault.purpose=res.data[0].purpose;
+      feedDefault.purpose = res.data[0].purpose;
       setFeedDefault({
-        ...feedDefault,
+        ...feedDefault
         // purpose:res.data[0].purpose
       });
-    })
-  }
-  const fetchAddOfferEditRequest= async(id)=>{
-    _serveAPI({endPoint:`api/wallet/offer/v2/getEditedRequest/${id}`,method:"GET" }).then(res=>{
+    });
+  };
+  const fetchAddOfferEditRequest = async (id) => {
+    _serveAPI({
+      endPoint: `api/wallet/offer/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => {
       const addOfferEditedVal = JSON.parse(res.data[0].reference_payload);
       delete addOfferEditedVal.qc_status_asset;
       setEditAddOfferDefault({
         ...editAddOfferDefault,
-        purpose:res.data[0].purpose,
-        defaultValues:{
+        purpose: res.data[0].purpose,
+        defaultValues: {
           ...addOfferDefault.defaultValues,
           ...addOfferEditedVal
         }
       });
-      addOfferDefault.purpose=res.data[0].purpose;
+      addOfferDefault.purpose = res.data[0].purpose;
       setAddOfferDefault({
-        ...addOfferDefault,
+        ...addOfferDefault
         // purpose:res.data[0].purpose
       });
-
-    })
-  }
-
+    });
+  };
 
   const [filter, setFilter] = useState('');
   const filterHandleChange = (event: SelectChangeEvent) => {
@@ -909,11 +938,11 @@ const TaskSearch = (
               onWithdrawClick={(id: number) => {
                 console.log(id);
               }}
-              onApproveClick={(id)=>{
+              onApproveClick={(id) => {
                 console.log(id);
               }}
-              onRejectClick={(id)=>{
-                console.log('reject id',id);
+              onRejectClick={(id) => {
+                console.log('reject id', id);
               }}
               disabled={false}
               subCategoryListData={subCategoryListData}
@@ -960,11 +989,11 @@ const TaskSearch = (
               onWithdrawClick={(id: number) => {
                 console.log(id);
               }}
-              onApproveClick={(id)=>{
+              onApproveClick={(id) => {
                 console.log(id);
               }}
-              onRejectClick={(id)=>{
-                console.log('reject id',id);
+              onRejectClick={(id) => {
+                console.log('reject id', id);
               }}
               disabled={false}
               mode={mode}
@@ -983,32 +1012,32 @@ const TaskSearch = (
 
   useEffect(() => {
     setTabValue('live_asset');
-   if(!modalState){
-    prodDefault.purpose="";
-    categoryDefault.purpose="";
-    feedDefault.purpose="";
-    addOfferDefault.purpose="";
-    setProdDefault({...prodDefault});
-    setCategoryDefault({...categoryDefault});
-    setFeedDefault({...feedDefault});
-    setAddOfferDefault({...addOfferDefault});
-    setEditProdDefault({
-      ...editProdDefault,
-      purpose:""
-    })
-    setEditCategoryDefault({
-      ...editCategoryDefault,
-      purpose:""
-    })
-    setEditFeedDefault({
-      ...editFeedDefault,
-      purpose:""
-    })
-    setEditAddOfferDefault({
-      ...editAddOfferDefault,
-      purpose:""
-    })
-   }
+    if (!modalState) {
+      prodDefault.purpose = '';
+      categoryDefault.purpose = '';
+      feedDefault.purpose = '';
+      addOfferDefault.purpose = '';
+      setProdDefault({ ...prodDefault });
+      setCategoryDefault({ ...categoryDefault });
+      setFeedDefault({ ...feedDefault });
+      setAddOfferDefault({ ...addOfferDefault });
+      setEditProdDefault({
+        ...editProdDefault,
+        purpose: ''
+      });
+      setEditCategoryDefault({
+        ...editCategoryDefault,
+        purpose: ''
+      });
+      setEditFeedDefault({
+        ...editFeedDefault,
+        purpose: ''
+      });
+      setEditAddOfferDefault({
+        ...editAddOfferDefault,
+        purpose: ''
+      });
+    }
   }, [modalState, mode]);
 
   useEffect(() => {
@@ -1022,11 +1051,8 @@ const TaskSearch = (
     dispatch(getFeedTags());
   }, [dispatch, filter]);
 
-
-
   return (
     <>
-    
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -1130,8 +1156,8 @@ const TaskSearch = (
               setselectionType('Feed');
               setmode('EDIT');
               dispatch(setModalState(true));
-              if(value.qc_status_asset==="pending"){
-                fetchFeedEditRequest(value.id)
+              if (value.qc_status_asset === 'pending') {
+                fetchFeedEditRequest(value.id);
               }
               if (value.widget_type === 'single_offer') {
                 setformType('SINGLE_OFFER_TYPE');
@@ -1172,16 +1198,16 @@ const TaskSearch = (
             onEditClick={(value) => {
               setProdDefault({
                 ...prodDefault,
-                purpose:"",
-                defaultValues:{
+                purpose: '',
+                defaultValues: {
                   ...value
                 }
-              })
+              });
               setselectionType('Product');
               setmode('EDIT');
               dispatch(setModalState(true));
-              if(value.qc_status_asset==="pending"){
-                fetchProdEditRequest(value.id)
+              if (value.qc_status_asset === 'pending') {
+                fetchProdEditRequest(value.id);
               }
             }}
             prodDefault={prodDefault}
@@ -1199,16 +1225,16 @@ const TaskSearch = (
             onEditClick={(value) => {
               setCategoryDefault({
                 ...categoryDefault,
-                purpose:"",
-                defaultValues:{
+                purpose: '',
+                defaultValues: {
                   ...value
                 }
-              })
+              });
               setselectionType('Category');
               setmode('EDIT');
               dispatch(setModalState(true));
-              if(value.qc_status_asset==="pending"){
-                fetchCategoryEditRequest(value.id)
+              if (value.qc_status_asset === 'pending') {
+                fetchCategoryEditRequest(value.id);
               }
             }}
             categoryDefault={categoryDefault}
@@ -1230,8 +1256,8 @@ const TaskSearch = (
               });
               setmode('EDIT');
               dispatch(setModalState(true));
-              if(value.qc_status_asset==="pending"){
-                fetchAddOfferEditRequest(value.id)
+              if (value.qc_status_asset === 'pending') {
+                fetchAddOfferEditRequest(value.id);
               }
             }}
             onDeleteClick={async (id) => {
@@ -1266,21 +1292,15 @@ const TaskSearch = (
                 indicatorColor="primary"
               >
                 <Tab value="live_asset" label="Showing Live asset details" />
-                {
-                (
-                  (editCategoryDefault.purpose ==='update') ||
-                  (editProdDefault.purpose === 'update') ||
-                  (editFeedDefault.purpose === 'update') ||
-                  (editAddOfferDefault.purpose ==='update')
-                  ) 
-                  &&
-                  (
+                {(editCategoryDefault.purpose === 'update' ||
+                  editProdDefault.purpose === 'update' ||
+                  editFeedDefault.purpose === 'update' ||
+                  editAddOfferDefault.purpose === 'update') && (
                   <Tab
                     value="edit_asset"
                     label="Showing Edit Request details"
                   />
-                )
-                }
+                )}
               </Tabs>
             </Box>
             {activeTab === 'live_asset' && (
@@ -1357,81 +1377,80 @@ const TaskSearch = (
                     genderOption={genderOption}
                     onWithdrawClick={(id: number) => {
                       if (tsType === 'WALLET_CATEGORY') {
-                        categoryWithDraw(id)
-                      }else if(tsType==="WALLET_PRODUCT" ){
-                        prodWithDraw(id)
-                      }else if(tsType==="WALLET_FEED" ){
+                        categoryWithDraw(id);
+                      } else if (tsType === 'WALLET_PRODUCT') {
+                        prodWithDraw(id);
+                      } else if (tsType === 'WALLET_FEED') {
                         feedWithDraw(id);
-                      }else if(tsType==="ADD_OFFER"){
+                      } else if (tsType === 'ADD_OFFER') {
                         addOfferWithDraw(id);
-                      }else{}
+                      } else {
+                      }
                     }}
-                    onApproveClick={(id)=>{
+                    onApproveClick={(id) => {
                       console.log(id);
                     }}
-                    onRejectClick={(id)=>{
-                      console.log('reject id',id);
+                    onRejectClick={(id) => {
+                      console.log('reject id', id);
                     }}
                     disabled={
-                      (categoryDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // categoryDefault.defaultValues.qc_status ===
-                        //   'approved'
-                          ) ||
-                      (prodDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // prodDefault.defaultValues.qc_status === 'approved'
-                        ) ||
-                      (feedDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // feedDefault.defaultValues.qc_status === 'approved'
-                        ) ||
-                      (addOfferDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // addOfferDefault.defaultValues.qc_status === 'approved'
-                        )
+                      categoryDefault.defaultValues.qc_status_asset ===
+                        'pending' ||
+                      // &&
+                      // categoryDefault.defaultValues.qc_status ===
+                      //   'approved'
+                      prodDefault.defaultValues.qc_status_asset === 'pending' ||
+                      // &&
+                      // prodDefault.defaultValues.qc_status === 'approved'
+                      feedDefault.defaultValues.qc_status_asset === 'pending' ||
+                      // &&
+                      // feedDefault.defaultValues.qc_status === 'approved'
+                      addOfferDefault.defaultValues.qc_status_asset ===
+                        'pending'
+                      // &&
+                      // addOfferDefault.defaultValues.qc_status === 'approved'
                         ? true
-                        : (categoryDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // categoryDefault.defaultValues.qc_status ===
-                            //   'pending'
-                              ) ||
-                          (prodDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // prodDefault.defaultValues.qc_status ===
-                            //   'pending'
-                              ) ||
-                          (feedDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // feedDefault.defaultValues.qc_status ===
-                            //   'pending'
-                              ) ||
-                          (addOfferDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // addOfferDefault.defaultValues.qc_status ===
-                            //   'pending'
-                              )
+                        : categoryDefault.defaultValues.qc_status_asset ===
+                            'pending' ||
+                          // &&
+                          // categoryDefault.defaultValues.qc_status ===
+                          //   'pending'
+                          prodDefault.defaultValues.qc_status_asset ===
+                            'pending' ||
+                          // &&
+                          // prodDefault.defaultValues.qc_status ===
+                          //   'pending'
+                          feedDefault.defaultValues.qc_status_asset ===
+                            'pending' ||
+                          // &&
+                          // feedDefault.defaultValues.qc_status ===
+                          //   'pending'
+                          addOfferDefault.defaultValues.qc_status_asset ===
+                            'pending'
+                          // &&
+                          // addOfferDefault.defaultValues.qc_status ===
+                          //   'pending'
                         ? true
                         : false
                     }
                     activeTab={activeTab}
                     defaultValues={
                       tsType === 'WALLET_CATEGORY'
-                        ? activeTab === 'edit_asset'?editCategoryDefault:categoryDefault
+                        ? activeTab === 'edit_asset'
+                          ? editCategoryDefault
+                          : categoryDefault
                         : tsType === 'WALLET_PRODUCT'
-                        ?activeTab === 'edit_asset'?editProdDefault: prodDefault
+                        ? activeTab === 'edit_asset'
+                          ? editProdDefault
+                          : prodDefault
                         : tsType === 'WALLET_FEED'
-                        ?activeTab === 'edit_asset'?editFeedDefault: feedDefault
+                        ? activeTab === 'edit_asset'
+                          ? editFeedDefault
+                          : feedDefault
                         : tsType === 'ADD_OFFER'
-                        ?activeTab === 'edit_asset'?editAddOfferDefault: addOfferDefault
+                        ? activeTab === 'edit_asset'
+                          ? editAddOfferDefault
+                          : addOfferDefault
                         : null
                     }
                     mode={mode}
@@ -1534,84 +1553,81 @@ const TaskSearch = (
                     genderOption={genderOption}
                     onWithdrawClick={(id: number) => {
                       if (tsType === 'WALLET_CATEGORY') {
-                        categoryWithDraw(id)
-                      }else if(tsType==="WALLET_PRODUCT" ){
-                        prodWithDraw(id)
-                      }else if(tsType==="WALLET_FEED" ){
+                        categoryWithDraw(id);
+                      } else if (tsType === 'WALLET_PRODUCT') {
+                        prodWithDraw(id);
+                      } else if (tsType === 'WALLET_FEED') {
                         feedWithDraw(id);
-                      }else if(tsType==="ADD_OFFER"){
+                      } else if (tsType === 'ADD_OFFER') {
                         addOfferWithDraw(id);
-                      }else{}
+                      } else {
+                      }
                     }}
-                    onApproveClick={(id)=>{
-                      approveProduct(id)
+                    onApproveClick={(id) => {
+                      approveProduct(id);
                       console.log(id);
                     }}
-                    onRejectClick={(id)=>{
-                      rejectProduct(id)
-                      console.log('reject id',id);
+                    onRejectClick={(id) => {
+                      rejectProduct(id);
+                      console.log('reject id', id);
                     }}
                     defaultValues={
                       tsType === 'WALLET_CATEGORY'
-                        ? activeTab === 'edit_asset'?editCategoryDefault:categoryDefault
+                        ? activeTab === 'edit_asset'
+                          ? editCategoryDefault
+                          : categoryDefault
                         : tsType === 'WALLET_PRODUCT'
-                        ?activeTab === 'edit_asset'?editProdDefault: prodDefault
+                        ? activeTab === 'edit_asset'
+                          ? editProdDefault
+                          : prodDefault
                         : tsType === 'WALLET_FEED'
-                        ?activeTab === 'edit_asset'?editFeedDefault: feedDefault
+                        ? activeTab === 'edit_asset'
+                          ? editFeedDefault
+                          : feedDefault
                         : tsType === 'ADD_OFFER'
-                        ?activeTab === 'edit_asset'?editAddOfferDefault: addOfferDefault
+                        ? activeTab === 'edit_asset'
+                          ? editAddOfferDefault
+                          : addOfferDefault
                         : null
                     }
                     mode={mode}
                     disabled={
-                      (categoryDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // categoryDefault.defaultValues.qc_status ===
-                        //   'approved'
-                          ) ||
-                      (prodDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // prodDefault.defaultValues.qc_status === 'approved'
-                        ) ||
-                      (feedDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // feedDefault.defaultValues.qc_status === 'approved'
-                        ) ||
-                      (addOfferDefault.defaultValues.qc_status_asset ===
-                        'pending' 
-                        // &&
-                        // addOfferDefault.defaultValues.qc_status === 'approved'
-                        )
+                      categoryDefault.defaultValues.qc_status_asset ===
+                        'pending' ||
+                      // &&
+                      // categoryDefault.defaultValues.qc_status ===
+                      //   'approved'
+                      prodDefault.defaultValues.qc_status_asset === 'pending' ||
+                      // &&
+                      // prodDefault.defaultValues.qc_status === 'approved'
+                      feedDefault.defaultValues.qc_status_asset === 'pending' ||
+                      // &&
+                      // feedDefault.defaultValues.qc_status === 'approved'
+                      addOfferDefault.defaultValues.qc_status_asset ===
+                        'pending'
+                      // &&
+                      // addOfferDefault.defaultValues.qc_status === 'approved'
                         ? true
-                        : (categoryDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // categoryDefault.defaultValues.qc_status ===
-                            //   'pending'
-                              ) ||
-                          (prodDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // prodDefault.defaultValues.qc_status ===
-                            //   'pending'
-                            ) 
-                              ||
-                          (feedDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // feedDefault.defaultValues.qc_status ===
-                            //   'pending'
-                              ) 
-                              ||
-                          (addOfferDefault.defaultValues.qc_status_asset ===
-                            'pending' 
-                            // &&
-                            // addOfferDefault.defaultValues.qc_status ===
-                            //   'pending'
-                              )
+                        : categoryDefault.defaultValues.qc_status_asset ===
+                            'pending' ||
+                          // &&
+                          // categoryDefault.defaultValues.qc_status ===
+                          //   'pending'
+                          prodDefault.defaultValues.qc_status_asset ===
+                            'pending' ||
+                          // &&
+                          // prodDefault.defaultValues.qc_status ===
+                          //   'pending'
+                          feedDefault.defaultValues.qc_status_asset ===
+                            'pending' ||
+                          // &&
+                          // feedDefault.defaultValues.qc_status ===
+                          //   'pending'
+                          addOfferDefault.defaultValues.qc_status_asset ===
+                            'pending'
+                          // &&
+                          // addOfferDefault.defaultValues.qc_status ===
+                          //   'pending'
                         ? true
                         : false
                     }

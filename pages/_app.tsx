@@ -1,4 +1,5 @@
 // import LocalizationProvider from '@mui/lab/LocalizationProvider';
+//@ts-nocheck
 import { SidebarProvider } from '@/contexts/sidebar.context';
 import { UserTypes } from '@/models/types/user_type';
 import { wrapper } from '@/store';
@@ -17,19 +18,13 @@ import { LoginContext } from '../src/contexts/login.context';
 
 const clientSideEmotionCache = createEmotionCache();
 
-
-
-
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
-
 interface CarrotAppProps extends AppProps {
   emotionCache?: EmotionCache;
   Component: NextPageWithLayout;
 }
-
-
 
 const App = (props: CarrotAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
@@ -44,12 +39,9 @@ const App = (props: CarrotAppProps) => {
   const [showProfile, setShowProfile] = useState(false);
   const [role, setRole] = useState<UserTypes>(null);
 
-
-// useEffect(() => {
-//   throw new Error('Sentry Traced SUCCESS')
-// }, [])
-
- 
+  // useEffect(() => {
+  //   throw new Error('Sentry Traced SUCCESS')
+  // }, [])
 
   return (
     <CacheProvider value={emotionCache}>

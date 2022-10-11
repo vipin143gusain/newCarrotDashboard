@@ -9,7 +9,8 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Grid, Link
+  Grid,
+  Link
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import CardMedia from '@mui/material/CardMedia';
@@ -39,7 +40,7 @@ interface CommonCardProps {
   setProdDefault?: any;
   cardDetail?: any;
   prodDefault?: any;
-  qc_status_asset?:string;
+  qc_status_asset?: string;
 }
 
 const ButtonError = styled(Button)(
@@ -54,14 +55,14 @@ const ButtonError = styled(Button)(
    }
   `
 );
-  const useStyles = makeStyles(() => ({
-    subHeader: {
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      width: '240px',
-      textOverflow: 'ellipsis'
-    }
-  }));
+const useStyles = makeStyles(() => ({
+  subHeader: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    width: '240px',
+    textOverflow: 'ellipsis'
+  }
+}));
 
 const CommonCard = (props: CommonCardProps) => {
   const {
@@ -85,7 +86,6 @@ const CommonCard = (props: CommonCardProps) => {
 
   const classes = useStyles();
 
-
   return (
     <Grid item xs={12} md={4}>
       <Card>
@@ -94,15 +94,26 @@ const CommonCard = (props: CommonCardProps) => {
           sx={{ color: '#fff' }}
           title={name}
           subheader={
-          <Link target="_blank" href={url}><Typography className={classes.subHeader}>{url}</Typography></Link>
-          
+            <Link target="_blank" href={url}>
+              <Typography className={classes.subHeader}>{url}</Typography>
+            </Link>
           }
-        />  
-        <p style={{ padding: ' 0 14px', textTransform:'capitalize' }}>
+        />
+        <p style={{ padding: ' 0 14px', textTransform: 'capitalize' }}>
           <strong>Status </strong>{' '}
           <CircleIcon
             // className={classes.statusIcon}
-            style={{ fontSize: '12px', verticalAlign:'middle', color: qc_status_asset==="pending"?'yellow':qc_status_asset==="approved"?"#58CA22":"red", marginRight: '5px' }}
+            style={{
+              fontSize: '12px',
+              verticalAlign: 'middle',
+              color:
+                qc_status_asset === 'pending'
+                  ? 'yellow'
+                  : qc_status_asset === 'approved'
+                  ? '#58CA22'
+                  : 'red',
+              marginRight: '5px'
+            }}
           />
           {qc_status_asset}
         </p>
@@ -115,7 +126,11 @@ const CommonCard = (props: CommonCardProps) => {
           title={name}
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary" className={classes.subHeader}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            className={classes.subHeader}
+          >
             {tagline}
           </Typography>
           {cardType === 'WALLET_PRODUCT' ? (
@@ -125,15 +140,7 @@ const CommonCard = (props: CommonCardProps) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box
-                style={{
-                  height: '100%',
-                  width: '33%',
-                  alignItems: 'flex-start',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
+              <Box>
                 <Typography fontSize={14} color="text.secondary">
                   Value
                 </Typography>
@@ -141,14 +148,7 @@ const CommonCard = (props: CommonCardProps) => {
                   {value}
                 </Typography>
               </Box>
-              <Box
-                style={{
-                  height: '100%',
-                  width: '33%',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
+              <Box>
                 <Typography fontSize={14} color="text.secondary">
                   Attribute
                 </Typography>
@@ -157,13 +157,13 @@ const CommonCard = (props: CommonCardProps) => {
                 </Typography>
               </Box>
               <Box
-                style={{
-                  height: '100%',
-                  width: '33%',
-                  alignItems: 'flex-end',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
+              // style={{
+              //   height: '100%',
+              //   width: '33%',
+              //   alignItems: 'flex-end',
+              //   display: 'flex',
+              //   flexDirection: 'column'
+              // }}
               >
                 <Typography fontSize={14} color="text.secondary">
                   Price
@@ -182,7 +182,9 @@ const CommonCard = (props: CommonCardProps) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Avatar sx={{ bgcolor: indigo[900], padding:'16px' }}>{order} </Avatar>
+            <Avatar sx={{ bgcolor: indigo[900], padding: '16px' }}>
+              {order}{' '}
+            </Avatar>
             <Grid direction="row" justifyContent="flex-end" alignItems="center">
               <Button
                 startIcon={<ModeEditOutlineTwoToneIcon />}
@@ -197,7 +199,7 @@ const CommonCard = (props: CommonCardProps) => {
                   onEditClick(cardDetail);
                 }}
               >
-               { qc_status_asset==="pending" ? 'View' : 'Edit' }
+                {qc_status_asset === 'pending' ? 'View' : 'Edit'}
               </Button>
               <ButtonError
                 sx={{ ml: 2 }}
@@ -205,7 +207,7 @@ const CommonCard = (props: CommonCardProps) => {
                 size="medium"
                 variant="contained"
                 onClick={onDeleteClick}
-                disabled={ qc_status_asset==="pending" ? true : false}
+                disabled={qc_status_asset === 'pending' ? true : false}
               >
                 Delete
               </ButtonError>

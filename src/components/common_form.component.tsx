@@ -26,8 +26,7 @@ interface CommonFormProps {
     startIcon?: any;
     validationProps?: any;
     filePath?: string;
-      helperText?: any;
-
+    helperText?: any;
   }>;
   // helperText: any;
   onResetForm: any;
@@ -48,9 +47,8 @@ interface CommonFormProps {
   themeListData?: any;
   tagListData?: any;
   genderOption?: any;
-  onApproveClick?:any;
-  onRejectClick?:any;
-
+  onApproveClick?: any;
+  onRejectClick?: any;
 
   //selectValues?: [] | any
 }
@@ -86,7 +84,7 @@ export const CommonForm = (props: CommonFormProps) => {
     tagListData,
     genderOption,
     // collectionName,
-    mode,
+    mode
   } = props;
 
   // console.log('default value',defaultValues)
@@ -96,7 +94,7 @@ export const CommonForm = (props: CommonFormProps) => {
     gender: '',
     tag_ids: [],
     theme_ids: [],
-    sub_category_ids: [],
+    sub_category_ids: []
   });
 
   // console.log({
@@ -119,20 +117,18 @@ export const CommonForm = (props: CommonFormProps) => {
     formState: { errors },
     reset,
     setValue,
-    control,
+    control
     // getValues
   } = useForm({ defaultValues: defaultValues, shouldUnregister: true });
 
   const modalState = useSelector(getModalState);
 
-  console.log(defaultValues.purpose,activeTab)
+  console.log(defaultValues.purpose, activeTab);
 
   useEffect(() => {
     // console.log('MARKETS', market);
-    console.log(defaultValues)
-  }, [market,defaultValues]);
-
-  
+    console.log(defaultValues);
+  }, [market, defaultValues]);
 
   useEffect(() => {
     if (mode === 'EDIT') {
@@ -155,7 +151,7 @@ export const CommonForm = (props: CommonFormProps) => {
           });
         market.category_ids = categoryDefault;
         setMarket({
-          ...market,
+          ...market
         });
         setValue('category_ids', categoryDefault);
       }
@@ -166,7 +162,7 @@ export const CommonForm = (props: CommonFormProps) => {
       ) {
         market.gender = defaultValues?.defaultValues?.gender;
         setMarket({
-          ...market,
+          ...market
         });
         setValue('gender', defaultValues?.defaultValues?.gender);
       }
@@ -185,7 +181,7 @@ export const CommonForm = (props: CommonFormProps) => {
 
         market.sub_category_ids = subCarDefault;
         setMarket({
-          ...market,
+          ...market
         });
         setValue('sub_category_ids', subCarDefault);
       }
@@ -203,7 +199,7 @@ export const CommonForm = (props: CommonFormProps) => {
         setValue('theme_ids', themeDefault);
         market.theme_ids = themeDefault;
         setMarket({
-          ...market,
+          ...market
         });
       }
       if (
@@ -219,7 +215,7 @@ export const CommonForm = (props: CommonFormProps) => {
         setValue('tag_ids', tagIdsDefault);
         market.tag_ids = tagIdsDefault;
         setMarket({
-          ...market,
+          ...market
         });
       }
     } else if (mode === 'CREATE') {
@@ -228,7 +224,7 @@ export const CommonForm = (props: CommonFormProps) => {
         gender: '',
         tag_ids: [],
         theme_ids: [],
-        sub_category_ids: [],
+        sub_category_ids: []
       });
       reset();
     } else {
@@ -251,7 +247,7 @@ export const CommonForm = (props: CommonFormProps) => {
           startIcon,
           validationProps,
           // options,
-          multiple,
+          multiple
           // key
         } = field;
 
@@ -279,14 +275,14 @@ export const CommonForm = (props: CommonFormProps) => {
                   placeholder={placeholder}
                   {...register(name, validationProps)}
                   inputProps={{
-                    accept: 'image/png, image/jpg, video/mov, video/mp4',
+                    accept: 'image/png, image/jpg, video/mov, video/mp4'
                   }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
                         {startIcon}
                       </InputAdornment>
-                    ),
+                    )
                     // readOnly:disabled
                   }}
                 />
@@ -300,7 +296,7 @@ export const CommonForm = (props: CommonFormProps) => {
                         style={{
                           display: 'flex',
                           flexDirection: 'column',
-                          margin: '22px 16px 20px 20px',
+                          margin: '22px 16px 20px 20px'
                         }}
                       >
                         <FormControl>
@@ -315,7 +311,7 @@ export const CommonForm = (props: CommonFormProps) => {
                               padding: '0',
                               height: '56px',
                               border: '2px',
-                              borderColor: 'green',
+                              borderColor: 'green'
                             }}
                             disabled={disabled}
                             labelId="demo-multiple-chip-label"
@@ -331,10 +327,9 @@ export const CommonForm = (props: CommonFormProps) => {
                             onChange={(event: any) => {
                               setMarket({
                                 ...market,
-                                [name]: event.target.value,
+                                [name]: event.target.value
                               });
                               setValue(name, event.target.value);
-
                             }}
                             renderValue={(selected) => {
                               return (
@@ -393,7 +388,7 @@ export const CommonForm = (props: CommonFormProps) => {
                               marginLeft: '3px',
                               marginTop: '2px',
                               paddingLeft: '9px',
-                              fontWeight: 'bold',
+                              fontWeight: 'bold'
                             }}
                           >
                             {errors[name].message.toString()}
@@ -411,7 +406,7 @@ export const CommonForm = (props: CommonFormProps) => {
                         style={{
                           display: 'flex',
                           flexDirection: 'column',
-                          margin: '22px 16px 20px 20px',
+                          margin: '22px 16px 20px 20px'
                         }}
                       >
                         <FormControl>
@@ -426,7 +421,7 @@ export const CommonForm = (props: CommonFormProps) => {
                               padding: '0',
                               height: '56px',
                               border: '2px',
-                              borderColor: 'green',
+                              borderColor: 'green'
                             }}
                             disabled={disabled}
                             labelId="demo-multiple-chip-label"
@@ -442,7 +437,7 @@ export const CommonForm = (props: CommonFormProps) => {
                             onChange={(event: any) => {
                               setMarket({
                                 ...market,
-                                [name]: event.target.value,
+                                [name]: event.target.value
                               });
                               setValue(name, event.target.value);
                             }}
@@ -494,7 +489,7 @@ export const CommonForm = (props: CommonFormProps) => {
                               marginLeft: '3px',
                               marginTop: '3px',
                               paddingLeft: '9px',
-                              fontWeight: 'bold',
+                              fontWeight: 'bold'
                             }}
                           >
                             {errors[name].message.toString()}
@@ -526,7 +521,7 @@ export const CommonForm = (props: CommonFormProps) => {
                     <InputAdornment position="start">
                       <div>{startIcon}</div>
                     </InputAdornment>
-                  ),
+                  )
                   // readOnly: disabled
                 }}
                 {...field}
@@ -546,9 +541,6 @@ export const CommonForm = (props: CommonFormProps) => {
     );
   };
 
-
-  
-
   return (
     // <FormProvider {...methods} >
 
@@ -563,114 +555,86 @@ export const CommonForm = (props: CommonFormProps) => {
           alignItems="center"
           padding={3}
         >
-
-          
-          {
-            (
-              (mode === "EDIT")
-          &&
-          
-          (defaultValues.defaultValues.qc_status_asset === 'pending')
-            )
-
-            ||
-            (
-              (defaultValues?.purpose==="update")
-              ||(defaultValues?.purpose==="create")
-            )
-            
-           ?
-             (
+          {(mode === 'EDIT' &&
+            defaultValues.defaultValues.qc_status_asset === 'pending') ||
+          defaultValues?.purpose === 'update' ||
+          defaultValues?.purpose === 'create' ? (
             <>
-            
-            
-            {
-              (
-                (activeTab === 'edit_asset')
-                &&(defaultValues.purpose==="update") 
-              )
-              ||
-              (
-                (activeTab === 'live_asset')
-                &&(defaultValues.purpose==="create") 
-              )
-                ?(
-                  <>
-
-      <div style={{ width: '100%', float: 'left', color: 'red' }}>
-                <p>
-                  You can withdraw your request to click on the below button
-                </p>
-              </div>
-              <Button
-                onClick={() => {
-                  onWithdrawClick(defaultValues?.defaultValues.id);
-                }}
-                variant="outlined"
-                startIcon={<CheckCircleTwoToneIcon />}
-                sx={{
-                  borderWidth: '1px',
-                  // borderColor: '#0cad5d',
-                  borderColor: 'red',
-
-                  // color: '#0cad5d',
-                  color: 'red',
-                  '&:hover': {
-                    borderWidth: '1px',
-                    borderColor: 'red',
-                    // bgcolor: '#0cad5d',
-                    bgcolor: 'red',
-                    color: '#fff',
-                  },
-                }}
-              >
-                Withdraw Request
-              </Button>
+              {(activeTab === 'edit_asset' &&
+                defaultValues.purpose === 'update') ||
+              (activeTab === 'live_asset' &&
+                defaultValues.purpose === 'create') ? (
+                <>
+                  <div style={{ width: '100%', float: 'left', color: 'red' }}>
+                    <p>
+                      You can withdraw your request to click on the below button
+                    </p>
+                  </div>
                   <Button
-                  
-                  onClick={()=>onApproveClick(defaultValues?.defaultValues.id)}
-                  variant="outlined"
-                  startIcon={<CheckCircleTwoToneIcon />}
-                  sx={{
-                    borderWidth: '1px',
-                    borderColor: '#0cad5d',
-                    color: '#0cad5d',
-                    '&:hover': {
+                    onClick={() => {
+                      onWithdrawClick(defaultValues?.defaultValues.id);
+                    }}
+                    variant="outlined"
+                    startIcon={<CheckCircleTwoToneIcon />}
+                    sx={{
+                      borderWidth: '1px',
+                      // borderColor: '#0cad5d',
+                      borderColor: 'red',
+
+                      // color: '#0cad5d',
+                      color: 'red',
+                      '&:hover': {
+                        borderWidth: '1px',
+                        borderColor: 'red',
+                        // bgcolor: '#0cad5d',
+                        bgcolor: 'red',
+                        color: '#fff'
+                      }
+                    }}
+                  >
+                    Withdraw Request
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      onApproveClick(defaultValues?.defaultValues.id)
+                    }
+                    variant="outlined"
+                    startIcon={<CheckCircleTwoToneIcon />}
+                    sx={{
                       borderWidth: '1px',
                       borderColor: '#0cad5d',
-                      bgcolor: '#0cad5d',
-                      color: '#fff',
-                    },
-                  }}
-                >
-                  Approve
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<RestartAltIcon />}
-                  sx={{
-                    ml: 1,
-                  }}
-                  onClick={()=>onRejectClick(defaultValues?.defaultValues.id)}
-                >
-                  Reject
-                </Button>
-                  </>
-                )
-                :null
-            }
-              
+                      color: '#0cad5d',
+                      '&:hover': {
+                        borderWidth: '1px',
+                        borderColor: '#0cad5d',
+                        bgcolor: '#0cad5d',
+                        color: '#fff'
+                      }
+                    }}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    startIcon={<RestartAltIcon />}
+                    sx={{
+                      ml: 1
+                    }}
+                    onClick={() =>
+                      onRejectClick(defaultValues?.defaultValues.id)
+                    }
+                  >
+                    Reject
+                  </Button>
+                </>
+              ) : null}
             </>
-          ) : 
-          // ======================================================
-          (
-            (
-             ( (activeTab === 'edit_asset')||(defaultValues.defaultValues.qc_status_asset === 'approved') )
-              ||(mode === 'CREATE') 
+          ) : (
+            // ======================================================
+            (activeTab === 'edit_asset' ||
+              defaultValues.defaultValues.qc_status_asset === 'approved' ||
+              mode === 'CREATE') && (
               // ||(defaultValues.defaultValues.qc_status_asset === 'approved')
-            ) 
-            &&
-            (
               <>
                 <Button
                   type="submit"
@@ -685,8 +649,8 @@ export const CommonForm = (props: CommonFormProps) => {
                       borderWidth: '1px',
                       borderColor: '#0cad5d',
                       bgcolor: '#0cad5d',
-                      color: '#fff',
-                    },
+                      color: '#fff'
+                    }
                   }}
                 >
                   Submit this data
@@ -696,17 +660,14 @@ export const CommonForm = (props: CommonFormProps) => {
                   variant="outlined"
                   startIcon={<RestartAltIcon />}
                   sx={{
-                    ml: 1,
+                    ml: 1
                   }}
                   onClick={onResetForm}
                 >
                   Reset the form
                 </Button>
-
-                  </>
-                
+              </>
             )
-            
           )}
 
           {/* {
