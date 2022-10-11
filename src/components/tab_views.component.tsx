@@ -429,12 +429,14 @@ const TaskSearch = (
       outData.media_source = 'AWS';
       outData.video_thumbnail = singleVideo[0].thumbPath;
     }
-
+    
     Object.keys(outData).map((el) => {
       if (outData[`${el}`] == null) {
         delete outData[`${el}`];
       }
     });
+
+
 
     if (mode === 'CREATE') {
       if (tsType === 'WALLET_PRODUCT') {
@@ -523,6 +525,7 @@ const TaskSearch = (
   };
 
   const [dataOne, setdataOne] = useState({
+    purpose:"",
     defaultValues: {
       id: 0,
       name: '',
@@ -568,6 +571,7 @@ const TaskSearch = (
     }
   });
   const [dataTwo, setdataTwo] = useState({
+    purpose:"",
     defaultValues: {
       id: 0,
       name: '',
@@ -1017,10 +1021,10 @@ const TaskSearch = (
       categoryDefault.purpose = '';
       feedDefault.purpose = '';
       addOfferDefault.purpose = '';
-      setProdDefault({ ...prodDefault });
-      setCategoryDefault({ ...categoryDefault });
-      setFeedDefault({ ...feedDefault });
-      setAddOfferDefault({ ...addOfferDefault });
+      setProdDefault({...prodDefault });
+      setCategoryDefault({...categoryDefault });
+      setFeedDefault({...feedDefault });
+      setAddOfferDefault({...addOfferDefault });
       setEditProdDefault({
         ...editProdDefault,
         purpose: ''
@@ -1149,9 +1153,10 @@ const TaskSearch = (
             data={data}
             loadingData={loadingFeedData}
             onEditClick={(value) => {
+              feedDefault.defaultValues={...feedDefault.defaultValues,...value};
+              feedDefault.purpose="";
               setFeedDefault({
                 ...feedDefault,
-                defaultValues: value
               });
               setselectionType('Feed');
               setmode('EDIT');
@@ -1168,13 +1173,14 @@ const TaskSearch = (
               if (value.widget_type === 'double_offer') {
                 setformType('DOUBLE_OFFER_TYPE');
                 let doubleOfferDefault = { ...value };
+                dataOne.defaultValues={...dataOne.defaultValues,...JSON.parse(doubleOfferDefault.sibling_item)}
                 setdataOne({
                   ...dataOne,
-                  defaultValues: JSON.parse(doubleOfferDefault.sibling_item)
+                  // defaultValues: JSON.parse(doubleOfferDefault.sibling_item)
                 });
+                dataTwo.defaultValues={...dataTwo.defaultValues,...doubleOfferDefault}
                 setdataTwo({
-                  ...dataTwo,
-                  defaultValues: doubleOfferDefault
+                  ...dataTwo
                 });
               }
             }}
@@ -1196,13 +1202,12 @@ const TaskSearch = (
             productData={data}
             loadingData={loadingProductData}
             onEditClick={(value) => {
+              prodDefault.defaultValues={...prodDefault.defaultValues,...value};
+              prodDefault.purpose="";
               setProdDefault({
-                ...prodDefault,
-                purpose: '',
-                defaultValues: {
-                  ...value
+                ...prodDefault
                 }
-              });
+              );
               setselectionType('Product');
               setmode('EDIT');
               dispatch(setModalState(true));
@@ -1223,12 +1228,10 @@ const TaskSearch = (
             categoryData={data}
             loadingData={loadingCategoryData}
             onEditClick={(value) => {
+              categoryDefault.defaultValues={...categoryDefault.defaultValues,...value}
+              categoryDefault.purpose="";
               setCategoryDefault({
-                ...categoryDefault,
-                purpose: '',
-                defaultValues: {
-                  ...value
-                }
+                ...categoryDefault
               });
               setselectionType('Category');
               setmode('EDIT');
@@ -1249,10 +1252,10 @@ const TaskSearch = (
             data={data}
             loadingData={loadingAddOfferData}
             onEditClick={(value) => {
-              console.log(value);
+              addOfferDefault.defaultValues={...addOfferDefault.defaultValues,...value}
+              addOfferDefault.purpose=""
               setAddOfferDefault({
-                ...addOfferDefault,
-                defaultValues: value
+                ...addOfferDefault
               });
               setmode('EDIT');
               dispatch(setModalState(true));

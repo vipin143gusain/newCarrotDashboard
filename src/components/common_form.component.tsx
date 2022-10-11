@@ -555,21 +555,34 @@ export const CommonForm = (props: CommonFormProps) => {
           alignItems="center"
           padding={3}
         >
-          {(mode === 'EDIT' &&
-            defaultValues.defaultValues.qc_status_asset === 'pending') ||
+          {
+          (mode === 'EDIT' && defaultValues.defaultValues?.qc_status_asset === 'pending') ||
           defaultValues?.purpose === 'update' ||
-          defaultValues?.purpose === 'create' ? (
+          defaultValues?.purpose === 'create' ||
+          defaultValues?.purpose === 'delete' 
+          ? (
             <>
-              {(activeTab === 'edit_asset' &&
-                defaultValues.purpose === 'update') ||
-              (activeTab === 'live_asset' &&
-                defaultValues.purpose === 'create') ? (
+              {
+              (activeTab === 'edit_asset' && defaultValues.purpose === 'update') ||
+              (activeTab === 'live_asset' && defaultValues.purpose === 'create')||
+              (activeTab === 'live_asset' && defaultValues.purpose === 'delete')
+                  ? (
                 <>
                   <div style={{ width: '100%', float: 'left', color: 'red' }}>
                     <p>
-                      You can withdraw your request to click on the below button
+                      {
+                        defaultValues.purpose === 'delete'?
+                        "Your Withdraw request is already in quene"
+                        :
+                        "You can withdraw your request to click on the below button"
+
+                      }
                     </p>
                   </div>
+                  {
+                    defaultValues.purpose === 'delete'?
+                    null:
+                  <>
                   <Button
                     onClick={() => {
                       onWithdrawClick(defaultValues?.defaultValues.id);
@@ -626,13 +639,17 @@ export const CommonForm = (props: CommonFormProps) => {
                   >
                     Reject
                   </Button>
+                  </>
+              }
                 </>
-              ) : null}
-            </>
-          ) : (
+              ) : null }
+            </>) 
+          :
+           (
             // ======================================================
+            
             (activeTab === 'edit_asset' ||
-              defaultValues.defaultValues.qc_status_asset === 'approved' ||
+              defaultValues.defaultValues?.qc_status_asset === 'approved' ||
               mode === 'CREATE') && (
               // ||(defaultValues.defaultValues.qc_status_asset === 'approved')
               <>
