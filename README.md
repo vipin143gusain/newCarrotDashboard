@@ -20,8 +20,4 @@ This README would normally document whatever steps are necessary to get your app
 
 - Coming soon...
 
-### Contributors
 
-- Kamlesh Meghwal
-- Vipin Kumar Gusain
-- Shubhom Chatterjee
