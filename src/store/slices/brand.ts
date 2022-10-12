@@ -45,8 +45,8 @@ export const updateBrand = createAsyncThunk(
   'brand/updateBrand',
   async (data) => {
     return await _serveAPI({
-      method: 'POST',
-      endPoint: 'api/admin/wallet/update/v2',
+      method: 'PUT',
+      endPoint: `api/admin/wallet/update/v2/${data.id}`,
       data
     }).then((res) => res.message);
   }

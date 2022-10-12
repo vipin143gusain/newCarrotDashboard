@@ -7,6 +7,7 @@ export const addOfferTemplate = [
       filePath: '',
       name: 'banner',
       collectionName: 'subcategory',
+      accept: 'image/jpeg,image/png',
       validationProps: {
         required: {
           value: true,

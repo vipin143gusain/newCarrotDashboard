@@ -10,6 +10,7 @@ export const doubleOfferTwo = [
     placeholder: 'Image',
     collectionName: 'subcategory',
     filePath: '',
+    accept: 'image/jpeg,image/png',
     validationProps: {
       onChange: async (e) => {
         console.log('change listening');

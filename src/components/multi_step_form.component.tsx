@@ -59,8 +59,6 @@ const MultiPartForm = (props: MultiPartFormProps) => {
   const steps = getSteps(allSteps);
 
 
-
-
   return (
     <div>
       <Stepper alternativeLabel activeStep={activeStep}>

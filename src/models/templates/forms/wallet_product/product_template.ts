@@ -19,6 +19,7 @@ export const productTemplate = [
       filePath: '',
     //   startIcon:<UploadFileTwoToneIcon />,
       collectionName: 'category',
+      accept: 'image/jpeg,image/png',
       validationProps: {
         // required: {
         //   value: ()=>productTemplate[0].filePath?false:true,

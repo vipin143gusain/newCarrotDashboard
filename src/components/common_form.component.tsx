@@ -123,8 +123,6 @@ export const CommonForm = (props: CommonFormProps) => {
 
   const modalState = useSelector(getModalState);
 
-  console.log(defaultValues.purpose, activeTab);
-
   useEffect(() => {
     // console.log('MARKETS', market);
     console.log(defaultValues);
@@ -239,6 +237,7 @@ export const CommonForm = (props: CommonFormProps) => {
     return (
       fields &&
       fields.map((field) => {
+      console.log(field?.accept)
         let {
           title,
           type,
@@ -260,6 +259,8 @@ export const CommonForm = (props: CommonFormProps) => {
                 <TextField
                   style={{ margin: '20px' }}
                   helperText={
+                    defaultValues.defaultValues?.image?defaultValues.defaultValues?.image:
+                    defaultValues.defaultValues?.media_file?defaultValues.defaultValues?.media_file:
                     errors[name]?.message.toString()
                       ? errors[name]?.message.toString()
                       : fields.filePath
@@ -275,13 +276,14 @@ export const CommonForm = (props: CommonFormProps) => {
                   placeholder={placeholder}
                   {...register(name, validationProps)}
                   inputProps={{
-                    accept: 'image/png, image/jpg, video/mov, video/mp4'
+                    accept: field?.accept?field.accept:"*",
                   }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
                         {startIcon}
                       </InputAdornment>
+                      
                     )
                     // readOnly:disabled
                   }}

@@ -18,6 +18,7 @@ export const categoryTemplate = [
       name: 'Upload Banner',
     //   startIcon: <UploadFileTwoToneIcon />,
       collectionName: 'subcategory',
+      accept: 'image/jpeg,image/png',
       validationProps: {
         
         onChange: async (e) => {

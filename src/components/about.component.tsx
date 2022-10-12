@@ -82,10 +82,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
     } catch (error) {}
   };
 
-  console.log(
-    'Banner',
-    'https://d3nk16lz1ssvqj.cloudfront.net/' + _theBrand.banner_file_key
-  );
+
   //THIS IS IMPORTANT
   const stepsData = [
     {
@@ -93,6 +90,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
       renderForm: (
         <ControlledForm
           fieldData={BrandOne}
+          defaultValue={BrandOne}
           formTitle="Here we generally define the identity of your brand."
           handleFileChange={handleFileChange}
         />
@@ -103,6 +101,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
       renderForm: (
         <ControlledForm
           fieldData={BrandPageTwo}
+          defaultValue={BrandPageTwo}
           formTitle="Your uniqueness for the user."
           handleFileChange={handleFileChange}
         />
@@ -145,12 +144,12 @@ const ProfileCover = (props: ProfileCoverProps) => {
         setIsComplete(true);
       } else {
         setActiveStep(activeStep + 1);
-        console.log('first step');
-        console.log({
-          ...values,
-          banner: fileUpload.banner,
-          logo: fileUpload.logo
-        });
+        // console.log('first step');
+        // console.log({
+        //   ...values,
+        //   banner: fileUpload.banner,
+        //   logo: fileUpload.logo
+        // });
         dispatch(
           UPDATE_BRAND({
             about: values.about,
@@ -173,7 +172,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
   };
 
   useEffect(() => {
-    console.log('Brand', _theBrand);
+    // console.log('Brand', _theBrand);
   }, [_theBrand]);
   // Checking the available redux state
   useEffect(() => {
@@ -186,7 +185,9 @@ const ProfileCover = (props: ProfileCoverProps) => {
           tags: _theBrand.tags,
           website_url: _theBrand.website_url,
           brand_colour: _theBrand.brand_colour,
-          primary_offer: _theBrand.primary_offer
+          primary_offer: _theBrand.primary_offer,
+          logo_file_key_edit:_theBrand.logo_file_key,
+          banner_file_key_edit:_theBrand.banner_file_key
           // banner: _theBrand.banner,
         }
       });
@@ -195,7 +196,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
 
   //renderint updated form
   const renderMSForm = () => {
-    console.log(abtValues);
+    // console.log(abtValues);
     return abtValues.defaultValues.name !== '' ? (
       <MultiPartForm
         isFormComplete={isComplete}
@@ -213,8 +214,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
   const [editing, setediting] = useState(false);
 
   useEffect(() => {
-    console.log('edit', editing);
-    renderMSForm();
+    // console.log('edit', editing);
+    // renderMSForm();
   }, [editing]);
 
   // useEffect(() => {

@@ -1,6 +1,6 @@
 import { Box, Grid, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext,useForm } from 'react-hook-form';
 
 
 interface ControlledFormProps {
@@ -26,13 +26,14 @@ export const ControlledForm = (props: ControlledFormProps) => {
     register,
     watch,
     setValue,
+    getValues,
   } = useFormContext();
 
   useEffect(() => {
-    const subscription = watch((value, { name, type }) =>
-      console.log('FROM WATCHER', value, name, type)
-    );
-    return () => subscription.unsubscribe();
+    // const subscription = watch((value, { name, type }) =>
+    //   console.log('FROM WATCHER', value, name, type)
+    // );
+    // return () => subscription.unsubscribe();
   }, [watch]);
 
   let onChangeDest = {
@@ -48,7 +49,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
     },
   };
 
-  console.log(errors);
+  // console.log(errors);
   return (
     <>
       <Box sx={{ mt: 3, mb: 3, padding: 1 }}>
@@ -62,6 +63,12 @@ export const ControlledForm = (props: ControlledFormProps) => {
         alignItems="center"
       >
         {fieldData.map((i) => {
+          if(i.name==="logo"&&getValues('logo_file_key_edit')){
+            delete i.rules.required
+          }
+          if(i.name==="banner"&&getValues('banner_file_key_edit')){
+            delete i.rules.required
+          }
           return (
             <Controller
               control={control ? control : null}
@@ -69,6 +76,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
               name={i.name}
               rules={i.rules}
               render={({ field }) => (
+                <>
                 <TextField
                   inputProps={{ accept: 'image/png, image/jpeg' }}
                   id={i.id}
@@ -83,8 +91,17 @@ export const ControlledForm = (props: ControlledFormProps) => {
                   {...field}
                   {...onChangeDest.onChangeVal(i.type)}
                   error={Boolean(errors?.[i.name])}
-                  helperText={errors[i.name]?.message.toString()}
+                  helperText={
+                    field.name==="logo"?
+                  getValues('logo_file_key_edit'):
+                  field.name==="banner"?getValues('banner_file_key_edit'):
+                    errors[i.name]?.message.toString()
+                  
+                  }
                 />
+                
+              
+                </>
               )}
             />
           );

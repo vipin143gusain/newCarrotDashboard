@@ -50,8 +50,9 @@ export const singleVideo = [
 
         
 
-      }
-    }
+      },
+    },
+    accept: 'video/mp4,video/mov'
   },
 
   {
