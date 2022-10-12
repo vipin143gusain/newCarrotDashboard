@@ -572,7 +572,7 @@ export const CommonForm = (props: CommonFormProps) => {
                     <p>
                       {
                         defaultValues.purpose === 'delete'?
-                        "Your Withdraw request is already in quene"
+                        "Your Withdraw request is already in queue"
                         :
                         "You can withdraw your request to click on the below button"
 
