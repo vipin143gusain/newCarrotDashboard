@@ -1,14 +1,14 @@
 import { fileUpload } from '@/utils/common_upload_image';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import AttributionTwoToneIcon from '@mui/icons-material/AttributionTwoTone';
-import CategoryTwoToneIcon from '@mui/icons-material/CategoryTwoTone';
-import CurrencyRupeeTwoToneIcon from '@mui/icons-material/CurrencyRupeeTwoTone';
-import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone';
-import HandshakeTwoToneIcon from '@mui/icons-material/HandshakeTwoTone';
-import InventoryTwoToneIcon from '@mui/icons-material/InventoryTwoTone';
-import LanguageTwoToneIcon from '@mui/icons-material/LanguageTwoTone';
-import LocalOfferTwoToneIcon from '@mui/icons-material/LocalOfferTwoTone';
-import UploadFileTwoToneIcon from '@mui/icons-material/UploadFileTwoTone';
+// import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+// import AttributionTwoToneIcon from '@mui/icons-material/AttributionTwoTone';
+// import CategoryTwoToneIcon from '@mui/icons-material/CategoryTwoTone';
+// import CurrencyRupeeTwoToneIcon from '@mui/icons-material/CurrencyRupeeTwoTone';
+// import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone';
+// import HandshakeTwoToneIcon from '@mui/icons-material/HandshakeTwoTone';
+// import InventoryTwoToneIcon from '@mui/icons-material/InventoryTwoTone';
+// import LanguageTwoToneIcon from '@mui/icons-material/LanguageTwoTone';
+// import LocalOfferTwoToneIcon from '@mui/icons-material/LocalOfferTwoTone';
+// import UploadFileTwoToneIcon from '@mui/icons-material/UploadFileTwoTone';
 
 export const categoryTemplate = [
     {
