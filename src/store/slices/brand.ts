@@ -62,6 +62,12 @@ export const Brand = createSlice({
         ...state.brand,
         ...action.payload.data.data.details[0][0]
       };
+    },
+    UPDATE_BRAND_SEARCH: (state, action) => {
+      state.brand = {
+        ...state.brand,
+        ...action.payload
+      };
     }
   },
 
@@ -119,7 +125,7 @@ export const Brand = createSlice({
   // }
 });
 
-export const { UPDATE_BRAND } = Brand.actions;
+export const { UPDATE_BRAND, UPDATE_BRAND_SEARCH } = Brand.actions;
 
 export const brand = (state: AppState) => state.brand.brand;
 

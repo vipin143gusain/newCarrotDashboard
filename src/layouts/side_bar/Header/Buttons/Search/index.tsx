@@ -26,6 +26,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
 
+
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 
 const Transition = forwardRef(function Transition(
@@ -68,12 +69,17 @@ function HeaderSearch() {
   const [openSearchResults, setOpenSearchResults] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleSearchChange = async(event: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(event.target.value);
 
     if (event.target.value) {
       if (!openSearchResults) {
         setOpenSearchResults(true);
+
+// =================================================================================================
+        //  API CALL TO SEARCH
+
+
       }
     } else {
       setOpenSearchResults(false);
@@ -209,7 +215,7 @@ function HeaderSearch() {
                       sx={{ fontWeight: 'bold' }}
                       variant="body2"
                     >
-                      Example Projects Application
+                      Example Projects Applicationdfgdfgdfgdfg
                     </Link>
                   </Box>
                   <Typography

@@ -9,8 +9,10 @@ import profileReducer from "./slices/profile";
 import walletCategory from "./slices/wallet_category";
 import walletProduct from "./slices/wallet_product";
 import addOffer from "./slices/add_offer";
+import search from "./slices/search";
 
 const reducers = combineReducers({
+  search,
   brand,
   feed,
   addOffer,

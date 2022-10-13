@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useState, ReactElement, ChangeEvent } from 'react';
+import { forwardRef, Ref, useState, ReactElement, ChangeEvent,useCallback  } from 'react';
 import {
   Avatar,
   Link,
@@ -27,6 +27,12 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
 
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
+import { useSelector,useDispatch } from 'react-redux';
+import { search, TOGGLE_RESULTS } from '@/store/slices/search';
+import { UPDATE_BRAND_SEARCH } from '@/store/slices/brand';
+import {throttle,debounce} from 'lodash';
+import { _serveAPI } from '@/api/service';
+
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & { children: ReactElement<any, any> },
@@ -65,18 +71,52 @@ const DialogTitleWrapper = styled(DialogTitle)(
 );
 
 function HeaderSearch() {
-  const [openSearchResults, setOpenSearchResults] = useState(false);
+  const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
+  const searchData = useSelector(search);
+  const openSearchResults = useSelector(search).isResultOpen;
 
+
+  const testFn = async(val)=>{
+
+    _serveAPI({
+      endPoint:"api/admin/wallet/search",
+      method:"POST",
+      data:{
+        name:val
+      }
+    }).then(res=>{
+      if(res.status==="success"){
+        setSearchResult(res.data.data)
+        return res.data.data
+      }else{
+        setSearchResult([])
+        return []
+      }
+    })
+
+    
+  }
+
+  const searchNow = useCallback(
+		throttle(nextValue => testFn(nextValue), 1000),
+		[],
+	);
+  
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(event.target.value);
 
-    if (event.target.value) {
+    if (event.target.value&&event.target.value.length>=3) {
+
+      searchNow(event.target.value)
+
       if (!openSearchResults) {
-        setOpenSearchResults(true);
+        dispatch(TOGGLE_RESULTS(true)); 
+
       }
     } else {
-      setOpenSearchResults(false);
+      dispatch(TOGGLE_RESULTS(false));
     }
   };
 
@@ -84,10 +124,14 @@ function HeaderSearch() {
 
   const handleClickOpen = () => {
     setOpen(true);
+    dispatch(TOGGLE_RESULTS(false));
+    setSearchValue("")
   };
 
   const handleClose = () => {
     setOpen(false);
+    dispatch(TOGGLE_RESULTS(false));
+    setSearchValue("")
   };
 
   return (
@@ -143,13 +187,22 @@ function HeaderSearch() {
                   {searchValue}
                 </Typography>
               </Typography>
-              <Link href="#" variant="body2" underline="hover">
+              {/* <Link href="#" variant="body2" underline="hover">
                 Advanced search
-              </Link>
+              </Link> */}
             </Box>
             <Divider sx={{ my: 1 }} />
             <List disablePadding>
-              <ListItem button>
+              {
+                searchResult.map((searchItem)=>(
+                  <>
+              <ListItem button key={searchItem.id}
+              onClick={()=>{
+                setSearchValue(searchItem.name)
+                dispatch(UPDATE_BRAND_SEARCH(searchItem));
+                handleClose()
+              }}
+               >
                 <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar
@@ -157,8 +210,13 @@ function HeaderSearch() {
                         background: (theme: Theme) =>
                           theme.palette.secondary.main
                       }}
+                      src={
+                        searchItem?.logo_file_key
+                    ? `https://d3nk16lz1ssvqj.cloudfront.net/${searchItem?.logo_file_key}`
+                    :
+                    <FindInPageTwoToneIcon />
+                      }
                     >
-                      <FindInPageTwoToneIcon />
                     </Avatar>
                   </ListItemAvatar>
                 </Hidden>
@@ -170,10 +228,10 @@ function HeaderSearch() {
                       sx={{ fontWeight: 'bold' }}
                       variant="body2"
                     >
-                      Dashboard for Healthcare Platform
+                     {searchItem.name}
                     </Link>
                   </Box>
-                  <Typography
+                  {/* <Typography
                     component="span"
                     variant="body2"
                     sx={{
@@ -183,12 +241,16 @@ function HeaderSearch() {
                   >
                     This page contains all the necessary information for
                     managing all hospital staff.
-                  </Typography>
+                  </Typography> */}
                 </Box>
-                <ChevronRightTwoToneIcon />
+                {/* <ChevronRightTwoToneIcon /> */}
               </ListItem>
               <Divider sx={{ my: 1 }} component="li" />
-              <ListItem button>
+              </>
+
+                ) )
+              }
+              {/* <ListItem button>
                 <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar
@@ -263,12 +325,12 @@ function HeaderSearch() {
                   </Typography>
                 </Box>
                 <ChevronRightTwoToneIcon />
-              </ListItem>
+              </ListItem> */}
             </List>
-            <Divider sx={{ mt: 1, mb: 2 }} />
+            {/* <Divider sx={{ mt: 1, mb: 2 }} />
             <Box sx={{ textAlign: 'center' }}>
               <Button color="primary">View all search results</Button>
-            </Box>
+            </Box> */}
           </DialogContent>
         )}
       </DialogWrapper>

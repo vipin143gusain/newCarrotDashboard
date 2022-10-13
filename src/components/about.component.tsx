@@ -150,17 +150,17 @@ const ProfileCover = (props: ProfileCoverProps) => {
         //   banner: fileUpload.banner,
         //   logo: fileUpload.logo
         // });
-        dispatch(
-          UPDATE_BRAND({
-            about: values.about,
-            name: values.name,
-            description: values.description,
-            tags: values.tags,
-            website_url: values.website_url
-            // banner: fileUpload.banner,
-            // logo: fileUpload.logo,
-          })
-        );
+        // dispatch(
+        //   UPDATE_BRAND({
+        //     about: values.about,
+        //     name: values.name,
+        //     description: values.description,
+        //     tags: values.tags,
+        //     website_url: values.website_url
+        //     // banner: fileUpload.banner,
+        //     // logo: fileUpload.logo,
+        //   })
+        // );
       }
     } catch (error) {
       console.log('api failed');
