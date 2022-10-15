@@ -15,6 +15,8 @@ const initialState = {
     brand_colour: '',
     primary_offer: ''
   },
+  currentTab:"about",
+  walletId:279,
   loading: false,
   isResultOpen:false,
   error: ''
@@ -40,6 +42,12 @@ export const Search = createSlice({
   reducers: {
     TOGGLE_RESULTS: (state, action) => {
         state.isResultOpen = action.payload
+    },
+    changeTab: (state,action)=>{
+      state.currentTab=action.payload;
+    },
+    updateWalletId: (state,action)=>{
+      state.walletId=action.payload;
     }
   },
 
@@ -73,7 +81,7 @@ export const Search = createSlice({
 
 });
 
-export const { TOGGLE_RESULTS } = Search.actions;
+export const { TOGGLE_RESULTS,changeTab,updateWalletId } = Search.actions;
 export const search = (state: AppState) => state.search;
 
 export default Search.reducer;

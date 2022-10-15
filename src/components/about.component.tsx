@@ -124,6 +124,14 @@ const ProfileCover = (props: ProfileCoverProps) => {
           walletid: _theBrand.walletid,
           id: _theBrand.id
         };
+        payload.logo_file_key=payload.logo_file_key?payload.logo_file_key:payload.logo_file_key_edit;
+        payload.banner_file_key=payload.banner_file_key?payload.banner_file_key:payload.banner_file_key_edit;
+
+        // Object.keys(payload).map((el) => {
+        //   if ((payload[`${el}`] == null)||(payload[`${el}`] == "")) {
+        //     delete payload[`${el}`];
+        //   }
+        // });
         console.log(payload);
 
         if (_theBrand?.walletid) {
@@ -140,8 +148,20 @@ const ProfileCover = (props: ProfileCoverProps) => {
         }
 
        
-
         setIsComplete(true);
+
+        let timeOut;
+        timeOut = setTimeout(()=>{
+          dispatch(setModalState(false));
+          setActiveStep(0);
+          setIsComplete(false);
+          setediting(false)
+          if(timeOut){
+            clearTimeout(timeOut)
+          }
+
+        },2000)
+
       } else {
         setActiveStep(activeStep + 1);
         // console.log('first step');
@@ -163,7 +183,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         // );
       }
     } catch (error) {
-      console.log('api failed');
+      console.log('api failed',error.message);
     }
   };
 

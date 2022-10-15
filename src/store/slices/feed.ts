@@ -47,7 +47,9 @@ export const getFeedCards = createAsyncThunk(
   "feed/getFeedCards",
   async ({walletId,qc_status}:{walletId:number,qc_status:string}) => {
     return await _serveAPI({
-      endPoint: `api/wallet/banner?wallet_id=${walletId}&qc_status_asset=${qc_status}`,
+      endPoint: qc_status?`api/wallet/banner?wallet_id=${walletId}&qc_status_asset=${qc_status}`:
+      `api/wallet/banner?wallet_id=${walletId}`
+      ,
       method: "GET",
     }).then((res) => { return res.data});
   }

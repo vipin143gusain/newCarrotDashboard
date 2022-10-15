@@ -45,6 +45,7 @@ import {
   loadingProduct,
   updateProduct
 } from '@/store/slices/wallet_product';
+import {search} from '@/store/slices/search';
 import { notify } from '@/utils/toaster';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
@@ -164,6 +165,7 @@ const TaskSearch = (
   `
   );
 
+  const {walletId} = useSelector(search);
   const modalState = useSelector(getModalState);
   const loadingFeedData = useSelector(loadingFeed);
   const loadingProductData = useSelector(loadingProduct);
@@ -418,6 +420,7 @@ const TaskSearch = (
       };
       if (formType) delete outData.logo;
     }
+    
     if (!outData.media_file && value.media_file) {
       outData.media_file = value.media_file;
     }
@@ -431,7 +434,7 @@ const TaskSearch = (
     }
     
     Object.keys(outData).map((el) => {
-      if (outData[`${el}`] == null) {
+      if ((outData[`${el}`] == null)||(outData[`${el}`] == "")) {
         delete outData[`${el}`];
       }
     });
@@ -443,11 +446,11 @@ const TaskSearch = (
         // dispatch(addProduct(outData));
         await dispatch(addWalletProductAction(outData));
         productTemplate[0].filePath = '';
-        dispatch(getProduct({ walletId: 279, qc_status: filter }));
+        dispatch(getProduct({ walletId, qc_status: filter }));
         dispatch(setModalState(false));
       } else if (tsType === 'WALLET_CATEGORY') {
         await dispatch(addWalletCategoryAction(outData));
-        dispatch(getCategory({ walletId: 279, qc_status: filter }));
+        dispatch(getCategory({ walletId, qc_status: filter }));
         dispatch(setModalState(false));
         categoryTemplate[0].filePath = '';
       } else if (tsType === 'WALLET_FEED') {
@@ -458,7 +461,7 @@ const TaskSearch = (
         })
           .then((res) => {
             notify('success', res.message);
-            dispatch(getFeedCards({ walletId: 279, qc_status: filter }));
+            dispatch(getFeedCards({ walletId, qc_status: filter }));
             dispatch(setModalState(false));
           })
           .catch((err) => console.log('error adding feed', err));
@@ -470,7 +473,7 @@ const TaskSearch = (
         })
           .then((res) => {
             notify('success', res.message);
-            dispatch(getOffer());
+            dispatch(getOffer({ walletId, qc_status: filter }));
             dispatch(setModalState(false));
             addOfferTemplate[0].filePath = '';
           })
@@ -481,13 +484,13 @@ const TaskSearch = (
       if (tsType === 'WALLET_PRODUCT') {
         // dispatch(editProductAction(outData));
         await dispatch(updateProduct(outData));
-        dispatch(getProduct({ walletId: 279, qc_status: filter }));
+        dispatch(getProduct({ walletId, qc_status: filter }));
         productTemplate[0].filePath = '';
         dispatch(setModalState(false));
       } else if (tsType === 'WALLET_CATEGORY') {
         // dispatch(editCategoryAction(outData));
         await dispatch(updateCategory(outData));
-        dispatch(getCategory({ walletId: 279, qc_status: filter }));
+        dispatch(getCategory({ walletId, qc_status: filter }));
         dispatch(setModalState(false));
         categoryTemplate[0].filePath = '';
       } else if (tsType === 'WALLET_FEED') {
@@ -498,7 +501,7 @@ const TaskSearch = (
         })
           .then((res) => {
             notify('success', res.message);
-            dispatch(getFeedCards({ walletId: 279, qc_status: filter }));
+            dispatch(getFeedCards({ walletId, qc_status: filter }));
             dispatch(setModalState(false));
             singleVideo[0].filePath = '';
             singleVideo[0].thumbPath = '';
@@ -513,7 +516,7 @@ const TaskSearch = (
         })
           .then((res) => {
             notify('success', res.message);
-            dispatch(getOffer());
+            dispatch(getOffer({ walletId, qc_status: filter }));
             dispatch(setModalState(false));
             addOfferTemplate[0].filePath = '';
           })
@@ -687,7 +690,7 @@ const TaskSearch = (
     data.image_resolution = 'landscape';
 
     Object.keys(data).map((el) => {
-      if (data[`${el}`] == null) {
+      if ((data[`${el}`] == null)||(data[`${el}`] == "")) {
         delete data[`${el}`];
       }
     });
@@ -701,7 +704,7 @@ const TaskSearch = (
       })
         .then((res) => {
           notify('success', res.message);
-          dispatch(getFeedCards({ walletId: 279, qc_status: filter }));
+          dispatch(getFeedCards({ walletId, qc_status: filter }));
           dispatch(setModalState(false));
           doubleOfferOne[0].filePath = '';
           doubleOfferTwo[0].filePath = '';
@@ -721,7 +724,7 @@ const TaskSearch = (
       })
         .then((res) => {
           notify('success', res.message);
-          dispatch(getOffer());
+          dispatch(getOffer({ walletId, qc_status: filter }));
           dispatch(setModalState(false));
           doubleOfferOne[0].filePath = '';
           doubleOfferTwo[0].filePath = '';
@@ -753,7 +756,7 @@ const TaskSearch = (
     })
       .then((res) => {
         notify('success', res.message);
-        dispatch(getProduct({ walletId: 279, qc_status: filter }));
+        dispatch(getProduct({ walletId, qc_status: filter }));
         dispatch(setModalState(false));
       })
       .catch((err) => console.log('error adding feed', err));
@@ -785,7 +788,7 @@ const TaskSearch = (
       method: 'PUT'
     }).then((res) => {
       notify('success', res.message);
-      dispatch(getProduct({ walletId: 279, qc_status: filter }));
+      dispatch(getProduct({ walletId, qc_status: filter }));
     });
   };
   const categoryWithDraw = async (id) => {
@@ -804,7 +807,7 @@ const TaskSearch = (
       method: 'PUT'
     }).then((res) => {
       notify('success', res.message);
-      dispatch(getFeedCards({ walletId: 279, qc_status: filter }));
+      dispatch(getFeedCards({ walletId, qc_status: filter }));
     });
   };
 
@@ -814,7 +817,7 @@ const TaskSearch = (
       method: 'PUT'
     }).then((res) => {
       notify('success', res.message);
-      dispatch(getOffer({ walletId: 279, qc_status: filter }));
+      dispatch(getOffer({ walletId, qc_status: filter }));
     });
   };
 
@@ -1045,10 +1048,10 @@ const TaskSearch = (
   }, [modalState, mode]);
 
   useEffect(() => {
-    dispatch(getProduct({ walletId: 279, qc_status: filter }));
-    dispatch(getCategory({ walletId: 279, qc_status: filter }));
-    dispatch(getFeedCards({ walletId: 279, qc_status: filter }));
-    dispatch(getOffer({ walletId: 279, qc_status: filter }));
+    dispatch(getProduct({ walletId, qc_status: filter }));
+    dispatch(getCategory({ walletId, qc_status: filter }));
+    dispatch(getFeedCards({ walletId, qc_status: filter }));
+    dispatch(getOffer({ walletId, qc_status: filter }));
     dispatch(getFeedCategory());
     dispatch(getFeedSubCategory());
     dispatch(getFeedTheme());
@@ -1186,8 +1189,8 @@ const TaskSearch = (
             }}
             onDeleteClick={async (id) => {
               await dispatch(deleteOffer(id));
-              dispatch(getOffer());
-              dispatch(getFeedCards({ walletId: 279, qc_status: filter }));
+              dispatch(getOffer({ walletId, qc_status: filter }));
+              dispatch(getFeedCards({ walletId, qc_status: filter }));
             }}
             onWithdrawClick={(id: number) => {
               return console.log(id);
@@ -1265,7 +1268,7 @@ const TaskSearch = (
             }}
             onDeleteClick={async (id) => {
               await dispatch(deleteOffer(id));
-              dispatch(getOffer());
+              dispatch(getOffer({ walletId, qc_status: filter }));
             }}
             defaultValue={addOfferDefault}
             setDefaultValue={setAddOfferDefault}

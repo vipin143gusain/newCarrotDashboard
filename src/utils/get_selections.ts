@@ -40,6 +40,5 @@ export  const getSelectionType = (mode:string,selectionType:BrandTabTypes) => {
         }
     }
 
-    console.log(title);
     return title;
   };

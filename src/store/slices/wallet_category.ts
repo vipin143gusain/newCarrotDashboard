@@ -7,7 +7,9 @@ import { AppState } from "../index";
 export const getCategory = createAsyncThunk("wallet/getCategory", async ({walletId,qc_status}:{walletId:number,qc_status:string}) => {
   return await _serveAPI({
     method: "GET",
-    endPoint: `api/wallet/category?wallet_id=${walletId}&qc_status_asset=${qc_status}`,
+    endPoint: qc_status?
+    `api/wallet/category?wallet_id=${walletId}&qc_status_asset=${qc_status}`
+    :`api/wallet/category?wallet_id=${walletId}`,
   }).then((res) => res.data);
 });
 

@@ -19,7 +19,9 @@ export const getProduct = createAsyncThunk(
   async ({walletId,qc_status}:{walletId:number,qc_status:string}) => {
     return await _serveAPI({
       method: "GET",
-      endPoint: `api/wallet/product?wallet_id=${walletId}&qc_status_asset=${qc_status}`,
+      endPoint: qc_status?`api/wallet/product?wallet_id=${walletId}&qc_status_asset=${qc_status}`:
+      `api/wallet/product?wallet_id=${walletId}`
+      ,
     }).then((res) => res.data);
   }
 );
@@ -58,7 +60,9 @@ export const WalletProduct = createSlice({
     addProduct: (state, action) => {
       state.product = [...state.product, action.payload];
     },
-
+    loadSearchProduct:(state,action)=>{
+      state.product = action.payload;
+    },
     deleteProduct: (state, action) => {
       state.product = state.product.filter((prod) => prod.id != action.payload);
     },
@@ -143,7 +147,7 @@ export const WalletProduct = createSlice({
   // }
 });
 
-export const { addProduct, deleteProduct, editProductAction } =
+export const { addProduct, deleteProduct, editProductAction,loadSearchProduct } =
   WalletProduct.actions;
 
 export const walletProduct = (state: AppState) => state.walletProduct.product;

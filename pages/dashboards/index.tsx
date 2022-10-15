@@ -11,6 +11,7 @@ import { feedCards } from '@/store/slices/feed';
 import { getModalState } from '@/store/slices/modal_watcher';
 import { walletCategory } from '@/store/slices/wallet_category';
 import { walletProduct } from '@/store/slices/wallet_product';
+import { changeTab} from '@/store/slices/search';
 // import { selectProfile, setProfileData } from '@/store/slices/profile';
 import {
   CategoryTwoTone,
@@ -32,7 +33,7 @@ import ManagementUserProfile from 'pages/management/profile/index';
 import { ChangeEvent, useState } from 'react';
 import {
   // useDispatch,
-  useSelector
+  useSelector,useDispatch
 } from 'react-redux';
 import 'rodal/lib/rodal.css';
 
@@ -62,6 +63,7 @@ const TabsWrapperContainer = styled(Grid)(
 
 function DashboardTasks(props) {
   const { resolvedUrl } = props;
+  const dispatch = useDispatch();
 
   // const profile = useSelector(selectProfile);
   const modalCurrentState = useSelector(getModalState);
@@ -91,6 +93,7 @@ function DashboardTasks(props) {
 
   const handleTabsChange = (_event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);
+    dispatch(changeTab(value))
   };
 
   return (

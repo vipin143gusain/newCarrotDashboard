@@ -5,10 +5,11 @@ import { AppState } from '../index';
 
 export const getOffer = createAsyncThunk(
   'getOffer',
-  async ({ qc_status }: { walletId: number; qc_status: string }) => {
+  async ({ walletId,qc_status }: { walletId: number; qc_status: string }) => {
     return await _serveAPI({
       method: 'GET',
-      endPoint: `api/wallet/offer?qc_status_asset=${qc_status}`
+      endPoint: qc_status?`api/wallet/offer?wallet_id=${walletId}&qc_status_asset=${qc_status}`:
+      `api/wallet/offer?wallet_id=${walletId}`
     }).then((res) => res.data);
   }
 );

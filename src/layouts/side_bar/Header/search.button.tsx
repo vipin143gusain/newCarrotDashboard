@@ -28,8 +28,12 @@ import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
 
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { useSelector,useDispatch } from 'react-redux';
-import { search, TOGGLE_RESULTS } from '@/store/slices/search';
+import { search, TOGGLE_RESULTS,updateWalletId } from '@/store/slices/search';
 import { UPDATE_BRAND_SEARCH } from '@/store/slices/brand';
+import { getProduct } from '@/store/slices/wallet_product';
+import { getCategory } from '@/store/slices/wallet_category';
+import { getFeedCards } from '@/store/slices/feed';
+import { getOffer } from '@/store/slices/add_offer';
 import {throttle,debounce} from 'lodash';
 import { _serveAPI } from '@/api/service';
 
@@ -75,33 +79,57 @@ function HeaderSearch() {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const searchData = useSelector(search);
+  const {currentTab,walletId} = useSelector(search);
   const openSearchResults = useSelector(search).isResultOpen;
 
 
-  const testFn = async(val)=>{
-
-    _serveAPI({
-      endPoint:"api/admin/wallet/search",
-      method:"POST",
-      data:{
-        name:val
-      }
-    }).then(res=>{
-      if(res.status==="success"){
-        setSearchResult(res.data.data)
-        return res.data.data
-      }else{
-        setSearchResult([])
-        return []
-      }
-    })
-
+  const apiCall = async(val)=>{
+      _serveAPI({
+        endPoint:"api/admin/wallet/search",
+        method:"POST",
+        data:{
+          name:val
+        }
+      }).then(res=>{
+        if(res.status==="success"){
+          setSearchResult(res.data.data)
+          return res.data.data
+        }else{
+          setSearchResult([])
+          return []
+        }
+      })
     
   }
 
+  const selectSearchResult = (searchVal)=>{
+    if(currentTab==="about"){
+      dispatch(UPDATE_BRAND_SEARCH(searchVal));
+    }else if(currentTab==="walletproducts"){
+     dispatch(getProduct({walletId:searchVal.id,qc_status:""}));
+      dispatch(updateWalletId(searchVal.id));
+    }else if(currentTab==="walletcategories"){
+      dispatch(getCategory({walletId:searchVal.id,qc_status:""}));
+       dispatch(updateWalletId(searchVal.id));
+    }else if(currentTab==="walletcategories"){
+      dispatch(getCategory({walletId:searchVal.id,qc_status:""}));
+       dispatch(updateWalletId(searchVal.id));
+    }else if(currentTab==="feed"){
+      dispatch(getFeedCards({walletId:searchVal.id,qc_status:""}));
+       dispatch(updateWalletId(searchVal.id));
+    }else if(currentTab==="addOffer"){
+      dispatch(getOffer({walletId:searchVal.id,qc_status:""}));
+       dispatch(updateWalletId(searchVal.id));
+
+    
+  }else{null}
+
+  }
+
+
   const searchNow = useCallback(
-		throttle(nextValue => testFn(nextValue), 1000),
-		[],
+		throttle(nextValue => apiCall(nextValue), 1000),
+		[currentTab],
 	);
   
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -199,7 +227,7 @@ function HeaderSearch() {
               <ListItem button key={searchItem.id}
               onClick={()=>{
                 setSearchValue(searchItem.name)
-                dispatch(UPDATE_BRAND_SEARCH(searchItem));
+                selectSearchResult(searchItem);
                 handleClose()
               }}
                >

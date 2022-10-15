@@ -125,7 +125,7 @@ export const CommonForm = (props: CommonFormProps) => {
 
   useEffect(() => {
     // console.log('MARKETS', market);
-    console.log(defaultValues);
+    // console.log(defaultValues);
   }, [market, defaultValues]);
 
   useEffect(() => {
@@ -237,7 +237,6 @@ export const CommonForm = (props: CommonFormProps) => {
     return (
       fields &&
       fields.map((field) => {
-      console.log(field?.accept)
         let {
           title,
           type,
