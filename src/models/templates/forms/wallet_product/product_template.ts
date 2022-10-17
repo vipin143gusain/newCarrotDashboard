@@ -1,4 +1,5 @@
 import { fileUpload } from '@/utils/common_upload_image';
+import { calcHeightWidth } from './imageHeightWidthCalc';
 
 
 export const productTemplate = [
@@ -11,22 +12,37 @@ export const productTemplate = [
       collectionName: 'category',
       accept: 'image/jpeg,image/png',
       validationProps: {
-        // required: {
-        //   value: ()=>productTemplate[0].filePath?false:true,
-        //   message: 'You need to upload banner'
-        // },
+        required: {
+          value: function(){
+            return productTemplate[0].filePath?false:true
+          },
+          message: 'You need to upload banner'
+        },
   
         validate: {
-          
+          // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
+          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 5MB',
+          imgName: (files) => files[0]?.name.length < 20 || 'Max image name lenth is 15 only',
+          imageDimension: async function(files) {
+            const result =  calcHeightWidth(files);
+            // console.log({result})
+            // console.log(result.attributes.getNamedItem('src'))
+            // console.log(files[0]?.width)
+            // files[0]?.width > 500 || files[0]?.height > 500 || "Max image Dimensions 500px X 500px"
+          },
+          // acceptedFormats: (files) =>
+          //   ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
+          //   'Only PNG, JPEG format'
         },
-        onChange: async (e) => {
-          const s3Detail = await fileUpload(
-            e.target.files[0],
-            'category',
-            'images',
-            ''
-          );
-          productTemplate[0].filePath = `${s3Detail.path}`;
+        onChange: async function (e){
+          
+          // const s3Detail = await fileUpload(
+          //   e.target.files[0],
+          //   'category',
+          //   'images',
+          //   ''
+          // );
+          // productTemplate[0].filePath = `${s3Detail.path}`;
         }
       }
     },

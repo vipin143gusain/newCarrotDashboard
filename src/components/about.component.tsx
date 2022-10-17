@@ -196,18 +196,18 @@ const ProfileCover = (props: ProfileCoverProps) => {
   }, [_theBrand]);
   // Checking the available redux state
   useEffect(() => {
-    if (_theBrand.name !== '') {
+    if (_theBrand?.name !== '') {
       setAbtValues({
         defaultValues: {
-          name: _theBrand.name,
-          about: _theBrand.about,
-          description: _theBrand.description,
-          tags: _theBrand.tags,
-          website_url: _theBrand.website_url,
-          brand_colour: _theBrand.brand_colour,
-          primary_offer: _theBrand.primary_offer,
-          logo_file_key_edit:_theBrand.logo_file_key,
-          banner_file_key_edit:_theBrand.banner_file_key
+          name: _theBrand?.name,
+          about: _theBrand?.about,
+          description: _theBrand?.description,
+          tags: _theBrand?.tags,
+          website_url: _theBrand?.website_url,
+          brand_colour: _theBrand?.brand_colour,
+          primary_offer: _theBrand?.primary_offer,
+          logo_file_key_edit:_theBrand?.logo_file_key,
+          banner_file_key_edit:_theBrand?.banner_file_key
           // banner: _theBrand.banner,
         }
       });
@@ -249,17 +249,17 @@ const ProfileCover = (props: ProfileCoverProps) => {
         {loading && <h2>Loading Your brand...</h2>}
         {loading && error ? <p>Error:{error}</p> : null}
         <Box display="flex" mb={3}></Box>
-        {_theBrand.name !== '' && !loading ? (
+        {_theBrand?.name !== '' && !loading ? (
           <>
             <CardCover>
               <CardMedia
                 image={
-                  _theBrand.banner_file_key
+                  _theBrand?.banner_file_key
                     ? 'https://d3nk16lz1ssvqj.cloudfront.net/' +
-                      _theBrand.banner_file_key
+                      _theBrand?.banner_file_key
                     : fileUpload.banner
                     ? fileUpload.banner
-                    : user.coverImg
+                    : user?.coverImg
                 }
               />
               <CardCoverAction>
@@ -269,21 +269,21 @@ const ProfileCover = (props: ProfileCoverProps) => {
                   component="span"
                   onClick={onCoverImageClick}
                 >
-                  {user.banner === '' ? 'Upload Banner' : 'Change Banner'}
+                  {user?.banner === '' ? 'Upload Banner' : 'Change Banner'}
                 </Button>
               </CardCoverAction>
             </CardCover>
             <AvatarWrapper>
               <Avatar
                 variant="rounded"
-                alt={user.name}
+                alt={user?.name}
                 src={
-                  _theBrand.logo_file_key
+                  _theBrand?.logo_file_key
                     ? 'https://d3nk16lz1ssvqj.cloudfront.net/' +
-                      _theBrand.logo_file_key
+                      _theBrand?.logo_file_key
                     : fileUpload.logo
                     ? fileUpload.logo
-                    : user.logo
+                    : user?.logo
                 }
               />
               <ButtonUploadWrapper>
@@ -301,14 +301,14 @@ const ProfileCover = (props: ProfileCoverProps) => {
 
         <Box>
           <Typography variant="h3" component="h3" gutterBottom marginLeft={2}>
-            {user.name}
+            {user?.name}
           </Typography>
         </Box>
         <Box py={2} pl={2} mb={3}>
           <Typography gutterBottom variant="h4">
-            {user.about}
+            {user?.about}
           </Typography>
-          <Typography variant="subtitle2">{user.description}</Typography>
+          <Typography variant="subtitle2">{user?.description}</Typography>
 
           <Box
             display={{ xs: 'block', md: 'flex' }}
@@ -317,7 +317,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
             marginTop={2}
           >
             <Box>
-              {user.name ? (
+              {user?.name ? (
                 <Button
                   size="small"
                   variant="contained"
@@ -330,9 +330,9 @@ const ProfileCover = (props: ProfileCoverProps) => {
                 </Button>
               ) : null}
 
-              {user.website_url && (
+              {user?.website_url && (
                 <Button size="small" sx={{ mx: 1 }} variant="outlined">
-                  {user.website_url}
+                  {user?.website_url}
                 </Button>
               )}
             </Box>
@@ -344,7 +344,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         open={modalState}
         onClose={() => dispatch(setModalState(false))}
         width="60%"
-        title={!user.name ? 'Adding Details' : 'Editing Your Details'}
+        title={!user?.name ? 'Adding Details' : 'Editing Your Details'}
         purpose="EDIT"
         titleColor="#8C7CF0"
         color="#8C7CF0"

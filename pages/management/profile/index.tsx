@@ -47,7 +47,7 @@ const ManagementUserProfile = () => {
               />
             </Grid>
 
-            {brandInfo.name ? (
+            {brandInfo?.name ? (
               <>
                 {/* <Grid item xs={12} md={4}>
                   <RecentActivity />

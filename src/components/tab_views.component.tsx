@@ -12,6 +12,7 @@ import { categoryTemplate } from '@/models/templates/forms/wallet_category/categ
 import { productTemplate } from '@/models/templates/forms/wallet_product/product_template';
 import { BrandTabTypes } from '@/models/types/brand_tabtype';
 import { OfferTypes } from '@/models/types/offers';
+import { hexToRgb } from '@/models/templates/forms/wallet_product/imageHeightWidthCalc';
 import {
   deleteOffer,
   getOffer,
@@ -49,6 +50,7 @@ import {search} from '@/store/slices/search';
 import { notify } from '@/utils/toaster';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import { ColorExtractor } from "react-color-extractor";
 import {
   Box,
   Button,
@@ -188,6 +190,8 @@ const TaskSearch = (
   const [expanded, setExpanded] = useState<string | true>('panel1');
 
   const [activeTab, setTabValue] = useState('live_asset');
+  const [fileBlob, setFileBlob] = useState("");
+  const [imageColor, setImageColor] = useState("");
 
   const handleTabChange = (event: SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
@@ -370,16 +374,24 @@ const TaskSearch = (
   };
 
   const onFormSubmit = async (value) => {
-    // const { Product, Price, Attribute, Value, Order, id } = value;
 
+    console.log(value)
+    // return
+  
+    let objUrl;
+    
     let outData: object | any = { ...value, wallet_id: 279 };
     let filePath;
     if (tsType == 'WALLET_PRODUCT') {
       filePath = productTemplate[0].filePath;
+      objUrl=URL.createObjectURL(value['Upload Product Banner'][0])
+      setFileBlob(objUrl)
     } else if (tsType == 'WALLET_CATEGORY') {
       filePath = categoryTemplate[0].filePath;
     } else if (tsType === 'WALLET_FEED' && formType === 'SINGLE_OFFER_TYPE') {
       filePath = singleOfferOne[0].filePath;
+      objUrl=URL.createObjectURL(value['logo'][0])
+      setFileBlob(objUrl)
     } else if (tsType === 'ADD_OFFER') {
       filePath = addOfferTemplate[0].filePath;
     } else if (tsType === 'WALLET_FEED' && formType === 'SINGLE_VIDEO_TYPE') {
@@ -416,11 +428,11 @@ const TaskSearch = (
         tag_ids_with_name: value.tag_ids
           .map((el) => `${el.id}#${el.name}`)
           .join(','),
-        image_color: '77,172,84'
+        image_color: imageColor
       };
       if (formType) delete outData.logo;
     }
-    
+  
     if (!outData.media_file && value.media_file) {
       outData.media_file = value.media_file;
     }
@@ -621,6 +633,10 @@ const TaskSearch = (
   });
 
   const submitDoubleOfferOne = (values) => {
+
+    // console.log(values);
+
+    // return
     let data = {
       ...values,
       category_ids: values.category_ids.map((el) => el.id),
@@ -1021,6 +1037,7 @@ const TaskSearch = (
     setTabValue('live_asset');
     if (!modalState) {
       prodDefault.purpose = '';
+      prodDefault.defaultValues.image = '';
       categoryDefault.purpose = '';
       feedDefault.purpose = '';
       addOfferDefault.purpose = '';
@@ -1086,6 +1103,8 @@ const TaskSearch = (
             </Text>
           </Typography> */}
 
+          
+
           <FormControl sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="demo-simple-select-autowidth-label">
               Showing
@@ -1106,6 +1125,15 @@ const TaskSearch = (
               <MenuItem value="pending">Pending</MenuItem>
               <MenuItem value="rejected">Rejected</MenuItem>
             </Select>
+            
+            <ColorExtractor
+                  src={fileBlob}
+                  getColors={(colors) => {
+                    setImageColor(hexToRgb(colors[0]));
+                    
+                  }}
+              />
+            
           </FormControl>
         </Box>
 
