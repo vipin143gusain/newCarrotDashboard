@@ -1,4 +1,6 @@
 import { fileUpload } from '@/utils/common_upload_image';
+import { calcHeightWidth } from '../../wallet_product/imageHeightWidthCalc'; 
+
 
 export const doubleOfferOne = [
   {
@@ -12,15 +14,40 @@ export const doubleOfferOne = [
     filePath: '',
     accept: 'image/jpeg,image/png',
     validationProps: {
+      required: {
+        value: function(){
+          return doubleOfferOne[0].filePath?false:true
+        },
+        message: 'You need to upload banner'
+      },
+      validate: {
+        // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
+        lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 5MB',
+        imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
+        imageDimension: async function(files) {
+          const result =  await calcHeightWidth(files);
+          return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+        },
+        uploadFile:async (files) => {
+          const s3Detail = await fileUpload(
+            files[0],
+            'category',
+            'images',
+            ''
+          );
+          doubleOfferOne[0].filePath = `${s3Detail.path}`;
+        }
+        
+      },
       onChange: async (e) => {
-        console.log('change listening');
-        const s3Detail = await fileUpload(
-          e.target.files[0],
-          'category',
-          'images',
-          ''
-        );
-        doubleOfferOne[0].filePath = `${s3Detail.path}`;
+        // console.log('change listening');
+        // const s3Detail = await fileUpload(
+        //   e.target.files[0],
+        //   'category',
+        //   'images',
+        //   ''
+        // );
+        // doubleOfferOne[0].filePath = `${s3Detail.path}`;
       }
     }
   },

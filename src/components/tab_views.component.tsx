@@ -294,7 +294,7 @@ const TaskSearch = (
       media_type: 'image',
       media_file: '',
       display_order: 1,
-      category_ids: [42],
+      category_ids: [],
       category_ids_with_name: '',
       sub_category_ids: [],
       sub_category_ids_with_name: '',

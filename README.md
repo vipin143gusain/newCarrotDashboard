@@ -21,3 +21,5 @@ This README would normally document whatever steps are necessary to get your app
 - Coming soon...
 
 
+1. 6 Cell, Capacity: 3400mAh
+2. 4 Cell, Capacity: 4000mAh

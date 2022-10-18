@@ -1,9 +1,12 @@
 export const calcHeightWidth = function(fileUpload){
 
-    let imgHeight;
-    let imgWidth;
     let image = new Image();
     let reader = new FileReader();
+let val={
+  height:0,
+  width:0
+}
+
 
     //Read the contents of Image File.
     reader.readAsDataURL(fileUpload[0]);
@@ -20,18 +23,31 @@ export const calcHeightWidth = function(fileUpload){
         let width = this.width;
         image.height=height;
         image.width=width;
-        imgHeight=height
-        imgWidth=width
-        // console.log({
-        //     height,
-        //     width
+        // val.height=height;
+        // val.width=width;
+        val={
+          ...val,
+          height,
+          width
+        }
+        // val=JSON.stringify(val);
+
+        // new Promise((resolve,reject)=>{
+        //   resolve(val)
+
         // })
-       
+               
       };
     };
 
+  let pr = new Promise((resolve,reject)=>{
+
+    setTimeout(()=>{
+      resolve(val)
+    },500)
+  })
    
-    return image
+    return pr
 
 }
 

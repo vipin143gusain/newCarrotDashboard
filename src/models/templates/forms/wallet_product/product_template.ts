@@ -22,14 +22,22 @@ export const productTemplate = [
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
           lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 5MB',
-          imgName: (files) => files[0]?.name.length < 20 || 'Max image name lenth is 15 only',
+          imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
           imageDimension: async function(files) {
-            const result =  calcHeightWidth(files);
-            // console.log({result})
-            // console.log(result.attributes.getNamedItem('src'))
-            // console.log(files[0]?.width)
-            // files[0]?.width > 500 || files[0]?.height > 500 || "Max image Dimensions 500px X 500px"
+            const result =  await calcHeightWidth(files);
+            
+            return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
           },
+          uploadFile:async function (files){
+          
+            const s3Detail = await fileUpload(
+              files[0],
+              'category',
+              'images',
+              ''
+            );
+            productTemplate[0].filePath = `${s3Detail.path}`;
+          }
           // acceptedFormats: (files) =>
           //   ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
           //   'Only PNG, JPEG format'

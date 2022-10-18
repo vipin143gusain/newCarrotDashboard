@@ -1,4 +1,5 @@
 import { fileUpload } from "@/utils/common_upload_image";
+import { calcHeightWidth } from "../wallet_product/imageHeightWidthCalc";
 export const addOfferTemplate = [
     {
       title: 'Upload Banner',
@@ -15,20 +16,31 @@ export const addOfferTemplate = [
         },
         validate: {
           lessThan10MB: (files) => files[0]?.size < 5000000 || 'Max limit 5MB',
-          //  imageDimension: (files) => files[0]?.width > 500 && files[0]?.height > 500 || "Max image Dimensions 500px X 500px",
-  
+          imageDimension: async function(files) {
+            const result =  await calcHeightWidth(files);
+            return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+          },
+          uploadFile:async (files) => {
+            const s3Detail = await fileUpload(
+              files[0],
+              'category',
+              'images',
+              ''
+            );
+            addOfferTemplate[0].filePath = `${s3Detail.path}`;
+          },
           acceptedFormats: (files) =>
             ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
             'Only PNG, JPEG format'
         },
         onChange: async (e) => {
-          const s3Detail = await fileUpload(
-            e.target.files[0],
-            'category',
-            'images',
-            ''
-          );
-          addOfferTemplate[0].filePath = `${s3Detail.path}`;
+          // const s3Detail = await fileUpload(
+          //   e.target.files[0],
+          //   'category',
+          //   'images',
+          //   ''
+          // );
+          // addOfferTemplate[0].filePath = `${s3Detail.path}`;
         }
       }
     },

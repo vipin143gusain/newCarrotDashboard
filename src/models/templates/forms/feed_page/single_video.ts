@@ -14,6 +14,16 @@ export const singleVideo = [
     filePath: '',
     thumbPath:"",
     validationProps: {
+      required: {
+        value: function(){
+          return singleVideo[0].filePath?false:true
+        },
+        message: 'You need to upload banner'
+      },
+      validate:{
+        lessThan10MB: (files) => files[0]?.size < 100*1000*1024 || 'Max limit 5MB',
+        imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
+      },
       onChange: async (e) => {
         console.log('change listening');
         const s3Detail = await fileUpload(
