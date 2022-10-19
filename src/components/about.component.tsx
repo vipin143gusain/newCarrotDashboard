@@ -7,6 +7,7 @@ import { ProfileCoverProps } from '@/models/interfaces/ProfileCoverInterface/abo
 import { allSteps } from '@/models/templates/forms/about_page/all_steps';
 import { BrandOne } from '@/models/templates/forms/about_page/brand_page_one';
 import { BrandPageTwo } from '@/models/templates/forms/about_page/brand_page_two';
+import { adminPageThree } from '@/models/templates/forms/about_page/admin_page_three';
 import { getBrand, updateBrand, UPDATE_BRAND } from '@/store/slices/brand';
 import { getFileUpload, setBanner, setLogo } from '@/store/slices/file_upload';
 import { getModalState, setModalState } from '@/store/slices/modal_watcher';
@@ -21,6 +22,10 @@ import {
   IconButton,
   Typography
 } from '@mui/material';
+import {
+  categoryList,
+  subCategoryList,
+} from '@/store/slices/feed';
 
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
@@ -38,6 +43,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
 
   const modalState = useSelector(getModalState);
   const fileUpload = useSelector(getFileUpload);
+  const categoryListData = useSelector(categoryList);
+  const subCategoryListData = useSelector(subCategoryList);
 
   const _theBrand = useSelector((state) => state.brand.brand);
   const loading = useSelector((state) => state.brand.loading);
@@ -93,6 +100,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
           defaultValue={BrandOne}
           formTitle="Here we generally define the identity of your brand."
           handleFileChange={handleFileChange}
+          categoryListData={categoryListData}
+        subCategoryListData={subCategoryListData}
         />
       )
     },
@@ -104,9 +113,24 @@ const ProfileCover = (props: ProfileCoverProps) => {
           defaultValue={BrandPageTwo}
           formTitle="Your uniqueness for the user."
           handleFileChange={handleFileChange}
+          categoryListData={categoryListData}
+          subCategoryListData={subCategoryListData}
         />
       )
-    }
+    },
+    {
+      id: 3,
+      renderForm: (
+        <ControlledForm
+          fieldData={adminPageThree}
+          defaultValue={adminPageThree}
+          formTitle="Your uniqueness for the user."
+          handleFileChange={handleFileChange}
+          categoryListData={categoryListData}
+        subCategoryListData={subCategoryListData}
+        />
+      )
+    },
   ];
 
   const handleNext = async (values) => {
@@ -227,6 +251,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
         activeStep={activeStep}
         handleNextBtn={handleNext}
         handleBackBtn={handleBack}
+        categoryListData={categoryListData}
+        subCategoryListData={categoryListData}
       />
     ) : null;
   };
@@ -236,7 +262,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
   useEffect(() => {
     // console.log('edit', editing);
     // renderMSForm();
-  }, [editing]);
+    setActiveStep(0)
+  }, [editing,modalState]);
 
   // useEffect(() => {
   //   fetchBrandDetail();

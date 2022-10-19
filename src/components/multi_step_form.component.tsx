@@ -5,6 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import Lottie from 'react-lottie';
 
 import { EastTwoTone, KeyboardBackspaceTwoTone } from '@mui/icons-material';
+
 const useStyles = makeStyles(() => ({
   button: {
     marginRight: 5,
@@ -49,7 +50,10 @@ const MultiPartForm = (props: MultiPartFormProps) => {
     handleNextBtn,
     allSteps,
     handleBackBtn,
-    defaultValues,isFormComplete
+    defaultValues,
+    isFormComplete,
+    categoryListData,
+    subCategoryListData,
   } = props;
 
   const classes = useStyles();
@@ -115,6 +119,8 @@ const MultiPartForm = (props: MultiPartFormProps) => {
                 type="submit"
               >
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                {/* active step {activeStep}
+                steps.length {steps.length} */}
               </Button>
             </form>
           </FormProvider>

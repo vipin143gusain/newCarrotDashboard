@@ -9,7 +9,7 @@ import { setModalState } from '@/store/slices/modal_watcher';
 // import Feed from 'oldrefs/content/Management/Users/details/Feed';
 // import PopularTags from 'oldrefs/content/Management/Users/details/PopularTags';
 // import ProfileCover from '@/content/Management/Users/details/ProfileCover';
-// import RecentActivity from 'oldrefs/content/Management/Users/details/RecentActivity';
+import RecentActivity from '@/components/recent_activity.component'; 
 import { brand } from '@/store/slices/brand';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,9 +49,9 @@ const ManagementUserProfile = () => {
 
             {brandInfo?.name ? (
               <>
-                {/* <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={4}>
                   <RecentActivity />
-                </Grid> */}
+                </Grid>
                 {/* <Grid item xs={12} md={8}>
               <Feed offerData={offerData} feedType="offers" />
             </Grid>
