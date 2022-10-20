@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import Footer from '@/components/footer.component';
 import TaskSearch from '@/components/tab_views.component';
 import SidebarLayout from '@/layouts/side_bar';
 import { addOffer } from '@/store/slices/add_offer';
-import { feedCards } from '@/store/slices/feed';
+import { feedCards, getFeedCategory, getFeedSubCategory, getFeedTags, getFeedTheme,getChannel } from '@/store/slices/feed';
 // include styles
 // import categoryData from '@/mockData/categoryData.json';
 // import feedData from '@/mockData/feedData.json';
@@ -96,6 +97,15 @@ function DashboardTasks(props) {
     dispatch(changeTab(value))
   };
 
+
+  useEffect(()=>{
+    dispatch(getFeedCategory());
+    dispatch(getFeedSubCategory());
+    dispatch(getFeedTheme());
+    dispatch(getFeedTags());
+    dispatch(getChannel());
+
+  },[dispatch])
   return (
     <>
       <Head>

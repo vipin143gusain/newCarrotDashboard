@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography,Select,  FormControl,InputLabel,MenuItem,Chip} from '@mui/material';
+import { Box, Grid, TextField, Typography,Select,  FormControl,InputLabel,MenuItem,Chip,Switch} from '@mui/material';
 import { ChangeEvent,useState, useEffect } from 'react';
 import { Controller, useFormContext,useForm } from 'react-hook-form';
 
@@ -18,7 +18,7 @@ interface ControlledFormProps {
 }
 
 export const ControlledForm = (props: ControlledFormProps) => {
-  const { fieldData, formTitle, handleFileChange,categoryListData,
+  const { fieldData, formTitle, handleFileChange,categoryListData,channelListData,
     subCategoryListData, } = props;
 
   const {
@@ -129,7 +129,8 @@ export const ControlledForm = (props: ControlledFormProps) => {
                               multiple={i.multiple}
                               variant="outlined"
                               value={market[`${i.name}`]}
-                              // {...register(i.name, validationProps)}
+                              {...register(i.name)}
+                            {...field}
                               onChange={(event: any) => {
                                 setMarket({
                                   ...market,
@@ -154,7 +155,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
                                   </MenuItem>
                                 ))}
                               {i.name === 'channels' &&
-                                i.options.map((option) => (
+                                channelListData.map((option) => (
                                   <MenuItem key={option.id} value={option}>
                                     {option?.name ? option.name : option}
                                   </MenuItem>
@@ -226,7 +227,8 @@ export const ControlledForm = (props: ControlledFormProps) => {
                             multiple={false}
                             variant="outlined"
                             value={market[`${name}`]}
-                            // {...register(i.name, validationProps)}
+                            {...register(i.name)}
+                            {...field}
                             onChange={(event: any) => {
                               setMarket({
                                 ...market,
@@ -237,14 +239,14 @@ export const ControlledForm = (props: ControlledFormProps) => {
                           >
                             {i.name === 'price_rating' &&
                               i.options.map((option) => (
-                                <MenuItem key={option.id} value={option}>
-                                  {option?.name ? option.name : option}
+                                <MenuItem key={option} value={option}>
+                                  {option}
                                 </MenuItem>
                               ))}
                             {i.name === 'brand_rating' &&
                               i.options.map((option) => (
-                                <MenuItem key={option.id} value={option}>
-                                  {option?.name ? option.name : option}
+                                <MenuItem key={option} value={option}>
+                                  {option}
                                 </MenuItem>
                               ))}
 
@@ -322,6 +324,26 @@ export const ControlledForm = (props: ControlledFormProps) => {
                     
                     }
                   />
+
+                }
+                {
+                  i.type==="switch"&&(
+                    <>
+                    
+                    <label htmlFor="">{i.label} </label>
+                    <Switch 
+                    
+                     {...register(i.name)}
+                     {...field}
+                    
+                    checked={getValues(i.name)} 
+                    // onChange={()=>{
+                    //   console.log(field)
+                    // }}
+                    color="success" />
+
+                    </>
+                  )
 
                 }
                 

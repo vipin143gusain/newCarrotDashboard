@@ -8,7 +8,7 @@ export const adminPageThree = [
     label: 'Price Rating',
     placeholder: 'Price Rating',
     collectionName: 'subcategory',
-    options:[{id:1,name:'1'},{id:2,name:'2'},{id:3,name:'3'},{id:4,name:'4'},{id:5,name:'5'}],
+    options:['1','2','3','4','5'],
     rules: {
       required: {
         value: true,
@@ -35,7 +35,8 @@ export const adminPageThree = [
     label: 'Brand Rating',
     placeholder: 'Brand Rating',
     collectionName: 'subcategory',
-    options:[{id:1,name:'1'},{id:2,name:'2'},{id:3,name:'3'},{id:4,name:'4'},{id:5,name:'5'}],
+    // options:[{id:1,name:'1'},{id:2,name:'2'},{id:3,name:'3'},{id:4,name:'4'},{id:5,name:'5'}],
+    options:['1','2','3','4','5'],
     rules: {
       required: {
         value: true,
@@ -159,6 +160,15 @@ export const adminPageThree = [
     multiple: true,
     options:[{id:1,name:'1'},{id:2,name:'2'},{id:3,name:'3'},{id:4,name:'4'},{id:5,name:'5'}],
     placeholder: 'Ex - https://www.google.co.in'
+  },
+  {
+    title: 'In-app Visibility',
+    type: 'switch',
+    name: 'visibility',
+    id: 'visibility',
+    select: 'switch',
+    defaultValue: false,
+    label: 'In-app Visibility',
   },
   
 ];

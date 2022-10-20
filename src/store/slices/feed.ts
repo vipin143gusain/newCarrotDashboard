@@ -32,6 +32,16 @@ export const getFeedTheme = createAsyncThunk(
     }).then((res) => { return res.data});
   }
 );
+export const getChannel = createAsyncThunk(
+  "feed/getChannel",
+  async () => {
+    return await _serveAPI({
+      method: 'POST',
+        endPoint:
+          'api/admin/channel'
+    }).then((res) => { return res.data});
+  }
+);
 export const getFeedTags = createAsyncThunk(
   "feed/getFeedTags",
   async () => {
@@ -73,6 +83,7 @@ export const Feed = createSlice({
     subCategoryList:[],
     themeList:[],
     tagList:[],
+    channelList:[],
     loading: false,
     error: "",
   },
@@ -152,6 +163,20 @@ export const Feed = createSlice({
       state.tagList = [];
       state.error = action.error.message;
     });
+    // ------- channels -------------
+    builder.addCase(getChannel.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getChannel.fulfilled, (state, action) => {
+      state.loading = false;
+      state.channelList = action.payload;
+      state.error = "";
+    });
+    builder.addCase(getChannel.rejected, (state, action) => {
+      state.loading = false;
+      state.channelList = [];
+      state.error = action.error.message;
+    });
 
     // ------- DELETE FEED CARD ACTION -----------
     builder.addCase(deleteFeedCard.pending, (state) => {
@@ -178,6 +203,7 @@ export const categoryList = (state: AppState) => state.feed.categoryList;
 export const subCategoryList = (state: AppState) => state.feed.subCategoryList;
 export const themeList = (state: AppState) => state.feed.themeList;
 export const tagList = (state: AppState) => state.feed.tagList;
+export const channelList = (state: AppState) => state.feed.channelList;
 export const loadingFeed = (state: AppState) => state.feed.loading;
 
 export default Feed.reducer;

@@ -1069,10 +1069,10 @@ const TaskSearch = (
     dispatch(getCategory({ walletId, qc_status: filter }));
     dispatch(getFeedCards({ walletId, qc_status: filter }));
     dispatch(getOffer({ walletId, qc_status: filter }));
-    dispatch(getFeedCategory());
-    dispatch(getFeedSubCategory());
-    dispatch(getFeedTheme());
-    dispatch(getFeedTags());
+    // dispatch(getFeedCategory());
+    // dispatch(getFeedSubCategory());
+    // dispatch(getFeedTheme());
+    // dispatch(getFeedTags());
   }, [dispatch, filter]);
 
   return (

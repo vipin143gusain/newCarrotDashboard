@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -23,6 +24,8 @@ import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import Chip from '@mui/material/Chip';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { categoryList, channelList, subCategoryList } from '@/store/slices/feed';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -70,10 +73,22 @@ const StyledRating = styled(Rating)({
 
 function RecentActivity() {
   const theme = useTheme();
+  const _theBrand = useSelector((state) => state.brand.brand);
   const [_priceRating, setPriceRating] = useState(0); // initial rating value
   const [_brandRating, setBrandRating] = useState(0); // initial rating value
+  const categoryListData = useSelector(categoryList);
+  const subCategoryListData = useSelector(subCategoryList);
+  const channelListData = useSelector(channelList);
 
   const [personName, setPersonName] = React.useState<string[]>([]);
+  const [market, setMarket] = useState({
+    category_ids: [],
+    gender: '',
+    tag_ids: [],
+    theme_ids: [],
+    sub_category_ids: [],
+    channels:[]
+  });
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -86,6 +101,17 @@ function RecentActivity() {
       typeof value === 'string' ? value.split(',') : value
     );
   };
+
+  useEffect(()=>{
+
+    market.channels= _theBrand?.channels&&_theBrand?.channels.length>0?_theBrand?.channels.map((el,index)=>{ return {id:(index+1),name:el} }):[],
+    market.category_ids=_theBrand?.categories?_theBrand?.categories:[]
+    market.sub_category_ids=_theBrand?.sub_categories?_theBrand?.sub_categories:[],
+    setMarket({
+      ...market
+    })
+
+  },[_theBrand])
 
   return (
     <Card>
@@ -116,7 +142,8 @@ function RecentActivity() {
             <StyledRating
               name="customized-color"
               defaultValue={2}
-              value={_priceRating}
+              readOnly
+              value={_theBrand.price_rating}
               onChange={(event, newValue) => {
                 setPriceRating(newValue);
                 console.log(event)
@@ -147,7 +174,8 @@ function RecentActivity() {
            
             <Rating
               name="simple-controlled"
-              value={_brandRating}
+              readOnly
+              value={_theBrand.brand_rating}
               size="large"
               onChange={(event, newValue) => {
                 setBrandRating(newValue);
@@ -182,31 +210,27 @@ function RecentActivity() {
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               multiple
-              value={personName}
+              readOnly
+              value={market.category_ids}
               style={{ width: '100%' }}
               onChange={handleChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: 0.5,
-                    overflowX: 'scroll'
-                  }}
-                >
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
+              renderValue={(selected) => {
+                return (
+                  <div>
+                    {selected.map((value) => (
+                      <Chip key={value.name} label={value.name} />
+                    ))}
+                  </div>
+                );
+              }}
               MenuProps={MenuProps}
             >
-              {names.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
-                </MenuItem>
-              ))}
+              {categoryListData.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                      {option?.name ? option.name : option}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
           <Typography
@@ -225,29 +249,64 @@ function RecentActivity() {
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               multiple
-              value={personName}
+              value={market.sub_category_ids}
               style={{ width: '100%' }}
               onChange={handleChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: 0.5,
-                    overflowX: 'scroll'
-                  }}
-                >
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
+              renderValue={(selected) => {
+                return (
+                  <div>
+                    {selected.map((value) => (
+                      <Chip key={value.name} label={value.name} />
+                    ))}
+                  </div>
+                );
+              }}
               MenuProps={MenuProps}
             >
-              {names.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
+              {
+              subCategoryListData.map((option) => (
+                <MenuItem key={option.id} value={option}>
+                  {option?.name ? option.name : option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Typography
+            sx={{
+              fontSize: `${theme.typography.pxToRem(17)}`,
+              fontWeight: 'bold',
+              color: 'white',
+              marginTop: '10px',
+              marginBottom: '10px'
+            }}
+          >
+            Channel
+          </Typography>
+          <FormControl style={{ maxWidth: 240, minWidth: 240 }}>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={market.channels}
+              style={{ width: '100%' }}
+              onChange={handleChange}
+              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+              renderValue={(selected) => {
+                return (
+                  <div>
+                    {selected.map((value) => (
+                      <Chip key={value.name} label={value.name} />
+                    ))}
+                  </div>
+                );
+              }}
+              MenuProps={MenuProps}
+            >
+              {
+              channelListData.map((option) => (
+                <MenuItem key={option.id} value={option}>
+                  {option?.name ? option.name : option}
                 </MenuItem>
               ))}
             </Select>
@@ -261,9 +320,20 @@ function RecentActivity() {
         </AvatarPrimary>
         <Box pl={2} flex={1}>
           <TextField
+          disabled
             id="outlined-search"
             label="Brand Cashback"
             fullWidth
+            value={_theBrand.brand_cashback}
+            placeholder="eg. 10% Off"
+          />
+          <Divider />
+          <TextField
+          disabled
+            id="outlined-search"
+            label="validity_of_cashback"
+            fullWidth
+            value={_theBrand.validity_of_cashback}
             placeholder="eg. 10% Off"
           />
           <Divider />
@@ -275,8 +345,9 @@ function RecentActivity() {
               marginTop: '10px'
             }}
           >
+            
             In-app Visibility
-            <Switch defaultChecked color="success" />
+            <Switch readOnly checked={_theBrand.visiblity===1?true:false} color="success" />
           </Typography>
         </Box>
       </Box>

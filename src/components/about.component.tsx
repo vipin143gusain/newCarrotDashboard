@@ -25,6 +25,7 @@ import {
 import {
   categoryList,
   subCategoryList,
+  channelList
 } from '@/store/slices/feed';
 
 import PropTypes from 'prop-types';
@@ -45,6 +46,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
   const fileUpload = useSelector(getFileUpload);
   const categoryListData = useSelector(categoryList);
   const subCategoryListData = useSelector(subCategoryList);
+  const channelListData = useSelector(channelList);
 
   const _theBrand = useSelector((state) => state.brand.brand);
   const loading = useSelector((state) => state.brand.loading);
@@ -68,7 +70,16 @@ const ProfileCover = (props: ProfileCoverProps) => {
       brand_colour: '',
       primary_offer: '',
       banner: '',
-      logo: ''
+      logo: '',
+      price_rating:"",
+      brand_rating:"",
+      category_ids:[],
+      sub_category_ids:[],
+      brand_cashback:"",
+      validity_of_cashback:"",
+      channels:[],
+      visibility:false
+
     }
   });
 
@@ -102,6 +113,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
           handleFileChange={handleFileChange}
           categoryListData={categoryListData}
         subCategoryListData={subCategoryListData}
+        channelListData={channelListData}
         />
       )
     },
@@ -115,6 +127,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
           handleFileChange={handleFileChange}
           categoryListData={categoryListData}
           subCategoryListData={subCategoryListData}
+          channelListData={channelListData}
         />
       )
     },
@@ -128,6 +141,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
           handleFileChange={handleFileChange}
           categoryListData={categoryListData}
         subCategoryListData={subCategoryListData}
+        channelListData={channelListData}
         />
       )
     },
@@ -150,6 +164,13 @@ const ProfileCover = (props: ProfileCoverProps) => {
         };
         payload.logo_file_key=payload.logo_file_key?payload.logo_file_key:payload.logo_file_key_edit;
         payload.banner_file_key=payload.banner_file_key?payload.banner_file_key:payload.banner_file_key_edit;
+        payload.channels = values.channels.map(chan=>chan.name);
+        payload.category_ids=values.category_ids.map(cat=>cat.id);
+        payload.sub_category_ids=values.sub_category_ids.map(subCat=>subCat.id);
+        payload.price_rating=values.price_rating;
+        payload.brand_rating=values.brand_rating;
+        payload.visibility=values.visibility?1:0;
+
 
         // Object.keys(payload).map((el) => {
         //   if ((payload[`${el}`] == null)||(payload[`${el}`] == "")) {
@@ -231,7 +252,15 @@ const ProfileCover = (props: ProfileCoverProps) => {
           brand_colour: _theBrand?.brand_colour,
           primary_offer: _theBrand?.primary_offer,
           logo_file_key_edit:_theBrand?.logo_file_key,
-          banner_file_key_edit:_theBrand?.banner_file_key
+          banner_file_key_edit:_theBrand?.banner_file_key,
+          channels:_theBrand?.channels&&_theBrand?.channels.length>0?_theBrand?.channels.map((el,index)=>{ return {id:(index+1),name:el} }):[],
+          category_ids:_theBrand?.categories?_theBrand?.categories:[],
+          sub_category_ids:_theBrand?.sub_categories?_theBrand?.sub_categories:[],
+          price_rating:_theBrand?.price_rating,
+          brand_rating:_theBrand?.brand_rating,
+          validity_of_cashback:_theBrand?.validity_of_cashback,
+          brand_cashback:_theBrand?.brand_cashback,
+          visibility:_theBrand?.visibility==1?true:false,
           // banner: _theBrand.banner,
         }
       });
@@ -253,6 +282,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         handleBackBtn={handleBack}
         categoryListData={categoryListData}
         subCategoryListData={categoryListData}
+        channelListData={channelListData}
       />
     ) : null;
   };
