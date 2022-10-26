@@ -88,6 +88,42 @@ export const singleOfferOne = [
     placeholder: ''
   },
   {
+    title: 'Valid From',
+    type: 'date',
+    name: 'start_date',
+    id: 'start_date',
+    select: false,
+    multiple: false,
+    defaultValue: null,
+    label: 'Valid From',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Sub cat is required'
+      // }
+    },
+    options: ['Male', 'Female'],
+    placeholder: 'Valid From'
+  },
+  {
+    title: 'Valid To',
+    type: 'date',
+    name: 'end_date',
+    id: 'end_date',
+    select: false,
+    multiple: false,
+    defaultValue: null,
+    label: 'Valid To',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Sub cat is required'
+      // }
+    },
+    options: ['Male', 'Female'],
+    placeholder: 'Valid To'
+  },
+  {
     title: 'Order',
     type: 'text',
     name: 'display_order',
@@ -114,6 +150,67 @@ export const singleOfferOne = [
       }
     }
   },
+  {
+    title: 'Age From',
+    type: 'text',
+    name: 'from_age',
+    id: 'from_age',
+    select: false,
+    multiple: false,
+    defaultValue: '',
+    label: 'Age From',
+    placeholder: 'Age From',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Order is required'
+      // },
+
+      minLength: {
+        value: 1,
+        message: 'Please enter min 1 characters'
+      },
+      pattern: {
+        value: /^[1-9]$|^[1-9]\d$|^10[0-0]$/,
+        message: 'Between 1-100 allowed only'
+      },
+      maxLength: {
+        value: 3,
+        message: 'Please enter max 3 characters'
+      }
+    }
+  },
+  {
+    title: 'Age To',
+    type: 'text',
+    name: 'to_age',
+    id: 'to_age',
+    select: false,
+    multiple: false,
+    defaultValue: '',
+    label: 'Age To',
+    placeholder: 'Age To',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Order is required'
+      // },
+
+      minLength: {
+        value: 1,
+        message: 'Please enter min 1 characters'
+      },
+      pattern: {
+        value: /^[1-9]$|^[1-9]\d$|^10[0-0]$/,
+        message: 'Between 1-100 allowed only'
+      },
+      maxLength: {
+        value: 3,
+        message: 'Please enter max 3 characters'
+      }
+    }
+  },
+
   {
     title: 'Name',
     type: 'text',

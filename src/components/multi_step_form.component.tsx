@@ -3,6 +3,8 @@ import { Button, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FormProvider, useForm } from 'react-hook-form';
 import Lottie from 'react-lottie';
+import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
+
 
 import { EastTwoTone, KeyboardBackspaceTwoTone } from '@mui/icons-material';
 
@@ -40,11 +42,13 @@ interface MultiPartFormProps {
   allSteps?: any;
   onChange?:any;
   handleFileChange?:any;
-  isFormComplete?:boolean
+  isFormComplete?:boolean,
+  isSubmitting?:boolean
 }
 
 const MultiPartForm = (props: MultiPartFormProps) => {
   const {
+    isSubmitting,
     activeStep,
     stepData,
     handleNextBtn,
@@ -96,7 +100,21 @@ const MultiPartForm = (props: MultiPartFormProps) => {
         </Typography>
         </>
         
-      ) : ( 
+      ) :isSubmitting?(
+        <>
+        <Lottie
+          options={{
+            loop: true,
+            autoplay: true,
+            animationData: loaderIcon
+          }}
+          height={150}
+          width={150}
+          // isStopped={this.state.isStopped}
+          // isPaused={this.state.isPaused}
+        />
+        </>
+      ): ( 
         <>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(handleNextBtn)}>

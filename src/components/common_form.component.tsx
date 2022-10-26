@@ -16,6 +16,8 @@ import {
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import Lottie from 'react-lottie';
+import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
 
 interface CommonFormProps {
   template: Array<{
@@ -68,6 +70,7 @@ interface CommonFormProps {
 
 export const CommonForm = (props: CommonFormProps) => {
   const {
+    isSubmitting,
     template,
     onSubmitForm,
     onWithdrawClick,
@@ -542,12 +545,31 @@ export const CommonForm = (props: CommonFormProps) => {
     );
   };
 
+  if(isSubmitting){
+    return (
+<Lottie
+      options={{
+        loop: true,
+        autoplay: true,
+        animationData: loaderIcon
+      }}
+      height={150}
+      width={150}
+      // isStopped={this.state.isStopped}
+      // isPaused={this.state.isPaused}
+    />
+    )
+  }else{
+    
+
   return (
     // <FormProvider {...methods} >
+    
 
     <form onSubmit={handleSubmit(onSubmitForm)}>
       <FormControl>
-        <div style={containerStyle}>{renderFields(template)}</div>
+        <div style={containerStyle}>{
+        renderFields(template)}</div>
         <Divider style={{ marginTop: 15 }} />
         <Grid
           container
@@ -727,7 +749,10 @@ export const CommonForm = (props: CommonFormProps) => {
         </Grid>
       </FormControl>
     </form>
+    
 
     // </FormProvider>
   );
+
+      }
 };

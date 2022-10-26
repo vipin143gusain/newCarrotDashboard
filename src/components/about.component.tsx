@@ -51,6 +51,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
   const _theBrand = useSelector((state) => state.brand.brand);
   const loading = useSelector((state) => state.brand.loading);
   const error = useSelector((state) => state.brand.error);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // const { brand, loading, error } = useSelector((state) => state.brand.brand)
   const dispatch = useDispatch();
 
@@ -153,6 +154,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         setActiveStep(activeStep + 1);
 
         console.log('last step');
+        setIsSubmitting(true);
 
         let payload = {
           ...values,
@@ -194,6 +196,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
 
        
         setIsComplete(true);
+       
 
         let timeOut;
         timeOut = setTimeout(()=>{
@@ -202,7 +205,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
           setIsComplete(false);
           setediting(false)
           if(timeOut){
-            clearTimeout(timeOut)
+            clearTimeout(timeOut);
+            setIsSubmitting(false);
           }
 
         },2000)
@@ -228,6 +232,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         // );
       }
     } catch (error) {
+      setIsSubmitting(false);
       console.log('api failed',error.message);
     }
   };
@@ -273,6 +278,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
     return abtValues.defaultValues.name !== '' ? (
       <MultiPartForm
         isFormComplete={isComplete}
+        isSubmitting={isSubmitting}
         stepData={stepsData}
         allSteps={allSteps}
         handleFileChange={handleFileChange}

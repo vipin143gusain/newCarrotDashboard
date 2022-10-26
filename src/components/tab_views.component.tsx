@@ -178,6 +178,7 @@ const TaskSearch = (
   const themeListData = useSelector(themeList);
   const tagListData = useSelector(tagList);
   const dispatch = useDispatch<AppDispatch>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [mode, setmode] = useState<string>('CREATE');
   const [uploadFilePath, setUploadFilePath] = useState({
     collectionName: '',
@@ -374,8 +375,8 @@ const TaskSearch = (
   };
 
   const onFormSubmit = async (value) => {
-
-    console.log(value)
+    setIsSubmitting(true)
+    
     // return
   
     let objUrl;
@@ -457,12 +458,17 @@ const TaskSearch = (
       if (tsType === 'WALLET_PRODUCT') {
         // dispatch(addProduct(outData));
         await dispatch(addWalletProductAction(outData));
+        
         productTemplate[0].filePath = '';
         dispatch(getProduct({ walletId, qc_status: filter }));
+        setIsSubmitting(false)
         dispatch(setModalState(false));
+       
       } else if (tsType === 'WALLET_CATEGORY') {
+        
         await dispatch(addWalletCategoryAction(outData));
         dispatch(getCategory({ walletId, qc_status: filter }));
+        setIsSubmitting(false)
         dispatch(setModalState(false));
         categoryTemplate[0].filePath = '';
       } else if (tsType === 'WALLET_FEED') {
@@ -474,9 +480,13 @@ const TaskSearch = (
           .then((res) => {
             notify('success', res.message);
             dispatch(getFeedCards({ walletId, qc_status: filter }));
+            setIsSubmitting(false)
             dispatch(setModalState(false));
           })
-          .catch((err) => console.log('error adding feed', err));
+          .catch((err) =>{
+            console.log('error adding feed', err)
+            setIsSubmitting(false)
+          });
       } else if (tsType === 'ADD_OFFER') {
         _serveAPI({
           method: 'POST',
@@ -486,10 +496,14 @@ const TaskSearch = (
           .then((res) => {
             notify('success', res.message);
             dispatch(getOffer({ walletId, qc_status: filter }));
+            setIsSubmitting(false)
             dispatch(setModalState(false));
             addOfferTemplate[0].filePath = '';
           })
-          .catch((err) => console.log('error adding feed', err));
+          .catch((err) =>{
+             console.log('error adding feed', err)
+             setIsSubmitting(false)
+          });
       } else {
       }
     } else {
@@ -497,12 +511,14 @@ const TaskSearch = (
         // dispatch(editProductAction(outData));
         await dispatch(updateProduct(outData));
         dispatch(getProduct({ walletId, qc_status: filter }));
+        setIsSubmitting(false)
         productTemplate[0].filePath = '';
         dispatch(setModalState(false));
       } else if (tsType === 'WALLET_CATEGORY') {
         // dispatch(editCategoryAction(outData));
         await dispatch(updateCategory(outData));
         dispatch(getCategory({ walletId, qc_status: filter }));
+        setIsSubmitting(false)
         dispatch(setModalState(false));
         categoryTemplate[0].filePath = '';
       } else if (tsType === 'WALLET_FEED') {
@@ -514,12 +530,16 @@ const TaskSearch = (
           .then((res) => {
             notify('success', res.message);
             dispatch(getFeedCards({ walletId, qc_status: filter }));
+            setIsSubmitting(false)
             dispatch(setModalState(false));
             singleVideo[0].filePath = '';
             singleVideo[0].thumbPath = '';
             singleOfferOne[0].filePath = '';
           })
-          .catch((err) => console.log('error adding feed', err));
+          .catch((err) =>{
+            console.log('error adding feed', err)
+            setIsSubmitting(false)
+          });
       } else if (tsType === 'ADD_OFFER') {
         _serveAPI({
           method: 'PUT',
@@ -529,14 +549,20 @@ const TaskSearch = (
           .then((res) => {
             notify('success', res.message);
             dispatch(getOffer({ walletId, qc_status: filter }));
+            setIsSubmitting(false)
             dispatch(setModalState(false));
             addOfferTemplate[0].filePath = '';
           })
-          .catch((err) => console.log('error adding feed', err));
+          .catch((err) =>{
+             console.log('error adding feed', err)
+             setIsSubmitting(false)
+          });
       } else {
         console.log('selection type not available');
+        setIsSubmitting(false)
       }
     }
+   
   };
 
   const [dataOne, setdataOne] = useState({
@@ -676,6 +702,7 @@ const TaskSearch = (
   };
 
   const submitDoubleOfferTwo = (values) => {
+    setIsSubmitting(true)
     let data = {
       ...values,
       gender: 'M',
@@ -719,13 +746,17 @@ const TaskSearch = (
         data: data
       })
         .then((res) => {
+          setIsSubmitting(true)
           notify('success', res.message);
           dispatch(getFeedCards({ walletId, qc_status: filter }));
           dispatch(setModalState(false));
           doubleOfferOne[0].filePath = '';
           doubleOfferTwo[0].filePath = '';
         })
-        .catch((err) => console.log('error adding feed', err));
+        .catch((err) => {
+          console.log('error adding feed', err)
+          setIsSubmitting(false)
+        });
     } else {
       data.updated_by = 100;
       delete data.created_by;
@@ -739,14 +770,19 @@ const TaskSearch = (
         data: data
       })
         .then((res) => {
+          setIsSubmitting(false)
           notify('success', res.message);
           dispatch(getOffer({ walletId, qc_status: filter }));
           dispatch(setModalState(false));
           doubleOfferOne[0].filePath = '';
           doubleOfferTwo[0].filePath = '';
         })
-        .catch((err) => console.log('error adding feed', err));
+        .catch((err) => {
+          console.log('error adding feed', err)
+          setIsSubmitting(false)
+        });
     }
+    
   };
 
   const handleChangeAcc =
@@ -957,6 +993,7 @@ const TaskSearch = (
                 collectionName: 'subcategory'
               }}
               // defaultValues={}
+              isSubmitting={isSubmitting}
               mode={mode}
               onWithdrawClick={(id: number) => {
                 console.log(id);
@@ -1004,6 +1041,7 @@ const TaskSearch = (
                 borderRadius: '10px',
                 collectionName: 'subcategory'
               }}
+              isSubmitting={isSubmitting}
               categoryListData={categoryListData}
               subCategoryListData={subCategoryListData}
               themeListData={themeListData}
@@ -1404,6 +1442,7 @@ const TaskSearch = (
                       borderRadius: '10px',
                       collectionName: 'subcategory'
                     }}
+                    isSubmitting={isSubmitting}
                     categoryListData={categoryListData}
                     subCategoryListData={subCategoryListData}
                     themeListData={themeListData}
@@ -1580,6 +1619,7 @@ const TaskSearch = (
                       borderRadius: '10px',
                       collectionName: 'subcategory'
                     }}
+                    isSubmitting={isSubmitting}
                     categoryListData={categoryListData}
                     subCategoryListData={subCategoryListData}
                     themeListData={themeListData}
@@ -1755,6 +1795,7 @@ const TaskSearch = (
                   borderRadius: '10px',
                   collectionName: 'subcategory'
                 }}
+                isSubmitting={isSubmitting}
                 categoryListData={categoryListData}
                 subCategoryListData={subCategoryListData}
                 themeListData={themeListData}
