@@ -13,6 +13,7 @@ import { productTemplate } from '@/models/templates/forms/wallet_product/product
 import { BrandTabTypes } from '@/models/types/brand_tabtype';
 import { OfferTypes } from '@/models/types/offers';
 import { hexToRgb } from '@/models/templates/forms/wallet_product/imageHeightWidthCalc';
+import moment from 'moment';
 import {
   deleteOffer,
   getOffer,
@@ -292,6 +293,8 @@ const TaskSearch = (
       text: 'jhgfdd',
       description: '',
       weblink_url: '',
+      start_date:null,
+      end_date:null,
       media_type: 'image',
       media_file: '',
       display_order: 1,
@@ -319,6 +322,8 @@ const TaskSearch = (
       campaign_id: '',
       name: '',
       text: '',
+      start_date:null,
+      end_date:null,
       description: '',
       weblink_url: '',
       media_type: 'image',
@@ -440,19 +445,24 @@ const TaskSearch = (
     if (formType === 'SINGLE_VIDEO_TYPE') {
       outData.media_type = 'video';
       outData.widget_id = 3;
-      outData.video_earn = 0;
+      outData.video_earn = outData.video_earn=="Yes"?1:0;
       outData.widget_type = 'single_video';
       outData.media_source = 'AWS';
       outData.video_thumbnail = singleVideo[0].thumbPath;
     }
     
     Object.keys(outData).map((el) => {
-      if ((outData[`${el}`] == null)||(outData[`${el}`] == "")) {
+      if ((outData[`${el}`] == null)||(outData[`${el}`] === "")) {
         delete outData[`${el}`];
+      }
+
+      if(moment.isMoment(outData[`${el}`])){
+        outData[`${el}`]= moment(outData[`${el}`]).format('YYYY-MM-DD hh:mm:ss')
       }
     });
 
-
+    
+   
 
     if (mode === 'CREATE') {
       if (tsType === 'WALLET_PRODUCT') {
@@ -592,7 +602,7 @@ const TaskSearch = (
       widget_type: '',
       widget_id: 5,
       campaign_id: '',
-      wallet_id: '',
+      wallet_id: walletId,
       display_order: 0,
       qc_status: '',
       qc_status_asset: '',
@@ -647,6 +657,7 @@ const TaskSearch = (
       updated_by: null,
       updated_on: null,
       is_active: 1,
+      wallet_id: walletId,
       state_status: 2,
       video_thumbnail: null,
       video_earn: null,
@@ -691,10 +702,14 @@ const TaskSearch = (
     data.widget_type = 'double_offer';
     data.image_color = '204,164,148';
     data.image_resolution = 'landscape';
+    data.wallet_id= walletId,
 
     Object.keys(data).map((el) => {
-      if (data[`${el}`] == null) {
+      if (data[`${el}`] === null) {
         delete data[`${el}`];
+      }
+      if(moment.isMoment(data[`${el}`])){
+        data[`${el}`]= moment(data[`${el}`]).format('YYYY-MM-DD hh:mm:ss')
       }
     });
     setdataOne(data);
@@ -731,10 +746,14 @@ const TaskSearch = (
     data.widget_type = 'double_offer';
     data.image_color = '204,164,148';
     data.image_resolution = 'landscape';
+    data.wallet_id= walletId,
 
     Object.keys(data).map((el) => {
-      if ((data[`${el}`] == null)||(data[`${el}`] == "")) {
+      if ((data[`${el}`] == null)||(data[`${el}`] === "")) {
         delete data[`${el}`];
+      }
+      if(moment.isMoment(data[`${el}`])){
+        data[`${el}`]= moment(data[`${el}`]).format('YYYY-MM-DD hh:mm:ss')
       }
     });
     data.sibling_item = dataOne;
@@ -1222,10 +1241,12 @@ const TaskSearch = (
             data={data}
             loadingData={loadingFeedData}
             onEditClick={(value) => {
+              console.log(value)
               feedDefault.defaultValues={...feedDefault.defaultValues,...value};
               feedDefault.purpose="";
               setFeedDefault({
                 ...feedDefault,
+                ...value
               });
               setselectionType('Feed');
               setmode('EDIT');

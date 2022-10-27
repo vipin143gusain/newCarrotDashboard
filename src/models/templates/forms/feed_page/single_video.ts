@@ -66,9 +66,9 @@ export const singleVideo = [
   },
 
   {
-    title: 'Select Gender',
+    title: 'Video earn',
     type: 'select',
-    name: 'gender',
+    name: 'video_earn',
     id: 'gender',
     select: 'select',
     multiple: false,
@@ -76,6 +76,41 @@ export const singleVideo = [
     label: 'Earn Video',
     options: ['Yes', 'No'],
     placeholder: 'Earn Video'
+  },
+  {
+    title: 'Valid From',
+    type: 'date',
+    name: 'start_date',
+    id: 'start_date',
+    select: false,
+    multiple: false,
+    defaultValue: null,
+    label: 'Valid From',
+    placeholder: 'Valid From',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Sub cat is required'
+      // }
+    },
+  },
+  {
+    title: 'Valid To',
+    type: 'date',
+    name: 'end_date',
+    id: 'end_date',
+    select: false,
+    multiple: false,
+    defaultValue: null,
+    label: 'Valid To',
+    placeholder: 'Valid To',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Sub cat is required'
+      // },
+      
+    },
   },
   {
     title: 'Order',

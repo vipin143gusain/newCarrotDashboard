@@ -88,42 +88,6 @@ export const singleOfferOne = [
     placeholder: ''
   },
   {
-    title: 'Valid From',
-    type: 'date',
-    name: 'start_date',
-    id: 'start_date',
-    select: false,
-    multiple: false,
-    defaultValue: null,
-    label: 'Valid From',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Sub cat is required'
-      // }
-    },
-    options: ['Male', 'Female'],
-    placeholder: 'Valid From'
-  },
-  {
-    title: 'Valid To',
-    type: 'date',
-    name: 'end_date',
-    id: 'end_date',
-    select: false,
-    multiple: false,
-    defaultValue: null,
-    label: 'Valid To',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Sub cat is required'
-      // }
-    },
-    options: ['Male', 'Female'],
-    placeholder: 'Valid To'
-  },
-  {
     title: 'Order',
     type: 'text',
     name: 'display_order',
@@ -149,6 +113,41 @@ export const singleOfferOne = [
         message: 'Please enter max 3 characters'
       }
     }
+  },
+  {
+    title: 'Valid From',
+    type: 'date',
+    name: 'start_date',
+    id: 'start_date',
+    select: false,
+    multiple: false,
+    defaultValue: null,
+    label: 'Valid From',
+    placeholder: 'Valid From',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Sub cat is required'
+      // }
+    },
+  },
+  {
+    title: 'Valid To',
+    type: 'date',
+    name: 'end_date',
+    id: 'end_date',
+    select: false,
+    multiple: false,
+    defaultValue: null,
+    label: 'Valid To',
+    placeholder: 'Valid To',
+    validationProps: {
+      // required: {
+      //   value: true,
+      //   message: 'Sub cat is required'
+      // },
+      
+    },
   },
   {
     title: 'Age From',
