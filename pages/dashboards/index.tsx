@@ -16,12 +16,12 @@ import { getModalState, setModalState } from '@/store/slices/modal_watcher';
 import { changeTab } from '@/store/slices/search';
 import { walletCategory } from '@/store/slices/wallet_category';
 import { walletProduct } from '@/store/slices/wallet_product';
+import { categoryList,subCategoryList } from '@/store/slices/feed';
 
 import GridTable from '@/components/table.component';
 import { dummy } from '@/dummy/cat';
 import { sub } from '@/dummy/sub';
 import { AppDispatch } from '@/store';
-import { setProfileData } from '@/store/slices/profile';
 import {
   CategoryTwoTone,
   DynamicFeedTwoTone,
@@ -32,16 +32,20 @@ import {
   Box,
   Container,
   Divider,
-  Grid,
-  styled,
-  Tab,
-  Tabs
+  Grid, styled,
+  Tab, Tabs
 } from '@mui/material';
 import Head from 'next/head';
 import ManagementUserProfile from 'pages/management/profile/index';
 import { ChangeEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  useDispatch,
+
+  useSelector
+} from 'react-redux';
 import 'rodal/lib/rodal.css';
+import { CommonForm } from '@/components/common_form.component';
+import { categoryTemplate } from '@/models/templates/forms/wallet_category/category_template';
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -73,6 +77,9 @@ function DashboardTasks(props) {
 
   // const profile = useSelector(selectProfile);
   const modalCurrentState = useSelector(getModalState);
+  const categoryListData = useSelector(categoryList);
+  const subCategoryListData = useSelector(subCategoryList);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // const dispatch = useDispatch()
   const [currentTab, setCurrentTab] = useState<string>('about');
   // const [arr, setarr] = useState([])
@@ -95,22 +102,16 @@ function DashboardTasks(props) {
     },
     { value: 'feed', label: 'Feed', tabicon: <DynamicFeedTwoTone /> },
     { value: 'addOffer', label: 'Add Offer', tabicon: <DynamicFeedTwoTone /> },
-    {
-      value: 'carrot_category',
-      label: 'Categories',
-      tabicon: <DynamicFeedTwoTone />
-    },
-    {
-      value: 'carrot_subcategory',
-      label: 'Sub Categories',
-      tabicon: <DynamicFeedTwoTone />
-    }
+    { value: 'carrot_category', label: 'Categories', tabicon: <DynamicFeedTwoTone /> },
+    { value: 'carrot_subcategory', label: 'Sub Categories', tabicon: <DynamicFeedTwoTone /> }
   ];
 
   const handleTabsChange = (_event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);
     dispatch(changeTab(value));
   };
+
+  
 
   useEffect(() => {
     dispatch(getFeedCategory());
@@ -120,51 +121,46 @@ function DashboardTasks(props) {
     dispatch(getChannel());
   }, [dispatch]);
 
-  const statusOptions = [
-    {
-      id: 'all',
-      name: 'All'
-    },
-    {
-      id: 'active',
-      name: 'Active'
-    },
-    {
-      id: 'inactive',
-      name: 'Inactive'
-    }
-  ];
 
-  const active = {
-    0: {
-      text: 'Inactive',
-      color: 'error'
-    },
-    1: {
-      text: 'Active',
-      color: 'success'
-    }
-  };
 
-  const category_headers = [
-    {
-      name: 'ID'
-    },
-    { name: 'Category' },
-    { name: 'Hex Code' },
-    { name: 'Status' },
-    { name: 'Actions' }
-  ];
 
-  const subcategory_headers = [
-    {
-      name: 'ID'
-    },
-    { name: 'Sub Category' },
-    { name: 'Categories' },
-    { name: 'Status' },
-    { name: 'Actions' }
-  ];
+const statusOptions = [
+  {
+    id: 'all',
+    name: 'All'
+  },
+  {
+    id: 'active',
+    name: 'Active'
+  },
+  {
+    id: 'inactive',
+    name: 'Inactive'
+  },
+ 
+];
+
+const active = {
+  0: {
+    text: 'Inactive',
+    color: 'error'
+  },
+  1: {
+    text: 'Active',
+    color: 'success'
+  }
+};
+
+
+
+const category_headers = [{
+  name:'ID'
+},{name:'Category'},{name:'Hex Code'},{name:'Status'},{name:'Actions'}]
+
+const subcategory_headers = [{
+  name:'ID'
+},{name:'Sub Category'},{name:'Categories'},{name:'Status'},{name:'Actions'}]
+
 
   const TabSwitcher = (tabname: string) => {
     switch (tabname) {
@@ -212,45 +208,41 @@ function DashboardTasks(props) {
         );
 
       case 'carrot_category':
-        return (
-          <GridTable
-            gridHeaders={category_headers}
-            gridType="CATEGORY"
-            data={dummy}
-            title="Carrot Category"
-            filters_suited={statusOptions}
-            customStatusLabel={active}
-            onAdd={() => dispatch(setModalState(true))}
-            onEdit={() => alert('Edited')}
-            onDelete={() => alert('Deleted')}
-          />
-        );
+      return (
+      <GridTable  
+      gridHeaders={category_headers} 
+      gridType='CATEGORY' 
+      data={categoryListData} 
+      title="Carrot Category" 
+      filters_suited={statusOptions} 
+      customStatusLabel={active}
+      onAdd={()=>dispatch(setModalState(true))}
+      onEdit={()=>alert('Edited')}
+      onDelete={()=>alert('Deleted')}
+
+      />
+      )
 
       case 'carrot_subcategory':
-        return (
-          <GridTable
-            gridHeaders={subcategory_headers}
-            gridType="SUBCATEGORY"
-            data={sub}
-            title="Carrot SubCategory"
-            filters_suited={statusOptions}
-            customStatusLabel={active}
-            onAdd={() => dispatch(setModalState(true))}
-            onEdit={() => alert('Edited')}
-            onDelete={() => alert('Deleted')}
-          />
-        );
+      return (
+      <GridTable 
+      gridHeaders={subcategory_headers} 
+      gridType='SUBCATEGORY' 
+      data={subCategoryListData} 
+      title="Carrot SubCategory" 
+      filters_suited={statusOptions} 
+      customStatusLabel={active}
+      onAdd={()=>dispatch(setModalState(true))}
+      onEdit={()=>alert('Edited')}
+      onDelete={()=>alert('Deleted')}
+
+      />
+      )
 
       default:
-        return <h4>Unknown Tab</h4>;
+      return <h4>Unknown Tab</h4>
     }
   };
-
-  useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    dispatch(setProfileData(user));
-  }, []);
-
   return (
     <>
       <Head>
@@ -299,6 +291,8 @@ function DashboardTasks(props) {
         </Grid>
       </Container>
       <Footer />
+
+      
     </>
   );
 }
@@ -306,20 +300,3 @@ function DashboardTasks(props) {
 DashboardTasks.getLayout = (page) => <SidebarLayout>{page}</SidebarLayout>;
 
 export default DashboardTasks;
-
-// server-side call
-export async function getServerSideProps({ req }) {
-  console.log('req dashboard', req);
-  const token = req.cookies.token;
-  if (token == '' || token == undefined) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    };
-  }
-  return {
-    props: { token }
-  };
-}

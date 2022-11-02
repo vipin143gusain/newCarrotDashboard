@@ -90,7 +90,7 @@ export const CommonForm = (props: CommonFormProps) => {
     mode
   } = props;
 
-  // console.log('default value',defaultValues)
+  console.log('default value',defaultValues,mode)
 
   const [market, setMarket] = useState({
     category_ids: [],
@@ -263,6 +263,9 @@ export const CommonForm = (props: CommonFormProps) => {
                   helperText={
                     defaultValues.defaultValues?.image?defaultValues.defaultValues?.image:
                     defaultValues.defaultValues?.media_file?defaultValues.defaultValues?.media_file:
+                    defaultValues.defaultValues?.small_image?defaultValues.defaultValues?.small_image:
+                    defaultValues.defaultValues?.banner_image?defaultValues.defaultValues?.banner_image:
+                    defaultValues.defaultValues?.search_image?defaultValues.defaultValues?.search_image:
                     errors[name]?.message.toString()
                       ? errors[name]?.message.toString()
                       : fields.filePath
@@ -320,7 +323,7 @@ export const CommonForm = (props: CommonFormProps) => {
                             disabled={disabled}
                             labelId="demo-multiple-chip-label"
                             id="demo-multiple-chip"
-                            label={name}
+                            label={title}
                             placeholder={name}
                             // helperText={errors[name]?.message}
                             error={errors[name] ? true : null}
@@ -430,7 +433,7 @@ export const CommonForm = (props: CommonFormProps) => {
                             disabled={disabled}
                             labelId="demo-multiple-chip-label"
                             id="demo-multiple-chip"
-                            label={name}
+                            label={title}
                             placeholder={name}
                             // helperText={errors[name]?.message}
                             error={errors[name] ? true : null}
@@ -479,6 +482,13 @@ export const CommonForm = (props: CommonFormProps) => {
                                 </MenuItem>
                               ))}
 
+                            {name === 'is_active' &&
+                              field.options.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              ))}
+
                             {/* {options.map((option) => (
                         <MenuItem key={option} value={option}>
                           {option?.name?option.name:option}
@@ -517,7 +527,7 @@ export const CommonForm = (props: CommonFormProps) => {
                 disabled={disabled}
                 name={name}
                 id="outlined-required"
-                label={name}
+                label={title}
                 placeholder={placeholder}
                 {...register(name, validationProps)}
                 InputProps={{
