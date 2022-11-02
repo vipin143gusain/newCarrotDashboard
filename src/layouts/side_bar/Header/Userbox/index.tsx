@@ -21,6 +21,7 @@ import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { styled } from '@mui/material/styles';
+import { getCookie } from 'cookies-next';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -58,8 +59,11 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
+  const current_user = JSON.parse(getCookie('user'));
+
+
   const user = {
-    name: 'Adore LLC',
+    name:'ea',
     avatar: '/static/images/placeholders/covers/adorelogo.jpeg',
     jobtitle: 'Brand User Account'
   };

@@ -5,13 +5,14 @@ import { UserTypes } from '@/models/types/user_type';
 import { wrapper } from '@/store';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
+import { getCookies } from 'cookies-next';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
 import nProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import { ReactElement, ReactNode, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import createEmotionCache from 'src/createEmotionCache';
 import ThemeProvider from 'src/theme/ThemeProvider';
 import { LoginContext } from '../src/contexts/login.context';
@@ -42,6 +43,10 @@ const App = (props: CarrotAppProps) => {
   // useEffect(() => {
   //   throw new Error('Sentry Traced SUCCESS')
   // }, [])
+  useEffect(() => {
+     const token = getCookies('token');
+     console.log('token from app.tsx ::', token)
+  }, [])
 
   return (
     <CacheProvider value={emotionCache}>

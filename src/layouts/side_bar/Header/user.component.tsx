@@ -17,10 +17,14 @@ import {
 } from '@mui/material';
 
 import { LoginContext } from '@/contexts/login.context';
+import { AppState } from '@/store';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { styled } from '@mui/material/styles';
+import { deleteCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -58,8 +62,17 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
+  let sd ={};
+
+  const profile = useSelector<AppState>(state=>state.profile.profile)
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    //  sd = JSON.parse(sessionStorage.getItem('user'));
+    // console.log('SD', sd)
+    
+  }
   const user = {
-    name: 'Adore LLC',
+    name: profile.firstname +' '+ profile.lastname,
     avatar: '/static/images/placeholders/covers/adorelogo.jpeg',
     jobtitle: 'Brand User Account'
   };
@@ -67,6 +80,7 @@ function HeaderUserbox() {
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
   const { username } = useContext(LoginContext);
+  const router = useRouter();
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -75,6 +89,18 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
+
+  const handleLogOut = () : void =>{
+
+    deleteCookie('token',{path:'/', sameSite:true});
+    setTimeout(() => {
+      router.replace('/')
+    }, 3000);
+
+    
+  }
+
+
 
   return (
     <>
@@ -126,7 +152,7 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" fullWidth onClick={handleLogOut}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>

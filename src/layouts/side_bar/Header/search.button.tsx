@@ -1,41 +1,29 @@
-import { forwardRef, Ref, useState, ReactElement, ChangeEvent,useCallback  } from 'react';
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import {
-  Avatar,
-  Link,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  InputAdornment,
-  lighten,
-  List,
+  Avatar, Box, Dialog,
+  DialogContent,
+  DialogTitle, Divider, Hidden, IconButton,
+  InputAdornment, Link, List,
   ListItem,
-  ListItemAvatar,
-  TextField,
+  ListItemAvatar, Slide, TextField,
   Theme,
   Tooltip,
-  Typography,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Slide,
-  Hidden
+  Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { TransitionProps } from '@mui/material/transitions';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
+import { ChangeEvent, forwardRef, ReactElement, Ref, useCallback, useState } from 'react';
 
-import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
-import { useSelector,useDispatch } from 'react-redux';
-import { search, TOGGLE_RESULTS,updateWalletId } from '@/store/slices/search';
-import { UPDATE_BRAND_SEARCH } from '@/store/slices/brand';
-import { getProduct } from '@/store/slices/wallet_product';
-import { getCategory } from '@/store/slices/wallet_category';
-import { getFeedCards } from '@/store/slices/feed';
-import { getOffer } from '@/store/slices/add_offer';
-import {throttle,debounce} from 'lodash';
 import { _serveAPI } from '@/api/service';
+import { AppDispatch } from '@/store';
+import { getOffer } from '@/store/slices/add_offer';
+import { UPDATE_BRAND_SEARCH } from '@/store/slices/brand';
+import { getFeedCards } from '@/store/slices/feed';
+import { search, TOGGLE_RESULTS, updateWalletId } from '@/store/slices/search';
+import { getCategory } from '@/store/slices/wallet_category';
+import { getProduct } from '@/store/slices/wallet_product';
+import { throttle } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Transition = forwardRef(function Transition(
@@ -75,7 +63,7 @@ const DialogTitleWrapper = styled(DialogTitle)(
 );
 
 function HeaderSearch() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const searchData = useSelector(search);
@@ -242,7 +230,7 @@ function HeaderSearch() {
                         searchItem?.logo_file_key
                     ? `https://d3nk16lz1ssvqj.cloudfront.net/${searchItem?.logo_file_key}`
                     :
-                    <FindInPageTwoToneIcon />
+                  null
                       }
                     >
                     </Avatar>

@@ -1,8 +1,7 @@
 import FeedCard from '@/components/feed_card.component';
-import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
 import { NoDataFound } from '@/styles/noDataFound';
 import { CommonGridActions } from '@/utils/grid_actions';
-import Lottie from 'react-lottie';
+import { Skeleton } from '@mui/material';
 
 export interface FeedGridProps {
   data?: Array<{
@@ -35,17 +34,27 @@ const FeedGrid = (props: FeedGridProps & CommonGridActions) => {
   return (
     <>
       {loadingData ? (
-        <Lottie
-          options={{
-            loop: true,
-            autoplay: true,
-            animationData: loaderIcon
-          }}
-          height={150}
-          width={150}
-          // isStopped={this.state.isStopped}
-          // isPaused={this.state.isPaused}
-        />
+   
+     <Skeleton>
+      <FeedCard
+      key={'random'}
+      id={1}
+      type={'widget_type'}
+      secondary_image={'i.secondary_image'}
+    
+      title={'i.name || i.title'}
+      feed_id={'i.display_order'}
+      logo={'i.logo'}
+      description={'i.description'}
+      cardInfo={'i'}
+      qc_status_asset={'i.qc_status_asset'}
+      defaultValue={defaultValue}
+      onEditClick={onEditClick}
+      onDeleteClick={onDeleteClick}
+      />
+     </Skeleton>
+    
+
       ) : (
         data &&
         data.map((i) => (

@@ -14,16 +14,6 @@ export const singleVideo = [
     filePath: '',
     thumbPath:"",
     validationProps: {
-      required: {
-        value: function(){
-          return singleVideo[0].filePath?false:true
-        },
-        message: 'You need to upload banner'
-      },
-      validate:{
-        lessThan10MB: (files) => files[0]?.size < 100*1000*1024 || 'Max limit 5MB',
-        imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
-      },
       onChange: async (e) => {
         console.log('change listening');
         const s3Detail = await fileUpload(
@@ -60,15 +50,14 @@ export const singleVideo = [
 
         
 
-      },
-    },
-    accept: 'video/mp4,video/mov'
+      }
+    }
   },
 
   {
-    title: 'Video earn',
+    title: 'Select Gender',
     type: 'select',
-    name: 'video_earn',
+    name: 'gender',
     id: 'gender',
     select: 'select',
     multiple: false,
@@ -76,41 +65,6 @@ export const singleVideo = [
     label: 'Earn Video',
     options: ['Yes', 'No'],
     placeholder: 'Earn Video'
-  },
-  {
-    title: 'Valid From',
-    type: 'date',
-    name: 'start_date',
-    id: 'start_date',
-    select: false,
-    multiple: false,
-    defaultValue: null,
-    label: 'Valid From',
-    placeholder: 'Valid From',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Sub cat is required'
-      // }
-    },
-  },
-  {
-    title: 'Valid To',
-    type: 'date',
-    name: 'end_date',
-    id: 'end_date',
-    select: false,
-    multiple: false,
-    defaultValue: null,
-    label: 'Valid To',
-    placeholder: 'Valid To',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Sub cat is required'
-      // },
-      
-    },
   },
   {
     title: 'Order',

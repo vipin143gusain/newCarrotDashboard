@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -16,7 +15,10 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
+import { useEffect } from 'react';
 
+import { AppState } from '@/store';
+import { categoryList, channelList, subCategoryList } from '@/store/slices/feed';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ReviewsIcon from '@mui/icons-material/Reviews';
@@ -25,7 +27,6 @@ import Chip from '@mui/material/Chip';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { categoryList, channelList, subCategoryList } from '@/store/slices/feed';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,18 +39,7 @@ const MenuProps = {
   }
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder'
-];
+
 
 
 
@@ -73,7 +63,8 @@ const StyledRating = styled(Rating)({
 
 function RecentActivity() {
   const theme = useTheme();
-  const _theBrand = useSelector((state) => state.brand.brand);
+  const _theBrand = useSelector<AppState>((state) => state.brand.brand);
+  
   const [_priceRating, setPriceRating] = useState(0); // initial rating value
   const [_brandRating, setBrandRating] = useState(0); // initial rating value
   const categoryListData = useSelector(categoryList);
@@ -110,6 +101,10 @@ function RecentActivity() {
     setMarket({
       ...market
     })
+if(_theBrand.brand_rating!==0)
+{
+  setBrandRating(_theBrand.brand_rating)
+}
 
   },[_theBrand])
 

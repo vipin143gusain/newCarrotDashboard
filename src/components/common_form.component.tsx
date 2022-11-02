@@ -18,11 +18,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import Lottie from 'react-lottie';
 import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import moment from 'moment';
-
 
 interface CommonFormProps {
   template: Array<{
@@ -102,9 +97,7 @@ export const CommonForm = (props: CommonFormProps) => {
     gender: '',
     tag_ids: [],
     theme_ids: [],
-    sub_category_ids: [],
-    start_date:null,
-    end_date:null
+    sub_category_ids: []
   });
 
   // console.log({
@@ -127,15 +120,15 @@ export const CommonForm = (props: CommonFormProps) => {
     formState: { errors },
     reset,
     setValue,
-    control,
-    getValues
+    control
+    // getValues
   } = useForm({ defaultValues: defaultValues, shouldUnregister: true });
 
   const modalState = useSelector(getModalState);
 
   useEffect(() => {
     // console.log('MARKETS', market);
-    console.log(defaultValues);
+    // console.log(defaultValues);
   }, [market, defaultValues]);
 
   useEffect(() => {
@@ -162,27 +155,6 @@ export const CommonForm = (props: CommonFormProps) => {
           ...market
         });
         setValue('category_ids', categoryDefault);
-      }
-
-      if (
-        defaultValues?.defaultValues &&
-        defaultValues?.defaultValues?.end_date
-      ) {
-        market.end_date = new Date(defaultValues?.defaultValues?.end_date);
-        setMarket({
-          ...market
-        })
-        setValue('end_date', new Date(defaultValues.defaultValues.end_date) )
-      }
-      if (
-        defaultValues?.defaultValues &&
-        defaultValues?.defaultValues?.start_date
-      ) {
-        market.start_date = new Date(defaultValues?.defaultValues?.start_date);
-        setMarket({
-          ...market
-        })
-        setValue('start_date', new Date(defaultValues.defaultValues.start_date) )
       }
 
       if (
@@ -253,13 +225,9 @@ export const CommonForm = (props: CommonFormProps) => {
         gender: '',
         tag_ids: [],
         theme_ids: [],
-        sub_category_ids: [],
-        start_date:new Date(),
-        end_date:new Date()
+        sub_category_ids: []
       });
       reset();
-      // setValue('start_date',null)
-      // setValue('end_date',null)
     } else {
     }
 
@@ -279,7 +247,7 @@ export const CommonForm = (props: CommonFormProps) => {
           placeholder,
           startIcon,
           validationProps,
-          options,
+          // options,
           multiple
           // key
         } = field;
@@ -511,13 +479,6 @@ export const CommonForm = (props: CommonFormProps) => {
                                 </MenuItem>
                               ))}
 
-                            {name === 'video_earn' &&
-                              options.map((option) => (
-                                <MenuItem key={option} value={option}>
-                                  {option}
-                                </MenuItem>
-                              ))}
-
                             {/* {options.map((option) => (
                         <MenuItem key={option} value={option}>
                           {option?.name?option.name:option}
@@ -545,50 +506,7 @@ export const CommonForm = (props: CommonFormProps) => {
                   />
                 )}
               </>
-            ) :type==="date"?(
-              <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          margin: '22px 16px 20px 20px'
-                        }}
-                      >
-              <Controller
-              render={({ field, ...props })=>(
-              <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DesktopDatePicker
-                  label={title}
-                  inputFormat="MM/DD/YYYY"
-                  
-                  {...register(name, validationProps)}
-                  renderInput={(params) => <TextField 
-                    sx={{ width: 350, margin: '5px' }}
-                    fullWidth
-                    {...params} 
-                    />
-                  }
-                  minDate={name=="end_date"?market.start_date:new Date()}
-                  value={market[name]}
-                  onChange={(date) => {
-                    console.log(name)
-                    field.onChange(date);
-                    market[name]=date;
-                    setMarket({...market})
-                    
-                  }}
-                  // disablePast={true}
-                  inputFormat="DD/MM/YYYY"
-                  // {...field}
-                />
-            </LocalizationProvider>
-
-              ) }
-              name={name}
-              control={control}
-              />
-              </div>
-
-              ): (
+            ) : (
               <TextField
                 style={{ margin: '20px' }}
                 helperText={errors[name]?.message}

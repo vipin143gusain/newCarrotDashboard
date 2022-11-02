@@ -4,14 +4,18 @@ import CommonModal from '@/components/common_modal.component';
 import { ControlledForm } from '@/components/controlled_form.component';
 import MultiPartForm from '@/components/multi_step_form.component';
 import { ProfileCoverProps } from '@/models/interfaces/ProfileCoverInterface/about';
+import { adminPageThree } from '@/models/templates/forms/about_page/admin_page_three';
 import { allSteps } from '@/models/templates/forms/about_page/all_steps';
 import { BrandOne } from '@/models/templates/forms/about_page/brand_page_one';
 import { BrandPageTwo } from '@/models/templates/forms/about_page/brand_page_two';
-import { adminPageThree } from '@/models/templates/forms/about_page/admin_page_three';
-import { getBrand, updateBrand, UPDATE_BRAND } from '@/store/slices/brand';
+import { getBrand, updateBrand } from '@/store/slices/brand';
+import {
+  categoryList, channelList, subCategoryList
+} from '@/store/slices/feed';
 import { getFileUpload, setBanner, setLogo } from '@/store/slices/file_upload';
 import { getModalState, setModalState } from '@/store/slices/modal_watcher';
 import { fileUpload as fileUploadApi } from '@/utils/common_upload_image';
+import { truncate_string } from '@/utils/truncate';
 import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import {
@@ -22,11 +26,7 @@ import {
   IconButton,
   Typography
 } from '@mui/material';
-import {
-  categoryList,
-  subCategoryList,
-  channelList
-} from '@/store/slices/feed';
+import Link from 'next/link';
 
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
@@ -49,6 +49,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
   const channelListData = useSelector(channelList);
 
   const _theBrand = useSelector((state) => state.brand.brand);
+  const _theProfile = useSelector((state) => state.profile.profile);
   const loading = useSelector((state) => state.brand.loading);
   const error = useSelector((state) => state.brand.error);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,6 +102,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
     } catch (error) {}
   };
 
+
+ 
 
   //THIS IS IMPORTANT
   const stepsData = [
@@ -312,7 +315,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         {loading && <h2>Loading Your brand...</h2>}
         {loading && error ? <p>Error:{error}</p> : null}
         <Box display="flex" mb={3}></Box>
-        {_theBrand?.name !== '' && !loading ? (
+        {_theBrand?.name !== ''? (
           <>
             <CardCover>
               <CardMedia
@@ -394,8 +397,15 @@ const ProfileCover = (props: ProfileCoverProps) => {
               ) : null}
 
               {user?.website_url && (
+              
                 <Button size="small" sx={{ mx: 1 }} variant="outlined">
-                  {user?.website_url}
+                    <Link href={user?.website_url}>
+                      <a target='_blank' rel="noopener noreferrer">
+                      {truncate_string(user?.website_url,10)}
+                      </a>
+                    
+                    </Link>
+               
                 </Button>
               )}
             </Box>

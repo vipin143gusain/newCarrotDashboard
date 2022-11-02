@@ -6,25 +6,22 @@ import { Container, Grid } from '@mui/material';
 
 import ProfileCover from '@/components/about.component';
 import { setModalState } from '@/store/slices/modal_watcher';
-// import Feed from 'oldrefs/content/Management/Users/details/Feed';
-// import PopularTags from 'oldrefs/content/Management/Users/details/PopularTags';
-// import ProfileCover from '@/content/Management/Users/details/ProfileCover';
-import RecentActivity from '@/components/recent_activity.component'; 
+
+import RecentActivity from '@/components/recent_activity.component';
 import { brand } from '@/store/slices/brand';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ManagementUserProfile = () => {
   const [userCreated, setuserCreated] = useState('');
   const brandInfo = useSelector(brand);
+  const profileInfo = useSelector(state=>state.profile.profile)
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    setTimeout(() => {
-      setuserCreated('yes');
-    }, 1500);
-  }, []);
-  const [roleID, setroleID] = useState<number>(1);
+
+
+ 
+  const [roleID, setroleID] = useState<number>(parseInt(profileInfo.carrotrole));
   return (
     <>
       <Head>
@@ -47,23 +44,12 @@ const ManagementUserProfile = () => {
               />
             </Grid>
 
-            {brandInfo?.name ? (
+            {profileInfo.carrotrole=="1" ? (
               <>
                 <Grid item xs={12} md={4}>
                   <RecentActivity />
                 </Grid>
-                {/* <Grid item xs={12} md={8}>
-              <Feed offerData={offerData} feedType="offers" />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <PopularTags tags={tags}  display_type="tags" />
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Feed data={feedData} feedType="products" />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <PopularTags categories={categories} display_type="category" />
-            </Grid> */}
+               
               </>
             ) : null}
           </Grid>

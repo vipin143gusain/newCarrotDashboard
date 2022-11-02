@@ -4,5 +4,5 @@ export interface ProfileCoverProps{
     user: ProfileTemplate;
     onProfileImageClick?:any;
     onCoverImageClick?:any;
-    }
+}
     

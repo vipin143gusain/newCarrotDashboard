@@ -1,19 +1,27 @@
-import { useEffect } from 'react';
 import Footer from '@/components/footer.component';
 import TaskSearch from '@/components/tab_views.component';
 import SidebarLayout from '@/layouts/side_bar';
 import { addOffer } from '@/store/slices/add_offer';
-import { feedCards, getFeedCategory, getFeedSubCategory, getFeedTags, getFeedTheme,getChannel } from '@/store/slices/feed';
-// include styles
-// import categoryData from '@/mockData/categoryData.json';
-// import feedData from '@/mockData/feedData.json';
-// import productData from '@/mockData/productData.json';
-// import { wrapper } from '@/store';
-import { getModalState } from '@/store/slices/modal_watcher';
+import {
+  feedCards,
+  getChannel,
+  getFeedCategory,
+  getFeedSubCategory,
+  getFeedTags,
+  getFeedTheme
+} from '@/store/slices/feed';
+import { useEffect } from 'react';
+
+import { getModalState, setModalState } from '@/store/slices/modal_watcher';
+import { changeTab } from '@/store/slices/search';
 import { walletCategory } from '@/store/slices/wallet_category';
 import { walletProduct } from '@/store/slices/wallet_product';
-import { changeTab} from '@/store/slices/search';
-// import { selectProfile, setProfileData } from '@/store/slices/profile';
+
+import GridTable from '@/components/table.component';
+import { dummy } from '@/dummy/cat';
+import { sub } from '@/dummy/sub';
+import { AppDispatch } from '@/store';
+import { setProfileData } from '@/store/slices/profile';
 import {
   CategoryTwoTone,
   DynamicFeedTwoTone,
@@ -32,10 +40,7 @@ import {
 import Head from 'next/head';
 import ManagementUserProfile from 'pages/management/profile/index';
 import { ChangeEvent, useState } from 'react';
-import {
-  // useDispatch,
-  useSelector,useDispatch
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import 'rodal/lib/rodal.css';
 
 const TabsWrapper = styled(Tabs)(
@@ -64,7 +69,7 @@ const TabsWrapperContainer = styled(Grid)(
 
 function DashboardTasks(props) {
   const { resolvedUrl } = props;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   // const profile = useSelector(selectProfile);
   const modalCurrentState = useSelector(getModalState);
@@ -89,23 +94,163 @@ function DashboardTasks(props) {
       tabicon: <CategoryTwoTone />
     },
     { value: 'feed', label: 'Feed', tabicon: <DynamicFeedTwoTone /> },
-    { value: 'addOffer', label: 'Add Offer', tabicon: <DynamicFeedTwoTone /> }
+    { value: 'addOffer', label: 'Add Offer', tabicon: <DynamicFeedTwoTone /> },
+    {
+      value: 'carrot_category',
+      label: 'Categories',
+      tabicon: <DynamicFeedTwoTone />
+    },
+    {
+      value: 'carrot_subcategory',
+      label: 'Sub Categories',
+      tabicon: <DynamicFeedTwoTone />
+    }
   ];
 
   const handleTabsChange = (_event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);
-    dispatch(changeTab(value))
+    dispatch(changeTab(value));
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getFeedCategory());
     dispatch(getFeedSubCategory());
     dispatch(getFeedTheme());
     dispatch(getFeedTags());
     dispatch(getChannel());
+  }, [dispatch]);
 
-  },[dispatch])
+  const statusOptions = [
+    {
+      id: 'all',
+      name: 'All'
+    },
+    {
+      id: 'active',
+      name: 'Active'
+    },
+    {
+      id: 'inactive',
+      name: 'Inactive'
+    }
+  ];
+
+  const active = {
+    0: {
+      text: 'Inactive',
+      color: 'error'
+    },
+    1: {
+      text: 'Active',
+      color: 'success'
+    }
+  };
+
+  const category_headers = [
+    {
+      name: 'ID'
+    },
+    { name: 'Category' },
+    { name: 'Hex Code' },
+    { name: 'Status' },
+    { name: 'Actions' }
+  ];
+
+  const subcategory_headers = [
+    {
+      name: 'ID'
+    },
+    { name: 'Sub Category' },
+    { name: 'Categories' },
+    { name: 'Status' },
+    { name: 'Actions' }
+  ];
+
+  const TabSwitcher = (tabname: string) => {
+    switch (tabname) {
+      case 'about':
+        return <ManagementUserProfile />;
+
+      case 'walletproducts':
+        return (
+          <TaskSearch
+            searchPlaceholder="Search Wallet Products"
+            onSearchPress={() => alert('Search Wallet Products')}
+            tsType="WALLET_PRODUCT"
+            data={productData}
+          />
+        );
+
+      case 'walletcategories':
+        return (
+          <TaskSearch
+            searchPlaceholder="Search Wallet Categories"
+            onSearchPress={() => alert('Search Wallet Categories')}
+            tsType="WALLET_CATEGORY"
+            data={categoryData}
+          />
+        );
+
+      case 'feed':
+        return (
+          <TaskSearch
+            data={feedData}
+            searchPlaceholder="Search Feed"
+            onSearchPress={() => alert('Search Feed')}
+            tsType="WALLET_FEED"
+          />
+        );
+
+      case 'addOffer':
+        return (
+          <TaskSearch
+            data={addOfferData}
+            searchPlaceholder="Search Feed"
+            onSearchPress={() => alert('Search Feed')}
+            tsType="ADD_OFFER"
+          />
+        );
+
+      case 'carrot_category':
+        return (
+          <GridTable
+            gridHeaders={category_headers}
+            gridType="CATEGORY"
+            data={dummy}
+            title="Carrot Category"
+            filters_suited={statusOptions}
+            customStatusLabel={active}
+            onAdd={() => dispatch(setModalState(true))}
+            onEdit={() => alert('Edited')}
+            onDelete={() => alert('Deleted')}
+          />
+        );
+
+      case 'carrot_subcategory':
+        return (
+          <GridTable
+            gridHeaders={subcategory_headers}
+            gridType="SUBCATEGORY"
+            data={sub}
+            title="Carrot SubCategory"
+            filters_suited={statusOptions}
+            customStatusLabel={active}
+            onAdd={() => dispatch(setModalState(true))}
+            onEdit={() => alert('Edited')}
+            onDelete={() => alert('Deleted')}
+          />
+        );
+
+      default:
+        return <h4>Unknown Tab</h4>;
+    }
+  };
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    dispatch(setProfileData(user));
+  }, []);
+
   return (
     <>
       <Head>
@@ -148,59 +293,9 @@ function DashboardTasks(props) {
           alignItems="stretch"
           spacing={0}
         >
-          {currentTab === 'about' && (
-            <>
-              <ManagementUserProfile />
-            </>
-          )}
-          {currentTab === 'walletproducts' && (
-            <Grid item xs={12}>
-              <Box p={1}>
-                <TaskSearch
-                  searchPlaceholder="Search Wallet Products"
-                  onSearchPress={() => alert('Search Wallet Products')}
-                  tsType="WALLET_PRODUCT"
-                  data={productData}
-                />
-              </Box>
-            </Grid>
-          )}
-          {currentTab === 'walletcategories' && (
-            <Grid item xs={12}>
-              <Box p={1}>
-                <TaskSearch
-                  searchPlaceholder="Search Wallet Categories"
-                  onSearchPress={() => alert('Search Wallet Categories')}
-                  tsType="WALLET_CATEGORY"
-                  data={categoryData}
-                />
-              </Box>
-            </Grid>
-          )}
-          {currentTab === 'feed' && (
-            <Grid item xs={12}>
-              <Box p={1}>
-                <TaskSearch
-                  data={feedData}
-                  searchPlaceholder="Search Feed"
-                  onSearchPress={() => alert('Search Feed')}
-                  tsType="WALLET_FEED"
-                />
-              </Box>
-            </Grid>
-          )}
-          {currentTab === 'addOffer' && (
-            <Grid item xs={12}>
-              <Box p={1}>
-                <TaskSearch
-                  data={addOfferData}
-                  searchPlaceholder="Search Feed"
-                  onSearchPress={() => alert('Search Feed')}
-                  tsType="ADD_OFFER"
-                />
-              </Box>
-            </Grid>
-          )}
+          <Grid item={true} xs={12}>
+            <Box p={1}>{TabSwitcher(currentTab)}</Box>
+          </Grid>
         </Grid>
       </Container>
       <Footer />
@@ -210,24 +305,21 @@ function DashboardTasks(props) {
 
 DashboardTasks.getLayout = (page) => <SidebarLayout>{page}</SidebarLayout>;
 
-// export const getServerSideProps = wrapper.getServerSideProps(store => async({resolvedUrl})=>{
-//   console.log('ctx', resolvedUrl);
-
-//   store.dispatch(setProfileData('My Name is Evan'))
-//   return {
-//     props:{
-//       resolvedUrl
-//     }
-//   }
-// })
-
-//       store.dispatch(setProfileData('My Name is Evan'));
-//       return {
-//         props: {
-//           resolvedUrl
-//         }
-//       };
-//     }
-// );
-
 export default DashboardTasks;
+
+// server-side call
+export async function getServerSideProps({ req }) {
+  console.log('req dashboard', req);
+  const token = req.cookies.token;
+  if (token == '' || token == undefined) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    };
+  }
+  return {
+    props: { token }
+  };
+}

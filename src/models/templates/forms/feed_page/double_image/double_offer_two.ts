@@ -1,5 +1,4 @@
 import { fileUpload } from '@/utils/common_upload_image';
-import { calcHeightWidth } from '../../wallet_product/imageHeightWidthCalc';
 
 export const doubleOfferTwo = [
   {
@@ -11,33 +10,7 @@ export const doubleOfferTwo = [
     placeholder: 'Image',
     collectionName: 'subcategory',
     filePath: '',
-    accept: 'image/jpeg,image/png',
     validationProps: {
-      required: {
-        value: function(){
-          return doubleOfferTwo[0].filePath?false:true
-        },
-        message: 'You need to upload banner'
-      },
-      validate: {
-        // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-        lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 5MB',
-        imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
-        imageDimension: async function(files) {
-          const result =  await calcHeightWidth(files);
-          return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
-        },
-        uploadFile:async (files) => {
-          const s3Detail = await fileUpload(
-            files[0],
-            'category',
-            'images',
-            ''
-          );
-          doubleOfferTwo[0].filePath = `${s3Detail.path}`;
-        }
-        
-      },
       onChange: async (e) => {
         console.log('change listening');
         const s3Detail = await fileUpload(
@@ -86,101 +59,6 @@ export const doubleOfferTwo = [
     },
     options: ['Male', 'Female'],
     placeholder: ''
-  },
-  {
-    title: 'Valid From',
-    type: 'date',
-    name: 'start_date',
-    id: 'start_date',
-    select: false,
-    multiple: false,
-    defaultValue: null,
-    label: 'Valid From',
-    placeholder: 'Valid From',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Sub cat is required'
-      // }
-    },
-  },
-  {
-    title: 'Valid To',
-    type: 'date',
-    name: 'end_date',
-    id: 'end_date',
-    select: false,
-    multiple: false,
-    defaultValue: null,
-    label: 'Valid To',
-    placeholder: 'Valid To',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Sub cat is required'
-      // },
-      
-    },
-  },
-  {
-    title: 'Age From',
-    type: 'text',
-    name: 'from_age',
-    id: 'from_age',
-    select: false,
-    multiple: false,
-    defaultValue: '',
-    label: 'Age From',
-    placeholder: 'Age From',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Order is required'
-      // },
-
-      minLength: {
-        value: 1,
-        message: 'Please enter min 1 characters'
-      },
-      pattern: {
-        value: /^[1-9]$|^[1-9]\d$|^10[0-0]$/,
-        message: 'Between 1-100 allowed only'
-      },
-      maxLength: {
-        value: 3,
-        message: 'Please enter max 3 characters'
-      }
-    }
-  },
-  {
-    title: 'Age To',
-    type: 'text',
-    name: 'to_age',
-    id: 'to_age',
-    select: false,
-    multiple: false,
-    defaultValue: '',
-    label: 'Age To',
-    placeholder: 'Age To',
-    validationProps: {
-      // required: {
-      //   value: true,
-      //   message: 'Order is required'
-      // },
-
-      minLength: {
-        value: 1,
-        message: 'Please enter min 1 characters'
-      },
-      pattern: {
-        value: /^[1-9]$|^[1-9]\d$|^10[0-0]$/,
-        message: 'Between 1-100 allowed only'
-      },
-      maxLength: {
-        value: 3,
-        message: 'Please enter max 3 characters'
-      }
-    }
   },
   {
     title: 'Order',
