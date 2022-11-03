@@ -4,7 +4,7 @@ import CommonModal from '@/components/common_modal.component';
 import { ControlledForm } from '@/components/controlled_form.component';
 import MultiPartForm from '@/components/multi_step_form.component';
 import { ProfileCoverProps } from '@/models/interfaces/ProfileCoverInterface/about';
-import { adminPageThree } from '@/models/templates/Forms/about_page/admin_page_three';
+import { adminPageThree } from '@/models/templates/forms/about_page/admin_page_three';
 import { allSteps } from '@/models/templates/forms/about_page/all_steps';
 import { BrandOne } from '@/models/templates/forms/about_page/brand_page_one';
 import { BrandPageTwo } from '@/models/templates/forms/about_page/brand_page_two';
