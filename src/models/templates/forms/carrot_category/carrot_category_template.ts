@@ -35,12 +35,12 @@ export const carrotCategoryTemplate = [
       collectionName: 'subcategory',
       accept: 'image/jpeg,image/png',
       validationProps: {
-        // required: {
-        //   value: function(){
-        //     return carrotCategoryTemplate[1].filePath?false:true
-        //   },
-        //   message: 'You need to upload banner'
-        // },
+        required: {
+          value: function(){
+            return carrotCategoryTemplate[1].filePath?false:true
+          },
+          message: 'You need to upload banner'
+        },
   
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
@@ -81,12 +81,12 @@ export const carrotCategoryTemplate = [
       collectionName: 'subcategory',
       accept: 'image/jpeg,image/png',
       validationProps: {
-        // required: {
-        //   value: function(){
-        //     return carrotCategoryTemplate[2].filePath?false:true
-        //   },
-        //   message: 'You need to upload banner'
-        // },
+        required: {
+          value: function(){
+            return carrotCategoryTemplate[2].filePath?false:true
+          },
+          message: 'You need to upload banner'
+        },
   
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
@@ -118,12 +118,12 @@ export const carrotCategoryTemplate = [
       collectionName: 'subcategory',
       accept: 'image/jpeg,image/png',
       validationProps: {
-        // required: {
-        //   value: function(){
-        //     return carrotCategoryTemplate[3].filePath?false:true
-        //   },
-        //   message: 'You need to upload banner'
-        // },
+        required: {
+          value: function(){
+            return carrotCategoryTemplate[3].filePath?false:true
+          },
+          message: 'You need to upload banner'
+        },
   
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",

@@ -90,7 +90,7 @@ export const CommonForm = (props: CommonFormProps) => {
     mode
   } = props;
 
-  console.log('default value',defaultValues,mode)
+  // console.log('default value',defaultValues,mode)
 
   const [market, setMarket] = useState({
     category_ids: [],
@@ -120,8 +120,8 @@ export const CommonForm = (props: CommonFormProps) => {
     formState: { errors },
     reset,
     setValue,
-    control
-    // getValues
+    control,
+    getValues
   } = useForm({ defaultValues: defaultValues, shouldUnregister: true });
 
   const modalState = useSelector(getModalState);
@@ -149,6 +149,24 @@ export const CommonForm = (props: CommonFormProps) => {
             let [id, name] = el.split('#');
 
             return { id: Number(id), name };
+          });
+        market.category_ids = categoryDefault;
+        setMarket({
+          ...market
+        });
+        setValue('category_ids', categoryDefault);
+      }
+
+      if (
+        defaultValues?.defaultValues &&
+        defaultValues?.defaultValues?.category
+      ) {
+        let categoryDefault = defaultValues.defaultValues.category
+          .map((el) => {
+          
+            let catDat = categoryListData.find(tempCat=>tempCat.id===el.id)
+
+            return { id: Number(el.id), name:el.name,display_order:catDat?.display_order };
           });
         market.category_ids = categoryDefault;
         setMarket({
@@ -237,6 +255,9 @@ export const CommonForm = (props: CommonFormProps) => {
     // return () => subscription.unsubscribe();
   }, [modalState, mode]);
   const renderFields = (fields) => {
+
+   
+
     return (
       fields &&
       fields.map((field) => {
@@ -251,6 +272,15 @@ export const CommonForm = (props: CommonFormProps) => {
           multiple
           // key
         } = field;
+
+        // console.log(name,validationProps)
+        
+
+        if(type==="file"){
+          console.log(field.filePath)
+          // validationProps={}
+          console.log(validationProps)
+        }
 
         // const [market, setMarket] = useState<string[]>([]);
 

@@ -34,7 +34,7 @@ import { getSelectionType } from '@/utils/get_selections';
 import { CommonForm } from './common_form.component';
 import { carrotCategoryTemplate } from '@/models/templates/Forms/carrot_category/carrot_category_template';
 import { carrotSubCategoryTemplate } from '@/models/templates/Forms/carrot_subcategory/carrot_subcategory';
-import { getFeedCategory,getFeedSubCategory } from '@/store/slices/feed';
+import { categoryList, getFeedCategory,getFeedSubCategory, subCategoryList } from '@/store/slices/feed';
 import { _serveAPI } from '@/api/service';
 
 
@@ -116,6 +116,8 @@ const GridTable = (props: TableProps) => {
     );
   };
   const dispatch = useDispatch();
+  const categoryListData = useSelector(categoryList);
+  const subCategoryListData = useSelector(subCategoryList);
   const [activeTab, setTabValue] = useState('live_asset');
   const modalCurrentState = useSelector(getModalState);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -140,6 +142,24 @@ const GridTable = (props: TableProps) => {
       id:0
     }
   });
+
+  const [carrotSubCategoryDefault, setCarrotSubCategoryDefault] = useState({
+    purpose:"",
+    defaultValues:{
+      name: "",
+      created_by: 200,
+      category:[],
+      small_image_key: "",
+      small_image_key_edit: "",
+      banner_image_key:"",
+      banner_image_key_edit:"",
+      display_order: "",
+      hexa_colour_code: "",
+      is_active: "InActive",
+      id:0
+    }
+
+  })
 
   const handleStatusChange = (e) => {
     let value = null;
@@ -183,8 +203,6 @@ const submitCategory = async(value)=>{
     outVal.is_active=outVal.is_active==="Active"?1:0;
     outVal.created_by=200;
 
-    console.log(outVal)
-
     if(mode==="CREATE"){
       await _serveAPI({endPoint:"api/category", data:outVal, method:"POST" });
     }else if(mode==="EDIT"){
@@ -220,7 +238,51 @@ const deleteCategory = async(value)=>{
 }
 
 const submitSubCategory = async(value)=>{
-  console.log(value)
+
+  try {
+    setIsSubmitting(true)
+    let outVal={
+      ...value
+    }
+
+    outVal.small_image_key=carrotSubCategoryTemplate[1].filePath;
+    outVal.banner_image_key=carrotSubCategoryTemplate[2].filePath;
+    outVal.is_active=outVal.is_active==="Active"?1:0;
+    outVal.created_by=200;
+    outVal.category_ids=outVal.category_ids.map(cat=> { return {id:cat.id,display_order:cat.display_order}});
+    
+    console.log(outVal)
+    
+    if(mode==="CREATE"){
+      await _serveAPI({endPoint:"api/subcategory", data:outVal, method:"POST" });
+    }else if(mode==="EDIT"){
+      
+      outVal.add_category_ids=value.category_ids.map(cat=> { return {id:cat.id,display_order:cat.display_order}});
+      delete outVal.banner_image
+      delete outVal.small_image
+      delete outVal.banner_image_key_edit
+      delete outVal.small_image_key_edit
+      delete outVal.category_ids
+      delete outVal.category
+      delete outVal.created_by
+      outVal.updated_by=200
+      await _serveAPI({endPoint:`api/subcategory/${outVal.id}`, data:outVal, method:"PUT" });
+    }else{
+      setIsSubmitting(false);
+      return null
+    }
+    
+    dispatch(getFeedSubCategory());
+    setIsSubmitting(false);
+    dispatch(setModalState(false));
+  } catch (error) {
+    dispatch(getFeedSubCategory());
+    setIsSubmitting(false);
+    
+  }
+
+
+
 }
 
   const onFormSubmit = async (value) => {
@@ -242,7 +304,16 @@ const submitSubCategory = async(value)=>{
       for (const catDefV in carrotCategoryDefault.defaultValues) {
           carrotCategoryDefault.defaultValues[catDefV]="";
         }
-        setCarrotCategoryDefault({...carrotCategoryDefault})
+        setCarrotCategoryDefault({...carrotCategoryDefault});
+
+        // for (const subcatDefV in carrotSubCategoryDefault.defaultValues) {
+        //   if(Array.isArray(carrotSubCategoryDefault.defaultValues[subcatDefV])){
+        //     carrotSubCategoryDefault.defaultValues[subcatDefV]=[]
+        //   }else{
+        //     carrotSubCategoryDefault.defaultValues[subcatDefV]="";
+        //   }
+        // }
+        // setCarrotSubCategoryDefault({...carrotSubCategoryDefault})
 
 
       }
@@ -417,6 +488,20 @@ const submitSubCategory = async(value)=>{
                                   is_active:data.is_active==1?"Active":"InActive"
                                 }
                                 setCarrotCategoryDefault({...carrotCategoryDefault})
+                              }else if(gridType==="SUBCATEGORY"){
+                              
+                                carrotSubCategoryTemplate[1].filePath=data.small_image;
+                                carrotSubCategoryTemplate[2].filePath=data.banner_image;
+                                carrotSubCategoryDefault.defaultValues=data;
+                                carrotSubCategoryDefault.defaultValues={
+                                  ...carrotSubCategoryDefault.defaultValues,
+                                  small_image_key_edit:data.small_image,
+                                  banner_image_key_edit:data.banner_image,
+                                  is_active:data.is_active==1?"Active":"InActive"
+                                }
+                                setCarrotSubCategoryDefault({...carrotSubCategoryDefault})
+                              }else{
+                                null
                               }
                             }}
                             sx={{
@@ -516,7 +601,9 @@ const submitSubCategory = async(value)=>{
                     onRejectClick={(id) => {
                       
                     }}
-                    defaultValues={gridType==="CATEGORY"? carrotCategoryDefault:carrotSubCategoryTemplate}
+                    categoryListData={categoryListData}
+                    subCategoryListData={subCategoryListData}
+                    defaultValues={gridType==="CATEGORY"? carrotCategoryDefault:carrotSubCategoryDefault}
                     mode={mode}
                     disabled={false}
                     activeTab={activeTab}
