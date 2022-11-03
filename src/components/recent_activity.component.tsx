@@ -5,9 +5,7 @@ import {
   CardHeader,
   Divider,
   FormControl,
-  MenuItem,
-  OutlinedInput,
-  Rating,
+  MenuItem, Rating,
   styled,
   Switch,
   TextField,
@@ -209,7 +207,7 @@ if(_theBrand.brand_rating!==0)
               value={market.category_ids}
               style={{ width: '100%' }}
               onChange={handleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+              // input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               renderValue={(selected) => {
                 return (
                   <div>
@@ -247,7 +245,7 @@ if(_theBrand.brand_rating!==0)
               value={market.sub_category_ids}
               style={{ width: '100%' }}
               onChange={handleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+              // input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               renderValue={(selected) => {
                 return (
                   <div>
@@ -286,7 +284,7 @@ if(_theBrand.brand_rating!==0)
               value={market.channels}
               style={{ width: '100%' }}
               onChange={handleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+              // input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               renderValue={(selected) => {
                 return (
                   <div>
@@ -313,25 +311,55 @@ if(_theBrand.brand_rating!==0)
         <AvatarPrimary>
           <StarTwoToneIcon />
         </AvatarPrimary>
+
+        
+          
         <Box pl={2} flex={1}>
+           <Typography
+            sx={{
+              fontSize: `${theme.typography.pxToRem(17)}`,
+              fontWeight: 'bold',
+              color: 'white',
+              marginTop: '10px',
+              marginBottom: '10px'
+            }}
+          >
+            Brand Cashback
+          </Typography>
           <TextField
           disabled
             id="outlined-search"
-            label="Brand Cashback"
+            // label="Brand Cashback"
             fullWidth
             value={_theBrand.brand_cashback}
             placeholder="eg. 10% Off"
           />
           <Divider />
+          <Divider />
+
+           <Typography
+            sx={{
+              fontSize: `${theme.typography.pxToRem(17)}`,
+              fontWeight: 'bold',
+              color: 'white',
+              marginTop: '20px',
+              marginBottom: '10px'
+            }}
+          >
+           Validity of Cashback
+          </Typography>
+           <Divider />
+          
           <TextField
           disabled
             id="outlined-search"
-            label="validity_of_cashback"
+            // label="validity_of_cashback"
             fullWidth
             value={_theBrand.validity_of_cashback}
             placeholder="eg. 10% Off"
           />
           <Divider />
+           <Divider />
           <Typography
             sx={{
               fontSize: `${theme.typography.pxToRem(18)}`,
