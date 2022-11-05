@@ -12,15 +12,13 @@ import {
 } from '@/store/slices/feed';
 import { useEffect } from 'react';
 
+import { categoryList, subCategoryList } from '@/store/slices/feed';
 import { getModalState, setModalState } from '@/store/slices/modal_watcher';
 import { changeTab } from '@/store/slices/search';
 import { walletCategory } from '@/store/slices/wallet_category';
 import { walletProduct } from '@/store/slices/wallet_product';
-import { categoryList,subCategoryList } from '@/store/slices/feed';
 
 import GridTable from '@/components/table.component';
-import { dummy } from '@/dummy/cat';
-import { sub } from '@/dummy/sub';
 import { AppDispatch } from '@/store';
 import {
   CategoryTwoTone,
@@ -44,8 +42,6 @@ import {
   useSelector
 } from 'react-redux';
 import 'rodal/lib/rodal.css';
-import { CommonForm } from '@/components/common_form.component';
-import { categoryTemplate } from '@/models/templates/forms/wallet_category/category_template';
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -229,7 +225,7 @@ const subcategory_headers = [{
       gridHeaders={subcategory_headers} 
       gridType='SUBCATEGORY' 
       data={subCategoryListData} 
-      title="Carrot SubCategory" 
+      title="Carrot Sub Category" 
       filters_suited={statusOptions} 
       customStatusLabel={active}
       onAdd={()=>dispatch(setModalState(true))}

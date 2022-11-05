@@ -1,6 +1,8 @@
+
+
 export const BrandPageTwo = [
   {
-    title: 'Upload Product Banner',
+    title: 'Upload Product Logo',
     type: 'file',
     name: 'logo',
     id: 'logo',
@@ -10,17 +12,28 @@ export const BrandPageTwo = [
     rules: {
       required: {
         value: true,
-        message: 'You need to upload banner'
+        message: 'You need to upload logo'
       },
 
-      validate: {
-        // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-        // lessThan10MB: (files) => files[0]?.size > 5000000 || 'Max limit 5MB',
-        //  imageDimension: (files) => files[0]?.width > 500 || files[0]?.height > 500 || "Max image Dimensions 500px X 500px",
-        // acceptedFormats: (files) =>
-        //   ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
-        //   'Only PNG, JPEG format'
-      }
+    // validate: {
+    //       // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
+    //       lessThan2MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
+    //       imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
+    //       imageDimension: async function(files) {
+    //         const result =  await calcHeightWidth(files);
+    //         return (result.width < 300 )||( result.height < 300 )|| "Max image Dimensions 300px X 300px"
+    //       },
+    //       uploadFile:async (files) => {
+    //         const s3Detail = await fileUpload(
+    //           files[0],
+    //           'category',
+    //           'images',
+    //           ''
+    //         );
+    //         // carrotCategoryTemplate[3].filePath = `${s3Detail.path}`;
+    //       }
+          
+    //     },
     }
   },
 
@@ -37,18 +50,26 @@ export const BrandPageTwo = [
       required: {
         value: true,
         message: 'You need to upload banner'
-      }
-      // validate: {
-      //   lessThan10MB: (files) => {
-      //     console.log(files[0])
-      //     return files[0]?.size < 5000000 || 'Max limit 5MB'
-      //   }
-      //   //  imageDimension: (files) => files[0]?.width > 500 || files[0]?.height > 500 || "Max image Dimensions 500px X 500px",
-
-      // //   acceptedFormats: (files) =>
-      // //     ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
-      // //     'Only PNG, JPEG format'
-      // }
+      },
+    //  validate: {
+    //       // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
+    //       lessThan2MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
+    //       imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
+    //       imageDimension: async function(files) {
+    //         const result =  await calcHeightWidth(files);
+    //         return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+    //       },
+    //       uploadFile:async (files) => {
+    //         const s3Detail = await fileUpload(
+    //           files[0],
+    //           'category',
+    //           'images',
+    //           ''
+    //         );
+    //         // carrotCategoryTemplate[3].filePath = `${s3Detail.path}`;
+    //       }
+          
+    //     },
     }
   },
 

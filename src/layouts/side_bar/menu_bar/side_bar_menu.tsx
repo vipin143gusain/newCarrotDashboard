@@ -5,17 +5,20 @@
 // import SupportAgentTwoToneIcon from '@mui/icons-material/SupportAgentTwoTone';
 // import AttachEmailTwoToneIcon from '@mui/icons-material/AttachEmailTwoTone';
 // import CardGiftcardTwoToneIcon from '@mui/icons-material/CardGiftcardTwoTone';
+import { SidebarContext } from '@/contexts/sidebar.context';
 import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
 import {
   alpha,
-  Box, Button, List, ListItem, ListSubheader, styled
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListSubheader,
+  styled
 } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { SidebarContext } from '@/contexts/sidebar.context';
-
-
 
 // import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
 // import BeachAccessTwoToneIcon from '@mui/icons-material/BeachAccessTwoTone';
@@ -234,9 +237,7 @@ function SidebarMenu() {
               <ListItem component="div">
                 <NextLink href="/dashboards/tasks" passHref>
                   <Button
-                    className={
-                      currentRoute === '/dashboards/tasks' ? 'active' : ''
-                    }
+                    className={currentRoute === '/dashboards' ? 'active' : ''}
                     disableRipple
                     component="a"
                     onClick={closeSidebar}

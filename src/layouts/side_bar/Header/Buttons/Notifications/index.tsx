@@ -1,15 +1,10 @@
-import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import {
   alpha,
   Badge,
   Box,
-  Divider,
-  IconButton,
-  List,
+  Divider, List,
   ListItem,
-  Popover,
-  Tooltip,
-  Typography
+  Popover, Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { formatDistance, subDays } from 'date-fns';
@@ -54,7 +49,7 @@ function HeaderNotifications() {
 
   return (
     <>
-      <Tooltip arrow title="Notifications">
+      {/* <Tooltip arrow title="Notifications">
         <IconButton color="primary" ref={ref} onClick={handleOpen}>
           <NotificationsBadge
             badgeContent={1}
@@ -66,7 +61,7 @@ function HeaderNotifications() {
             <NotificationsActiveTwoToneIcon />
           </NotificationsBadge>
         </IconButton>
-      </Tooltip>
+      </Tooltip> */}
       <Popover
         anchorEl={ref.current}
         onClose={handleClose}

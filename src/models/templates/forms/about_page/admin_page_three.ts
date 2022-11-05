@@ -4,11 +4,11 @@ export const adminPageThree = [
     type: 'select',
     name: 'price_rating',
     id: 'logo',
-    multiple:false,
+    multiple: false,
     label: 'Price Rating',
     placeholder: 'Price Rating',
     collectionName: 'subcategory',
-    options:['1','2','3','4','5'],
+    options: ['1', '2', '3', '4', '5'],
     rules: {
       required: {
         value: true,
@@ -31,12 +31,12 @@ export const adminPageThree = [
     type: 'select',
     name: 'brand_rating',
     id: 'banner',
-    multiple:false,
+    multiple: false,
     label: 'Brand Rating',
     placeholder: 'Brand Rating',
     collectionName: 'subcategory',
     // options:[{id:1,name:'1'},{id:2,name:'2'},{id:3,name:'3'},{id:4,name:'4'},{id:5,name:'5'}],
-    options:['1','2','3','4','5'],
+    options: ['1', '2', '3', '4', '5'],
     rules: {
       required: {
         value: true,
@@ -71,7 +71,10 @@ export const adminPageThree = [
         message: 'Category is required'
       }
     },
-    options:[{id:1,name:'cat 1'},{id:2,name:'cat 2'}],
+    options: [
+      { id: 1, name: 'cat 1' },
+      { id: 2, name: 'cat 2' }
+    ],
     placeholder: 'Ex - https://www.google.co.in'
   },
   {
@@ -92,6 +95,31 @@ export const adminPageThree = [
     options: ['Sub Cat 1', 'Sub Cat 2'],
     placeholder: 'Ex - https://www.google.co.in'
   },
+  {
+    title: 'Channels',
+    type: 'select',
+    name: 'channels',
+    id: 'channels',
+    select: 'select',
+    defaultValue: 'SUB_CATEGORY',
+    label: 'Channels',
+    validationProps: {
+      required: {
+        value: true,
+        message: 'Sub Category is required'
+      }
+    },
+    multiple: true,
+    options: [
+      { id: 1, name: '1' },
+      { id: 2, name: '2' },
+      { id: 3, name: '3' },
+      { id: 4, name: '4' },
+      { id: 5, name: '5' }
+    ],
+    placeholder: 'Ex - https://www.google.co.in'
+  },
+
   {
     title: 'Brand Cashback',
     type: 'text',
@@ -143,32 +171,14 @@ export const adminPageThree = [
       // }
     }
   },
-  {
-    title: 'Channels',
-    type: 'select',
-    name: 'channels',
-    id: 'channels',
-    select: 'select',
-    defaultValue: 'SUB_CATEGORY',
-    label: 'Channels',
-    validationProps: {
-      required: {
-        value: true,
-        message: 'Sub Category is required'
-      }
-    },
-    multiple: true,
-    options:[{id:1,name:'1'},{id:2,name:'2'},{id:3,name:'3'},{id:4,name:'4'},{id:5,name:'5'}],
-    placeholder: 'Ex - https://www.google.co.in'
-  },
-  {
+  
+    {
     title: 'In-app Visibility',
     type: 'switch',
     name: 'visibility',
     id: 'visibility',
     select: 'switch',
     defaultValue: false,
-    label: 'In-app Visibility',
+    label: 'In-app Visibility'
   },
-  
 ];

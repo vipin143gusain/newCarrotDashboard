@@ -62,17 +62,16 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
-  let sd ={};
+  let sd = {};
 
-  const profile = useSelector<AppState>(state=>state.profile.profile)
+  const profile = useSelector<AppState>((state) => state.profile.profile);
   if (typeof window !== 'undefined') {
     // Perform localStorage action
     //  sd = JSON.parse(sessionStorage.getItem('user'));
     // console.log('SD', sd)
-    
   }
   const user = {
-    name: profile.firstname +' '+ profile.lastname,
+    name: profile.firstname + ' ' + profile.lastname,
     avatar: '/static/images/placeholders/covers/adorelogo.jpeg',
     jobtitle: 'Brand User Account'
   };
@@ -90,28 +89,21 @@ function HeaderUserbox() {
     setOpen(false);
   };
 
-  const handleLogOut = () : void =>{
-
-    deleteCookie('token',{path:'/', sameSite:true});
+  const handleLogOut = (): void => {
+    deleteCookie('token', { path: '/', sameSite: true });
     setTimeout(() => {
-      router.replace('/')
+      router.replace('/');
     }, 3000);
-
-    
-  }
-
-
+  };
 
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar  alt={user.name} src={user.avatar} />
+        <Avatar alt={user.name} src={user.avatar} />
         <Hidden mdDown>
           <UserBoxText>
             <UserBoxLabel variant="body1">{username}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-              {user.name}
-            </UserBoxDescription>
+            <UserBoxDescription variant="body2">{user.name}</UserBoxDescription>
           </UserBoxText>
         </Hidden>
         <Hidden smDown>
@@ -142,7 +134,6 @@ function HeaderUserbox() {
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
         <List sx={{ p: 1 }} component="nav">
-         
           <NextLink href="/management/profile/settings" passHref>
             <ListItem button>
               <AccountTreeTwoToneIcon fontSize="small" />

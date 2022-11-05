@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import HeaderNotifications from './notification.button';
+import HeaderNotifications from './Buttons/Notifications';
 import HeaderSearch from './search.button';
 
 function HeaderButtons() {
