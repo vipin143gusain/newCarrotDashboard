@@ -50,27 +50,27 @@ export const carrotSubCategoryTemplate = [
             const result =  await calcHeightWidth(files);
             return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
           },
-          uploadFile:async (files) => {
-            const s3Detail = await fileUpload(
-              files[0],
-              'category',
-              'images',
-              ''
-            );
-            carrotSubCategoryTemplate[1].filePath = `${s3Detail.path}`;
-          }
+          // uploadFile:async (files) => {
+          //   const s3Detail = await fileUpload(
+          //     files[0],
+          //     'category',
+          //     'images',
+          //     ''
+          //   );
+          //   carrotSubCategoryTemplate[1].filePath = `${s3Detail.path}`;
+          // }
           
         },
         
-        // onChange: async (e) => {
-        //   // const s3Detail = await fileUpload(
-        //   //   e.target.files[0],
-        //   //   'category',
-        //   //   'images',
-        //   //   ''
-        //   // );
-        //   // categoryTemplate[0].filePath = `${s3Detail.path}`;
-        // }
+        onChange: async (e) => {
+          const s3Detail = await fileUpload(
+            e.target.files[0],
+            'category',
+            'images',
+            ''
+          );
+          carrotSubCategoryTemplate[1].filePath = `${s3Detail.path}`;
+        }
       }
     },
     {
@@ -96,17 +96,27 @@ export const carrotSubCategoryTemplate = [
             const result =  await calcHeightWidth(files);
             return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
           },
-          uploadFile:async (files) => {
-            const s3Detail = await fileUpload(
-              files[0],
-              'category',
-              'images',
-              ''
-            );
-            carrotSubCategoryTemplate[2].filePath = `${s3Detail.path}`;
-          }
+          // uploadFile:async (files) => {
+          //   const s3Detail = await fileUpload(
+          //     files[0],
+          //     'category',
+          //     'images',
+          //     ''
+          //   );
+          //   carrotSubCategoryTemplate[2].filePath = `${s3Detail.path}`;
+          // },
+         
           
         },
+        onChange: async (e) => {
+          const s3Detail = await fileUpload(
+            e.target.files[0],
+            'category',
+            'images',
+            ''
+          );
+          carrotSubCategoryTemplate[2].filePath = `${s3Detail.path}`;
+        }
         
       }
     },

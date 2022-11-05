@@ -24,7 +24,8 @@ import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { styled } from '@mui/material/styles';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearProfileData } from '@/store/slices/profile';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -76,6 +77,7 @@ function HeaderUserbox() {
     jobtitle: 'Brand User Account'
   };
 
+  const dispatch = useDispatch();
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
   const { username } = useContext(LoginContext);
@@ -89,7 +91,8 @@ function HeaderUserbox() {
     setOpen(false);
   };
 
-  const handleLogOut = (): void => {
+  const handleLogOut = async(): void => {
+    await dispatch(clearProfileData());
     deleteCookie('token', { path: '/', sameSite: true });
     setTimeout(() => {
       router.replace('/');

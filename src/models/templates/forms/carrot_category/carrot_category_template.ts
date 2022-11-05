@@ -36,9 +36,7 @@ export const carrotCategoryTemplate = [
       accept: 'image/jpeg,image/png',
       validationProps: {
         required: {
-          value: function(){
-            return carrotCategoryTemplate[1].filePath?false:true
-          },
+          value: true,
           message: 'You need to upload banner'
         },
   
@@ -48,28 +46,28 @@ export const carrotCategoryTemplate = [
           imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
           imageDimension: async function(files) {
             const result =  await calcHeightWidth(files);
-            return (result.width < 300 )||( result.height < 300 )|| "Max image Dimensions 300px X 300px"
+            return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
           },
-          uploadFile:async (files) => {
-            const s3Detail = await fileUpload(
-              files[0],
-              'category',
-              'images',
-              ''
-            );
-            carrotCategoryTemplate[1].filePath = `${s3Detail.path}`;
-          }
+          // uploadFile:async (files) => {
+          //   const s3Detail = await fileUpload(
+          //     files[0],
+          //     'category',
+          //     'images',
+          //     ''
+          //   );
+          //   carrotCategoryTemplate[1].filePath = `${s3Detail.path}`;
+          // }
           
         },
         
         onChange: async (e) => {
-          // const s3Detail = await fileUpload(
-          //   e.target.files[0],
-          //   'category',
-          //   'images',
-          //   ''
-          // );
-          // categoryTemplate[0].filePath = `${s3Detail.path}`;
+          const s3Detail = await fileUpload(
+            e.target.files[0],
+            'category',
+            'images',
+            ''
+          );
+          carrotCategoryTemplate[1].filePath = `${s3Detail.path}`;
         }
       }
     },
@@ -96,17 +94,26 @@ export const carrotCategoryTemplate = [
             const result =  await calcHeightWidth(files);
             return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
           },
-          uploadFile:async (files) => {
-            const s3Detail = await fileUpload(
-              files[0],
-              'category',
-              'images',
-              ''
-            );
-            carrotCategoryTemplate[2].filePath = `${s3Detail.path}`;
-          }
+          // uploadFile:async (files) => {
+          //   const s3Detail = await fileUpload(
+          //     files[0],
+          //     'category',
+          //     'images',
+          //     ''
+          //   );
+          //   carrotCategoryTemplate[2].filePath = `${s3Detail.path}`;
+          // }
           
         },
+        onChange: async (e) => {
+          const s3Detail = await fileUpload(
+            e.target.files[0],
+            'category',
+            'images',
+            ''
+          );
+          carrotCategoryTemplate[2].filePath = `${s3Detail.path}`;
+        }
         
       }
     },
@@ -134,17 +141,26 @@ export const carrotCategoryTemplate = [
             const result =  await calcHeightWidth(files);
             return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
           },
-          uploadFile:async (files) => {
-            const s3Detail = await fileUpload(
-              files[0],
-              'category',
-              'images',
-              ''
-            );
-            carrotCategoryTemplate[3].filePath = `${s3Detail.path}`;
-          }
+          // uploadFile:async (files) => {
+          //   const s3Detail = await fileUpload(
+          //     files[0],
+          //     'category',
+          //     'images',
+          //     ''
+          //   );
+          //   carrotCategoryTemplate[3].filePath = `${s3Detail.path}`;
+          // }
           
         },
+        onChange: async (e) => {
+          const s3Detail = await fileUpload(
+            e.target.files[0],
+            'category',
+            'images',
+            ''
+          );
+          carrotCategoryTemplate[3].filePath = `${s3Detail.path}`;
+        }
         
       }
     },

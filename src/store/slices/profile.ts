@@ -50,6 +50,32 @@ export const ProfileSlice = createSlice({
   reducers: {
     setProfileData: (state, action) => {
       state.profile = action.payload;
+    },
+    clearProfileData: (state,action)=>{
+      state.profile = {
+        accountaccess: '',
+        adminaccess: '',
+        business: '',
+        campaignaccess: '',
+        carrotaccess: '',
+        carrotrole: '',
+        commsaccess: '',
+        contentaccess: '',
+        customercare: '',
+        email: '',
+        firstname: '',
+        id: 0,
+        isactive: '',
+        lastname: '',
+        loginid: '',
+        mobile: '',
+        offersaccess: '',
+        reporting: '',
+        scratchaccess: '',
+        status: '',
+        superadmin: '',
+        sysadmin: ''
+      }
     }
   },
 
@@ -102,7 +128,7 @@ export const ProfileSlice = createSlice({
   }
 });
 
-export const { setProfileData  } = ProfileSlice.actions;
+export const { setProfileData,clearProfileData  } = ProfileSlice.actions;
 
 export const selectProfile = (state: AppState) => state.profile;
 

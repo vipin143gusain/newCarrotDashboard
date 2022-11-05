@@ -58,7 +58,7 @@ export default function SignInSide() {
   };
 
   useEffect(() => {
-    if (profile.firstname !== '') {
+    if (profile?.firstname !== '') {
       console.log('UserNOW', profile);
       sessionStorage.setItem('user', JSON.stringify(profile));
       _serveAPI({
@@ -76,8 +76,8 @@ export default function SignInSide() {
         console.log('token', res);
         token = res.data.token;
 
-        setCookie('token', token, {path:'/', sameSite:true});
         if (token.includes('ey')) {
+          setCookie('token', token, {path:'/', sameSite:true});
           router.push('dashboards');
         } else {
           router.replace('/');

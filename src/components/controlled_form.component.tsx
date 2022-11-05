@@ -315,7 +315,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
                           : field.name === 'banner'
                           ? getValues('banner_file_key_edit')
                           : errors[i.name]?.message.toString()
-                      }
+                        }
                     />
                   )}
                   {i.type === 'switch' && (

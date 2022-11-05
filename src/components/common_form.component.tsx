@@ -100,6 +100,10 @@ export const CommonForm = (props: CommonFormProps) => {
     sub_category_ids: []
   });
 
+  const currentLoginProfile = sessionStorage.getItem("user")?JSON.parse(sessionStorage.getItem("user")):"";
+
+  console.log(currentLoginProfile)
+
   // console.log({
   //   categoryListData,
   //   subCategoryListData,
@@ -670,6 +674,9 @@ export const CommonForm = (props: CommonFormProps) => {
                   >
                     Withdraw Request
                   </Button>
+                  {
+                    currentLoginProfile?.carrotrole&&currentLoginProfile?.carrotrole==="1"&&
+                    <>
                   <Button
                     onClick={() =>
                       onApproveClick(defaultValues?.defaultValues.id)
@@ -702,6 +709,9 @@ export const CommonForm = (props: CommonFormProps) => {
                   >
                     Reject
                   </Button>
+
+                    </>
+                  }
                   </>
               }
                 </>

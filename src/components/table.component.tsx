@@ -24,6 +24,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Tab,
   Table,
   TableBody,
   TableCell,
@@ -31,6 +32,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tabs,
   Tooltip,
   Typography,
   useTheme
@@ -40,6 +42,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Label from 'src/components/labelNow.component';
 import { CommonForm } from './common_form.component';
 import CommonModal from './common_modal.component';
+import { notify } from '@/utils/toaster';
+import { ToastContainer } from 'react-toastify';
 
 interface TableProps {
   gridType: 'CATEGORY' | 'SUBCATEGORY' | 'QC';
@@ -196,12 +200,17 @@ const GridTable = (props: TableProps) => {
   const paginatedData = applyPagination(filteredData, page, limit);
   const theme = useTheme();
 
+  const handleTabChange = (event: SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+  };
+
   const onResetForm = (value) => {
     return (value = null);
   };
 
   const submitCategory = async (value) => {
     try {
+      let message;
       setIsSubmitting(true);
       let outVal = {
         ...value
@@ -213,22 +222,26 @@ const GridTable = (props: TableProps) => {
       outVal.created_by = 200;
 
       if (mode === 'CREATE') {
-        await _serveAPI({
+        let addedC = await _serveAPI({
           endPoint: 'api/category',
           data: outVal,
           method: 'POST'
         });
+        message=addedC.message
       } else if (mode === 'EDIT') {
-        await _serveAPI({
+        let editedC = await _serveAPI({
           endPoint: `api/category/${outVal.id}`,
           data: outVal,
           method: 'PUT'
         });
+        message=editedC.message
       } else {
         setIsSubmitting(false);
         return null;
       }
-
+      if(message){
+        notify("success",message)
+      }
       dispatch(getFeedCategory());
       setIsSubmitting(false);
       dispatch(setModalState(false));
@@ -240,34 +253,45 @@ const GridTable = (props: TableProps) => {
 
   const deleteCategory = async (value) => {
     try {
+      let message;
       let outData = {
         deleted_by: 100
       };
-      await _serveAPI({
+      const deletedC = await _serveAPI({
         endPoint: `api/category/${value.id}`,
         data: outData,
         method: 'DELETE'
       });
+      message=deletedC.message;
+      if(message){
+        notify("success",message)
+      }
       dispatch(getFeedCategory());
     } catch (error) {}
   };
 
     const deleteSubCategory = async (value) => {
     try {
+      let message;
       let outData = {
         deleted_by: 100
       };
-      await _serveAPI({
+      let deleteSC = await _serveAPI({
         endPoint: `api/subcategory/${value.id}`,
         data: outData,
         method: 'DELETE'
       });
-      dispatch(getFeedCategory());
+      message=deleteSC.message;
+      if(message){
+        notify("success",message)
+      }
+      dispatch(getFeedSubCategory());
     } catch (error) {}
   };
 
   const submitSubCategory = async (value) => {
     try {
+      let message;
       setIsSubmitting(true);
       let outVal = {
         ...value
@@ -284,11 +308,12 @@ const GridTable = (props: TableProps) => {
       console.log(outVal);
 
       if (mode === 'CREATE') {
-        await _serveAPI({
+        const addedSC = await _serveAPI({
           endPoint: 'api/subcategory',
           data: outVal,
           method: 'POST'
         });
+        message=addedSC.message;
       } else if (mode === 'EDIT') {
         outVal.add_category_ids = value.category_ids.map((cat) => {
           return { id: cat.id, display_order: cat.display_order };
@@ -301,16 +326,20 @@ const GridTable = (props: TableProps) => {
         delete outVal.category;
         delete outVal.created_by;
         outVal.updated_by = 200;
-        await _serveAPI({
+        const editedSC = await _serveAPI({
           endPoint: `api/subcategory/${outVal.id}`,
           data: outVal,
           method: 'PUT'
         });
+        message=editedSC.message;
       } else {
         setIsSubmitting(false);
         return null;
       }
 
+      if(message){
+        notify("success",message)
+      }
       dispatch(getFeedSubCategory());
       setIsSubmitting(false);
       dispatch(setModalState(false));
@@ -335,6 +364,7 @@ const GridTable = (props: TableProps) => {
       for (const catDefV in carrotCategoryDefault.defaultValues) {
         carrotCategoryDefault.defaultValues[catDefV] = '';
       }
+      carrotCategoryDefault.purpose=""
       setCarrotCategoryDefault({ ...carrotCategoryDefault });
 
       // for (const subcatDefV in carrotSubCategoryDefault.defaultValues) {
@@ -350,6 +380,17 @@ const GridTable = (props: TableProps) => {
 
   return (
     <>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Card>
         <Box sx={{ mt: 5 }}>
           <Card sx={{ padding: 3 }}>
@@ -359,10 +400,10 @@ const GridTable = (props: TableProps) => {
                   <div
                     style={{
                       width: 250,
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end'
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
                     }}
                   >
                     <Button
@@ -370,19 +411,19 @@ const GridTable = (props: TableProps) => {
                       size="medium"
                       startIcon={<AddCircleIcon />}
                       sx={{
-                        borderWidth: '2px',
-                        marginRight: '5px',
-                        borderColor: '#57CA22',
-                        color: '#57CA22',
-                        '&:hover': {
-                          borderWidth: '2px',
-                          borderColor: '#57CA22',
-                          bgcolor: '#57CA22',
-                          color: '#fff'
-                        }
+                        borderWidth: "2px",
+                        marginRight: "5px",
+                        borderColor: "#57CA22",
+                        color: "#57CA22",
+                        "&:hover": {
+                          borderWidth: "2px",
+                          borderColor: "#57CA22",
+                          bgcolor: "#57CA22",
+                          color: "#fff",
+                        },
                       }}
                       onClick={() => {
-                        setmode('CREATE');
+                        setmode("CREATE");
                         dispatch(setModalState(true));
                       }}
                     >
@@ -391,7 +432,7 @@ const GridTable = (props: TableProps) => {
                     <FormControl variant="outlined">
                       <InputLabel>Show</InputLabel>
                       <Select
-                        value={filters.status || 'all'}
+                        value={filters.status || "all"}
                         onChange={handleStatusChange}
                         label="Show"
                         autoWidth
@@ -448,7 +489,7 @@ const GridTable = (props: TableProps) => {
                           </Typography>
                         </TableCell>
 
-                        {gridType == 'CATEGORY' ? (
+                        {gridType == "CATEGORY" ? (
                           <TableCell>
                             <Typography
                               variant="body1"
@@ -460,7 +501,7 @@ const GridTable = (props: TableProps) => {
                               {data.hexa_colour_code}
                             </Typography>
                           </TableCell>
-                        ) : gridType == 'SUBCATEGORY' ? (
+                        ) : gridType == "SUBCATEGORY" ? (
                           <TableCell>
                             <Typography
                               variant="body1"
@@ -503,28 +544,30 @@ const GridTable = (props: TableProps) => {
                           <Tooltip title="Edit Order" arrow>
                             <IconButton
                               onClick={() => {
-                                setmode('EDIT');
-                                setTabValue('edit_asset');
+                                setmode("EDIT");
+                                setTabValue("edit_asset");
                                 dispatch(setModalState(true));
-                                if (gridType === 'CATEGORY') {
+                                if (gridType === "CATEGORY") {
                                   carrotCategoryTemplate[1].filePath =
                                     data.small_image;
+                                  carrotCategoryDefault.purpose = "update";
                                   carrotCategoryDefault.defaultValues = data;
                                   carrotCategoryDefault.defaultValues = {
                                     ...carrotCategoryDefault.defaultValues,
                                     is_active:
                                       data.is_active == 1
-                                        ? 'Active'
-                                        : 'InActive'
+                                        ? "Active"
+                                        : "InActive",
                                   };
                                   setCarrotCategoryDefault({
-                                    ...carrotCategoryDefault
+                                    ...carrotCategoryDefault,
                                   });
-                                } else if (gridType === 'SUBCATEGORY') {
+                                } else if (gridType === "SUBCATEGORY") {
                                   carrotSubCategoryTemplate[1].filePath =
                                     data.small_image;
                                   carrotSubCategoryTemplate[2].filePath =
                                     data.banner_image;
+                                  carrotSubCategoryDefault.purpose = "update";
                                   carrotSubCategoryDefault.defaultValues = data;
                                   carrotSubCategoryDefault.defaultValues = {
                                     ...carrotSubCategoryDefault.defaultValues,
@@ -532,21 +575,21 @@ const GridTable = (props: TableProps) => {
                                     banner_image_key_edit: data.banner_image,
                                     is_active:
                                       data.is_active == 1
-                                        ? 'Active'
-                                        : 'InActive'
+                                        ? "Active"
+                                        : "InActive",
                                   };
                                   setCarrotSubCategoryDefault({
-                                    ...carrotSubCategoryDefault
+                                    ...carrotSubCategoryDefault,
                                   });
                                 } else {
                                   null;
                                 }
                               }}
                               sx={{
-                                '&:hover': {
-                                  background: theme.colors.primary.lighter
+                                "&:hover": {
+                                  background: theme.colors.primary.lighter,
                                 },
-                                color: theme.palette.primary.main
+                                color: theme.palette.primary.main,
                               }}
                               color="inherit"
                               size="small"
@@ -557,19 +600,19 @@ const GridTable = (props: TableProps) => {
                           <Tooltip title="Delete Order" arrow>
                             <IconButton
                               onClick={() => {
-                                if (gridType === 'CATEGORY') {
+                                if (gridType === "CATEGORY") {
                                   deleteCategory(data);
-                                } else if (gridType === 'SUBCATEGORY') {
+                                } else if (gridType === "SUBCATEGORY") {
                                   deleteSubCategory(data);
                                 } else {
                                   null;
                                 }
                               }}
                               sx={{
-                                '&:hover': {
-                                  background: theme.colors.error.lighter
+                                "&:hover": {
+                                  background: theme.colors.error.lighter,
                                 },
-                                color: theme.palette.error.main
+                                color: theme.palette.error.main,
                               }}
                               color="inherit"
                               size="small"
@@ -603,27 +646,46 @@ const GridTable = (props: TableProps) => {
         open={modalCurrentState}
         onClose={() => dispatch(setModalState(false))}
         width="60%"
-        title={ gridType === 'CATEGORY' ? 'Add Category' :  'Add Sub Category' }
-        purpose={mode === 'EDIT' ? 'EDIT' : mode === 'CREATE' ? 'CREATE' : null}
+        title={gridType === "CATEGORY" ? "Add Category" : "Add Sub Category"}
+        purpose={mode === "EDIT" ? "EDIT" : mode === "CREATE" ? "CREATE" : null}
         titleColor={
-          mode === 'EDIT' ? '#8C7CF0' : mode === 'CREATE' ? '#11d67e' : 'grey'
+          mode === "EDIT" ? "#8C7CF0" : mode === "CREATE" ? "#11d67e" : "grey"
         }
         color={
-          mode === 'EDIT' ? '#8C7CF0' : mode === 'CREATE' ? '#11d67e' : 'error'
+          mode === "EDIT" ? "#8C7CF0" : mode === "CREATE" ? "#11d67e" : "error"
         }
       >
+
+        {
+          mode==="EDIT"&&
+          <>
+        <Box sx={{ width: "100%", marginTop: "10px" }}>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            textColor="primary"
+            indicatorColor="primary"
+          >
+            <Tab value="live_asset" label="Showing Live asset details" />
+            {(carrotCategoryDefault.purpose === "update" ||
+              carrotSubCategoryDefault.purpose === "update") && (
+              <Tab value="edit_asset" label="Showing Edit Request details" />
+            )}
+          </Tabs>
+        </Box>
+
         <CommonForm
           containerStyle={{
-            display: 'flex',
-            width: '100%',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            marginTop: '30px',
-            backgroundColor: '#070C27',
-            borderWidth: '1px',
-            borderColor: '#111633',
-            borderRadius: '10px',
-            collectionName: 'subcategory'
+            display: "flex",
+            width: "100%",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            marginTop: "30px",
+            backgroundColor: "#070C27",
+            borderWidth: "1px",
+            borderColor: "#111633",
+            borderRadius: "10px",
+            collectionName: "subcategory",
           }}
           isSubmitting={isSubmitting}
           onWithdrawClick={(id: number) => {}}
@@ -632,7 +694,7 @@ const GridTable = (props: TableProps) => {
           categoryListData={categoryListData}
           subCategoryListData={subCategoryListData}
           defaultValues={
-            gridType === 'CATEGORY'
+            gridType === "CATEGORY"
               ? carrotCategoryDefault
               : carrotSubCategoryDefault
           }
@@ -642,11 +704,56 @@ const GridTable = (props: TableProps) => {
           onSubmitForm={onFormSubmit}
           onResetForm={onResetForm}
           template={
-            gridType == 'CATEGORY'
+            gridType == "CATEGORY"
               ? carrotCategoryTemplate
               : carrotSubCategoryTemplate
           }
         />
+          
+          </>
+        }
+
+
+
+{
+  mode==="CREATE"&&
+        <CommonForm
+          containerStyle={{
+            display: "flex",
+            width: "100%",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            marginTop: "30px",
+            backgroundColor: "#070C27",
+            borderWidth: "1px",
+            borderColor: "#111633",
+            borderRadius: "10px",
+            collectionName: "subcategory",
+          }}
+          isSubmitting={isSubmitting}
+          onWithdrawClick={(id: number) => {}}
+          onApproveClick={(id) => {}}
+          onRejectClick={(id) => {}}
+          categoryListData={categoryListData}
+          subCategoryListData={subCategoryListData}
+          defaultValues={
+            gridType === "CATEGORY"
+              ? carrotCategoryDefault
+              : carrotSubCategoryDefault
+          }
+          mode={mode}
+          disabled={false}
+          activeTab={activeTab}
+          onSubmitForm={onFormSubmit}
+          onResetForm={onResetForm}
+          template={
+            gridType == "CATEGORY"
+              ? carrotCategoryTemplate
+              : carrotSubCategoryTemplate
+          }
+        />
+
+}
       </CommonModal>
     </>
   );
