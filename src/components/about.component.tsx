@@ -64,6 +64,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
 
   const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [userSesData, setUserSesData] = useState("");
   const [abtValues, setAbtValues] = useState({
     defaultValues: {
       name: '',
@@ -244,10 +245,12 @@ const ProfileCover = (props: ProfileCoverProps) => {
   };
 
   useEffect(() => {
+    
     // console.log('Brand', _theBrand);
   }, [_theBrand]);
   // Checking the available redux state
   useEffect(() => {
+    sessionStorage.getItem("user")&&setUserSesData(JSON.parse(sessionStorage.getItem("user")))
     if (_theBrand?.name !== '') {
       setAbtValues({
         defaultValues: {
@@ -283,6 +286,12 @@ const ProfileCover = (props: ProfileCoverProps) => {
 
   //renderint updated form
   const renderMSForm = () => {
+   
+  
+    if(userSesData?.carrotrole==2){
+      stepsData.length=2;
+      allSteps.length=2;
+    }
     // console.log(abtValues);
     return abtValues.defaultValues.name !== '' ? (
       <MultiPartForm

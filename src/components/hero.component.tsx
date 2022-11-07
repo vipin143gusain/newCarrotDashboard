@@ -44,17 +44,36 @@ export interface Credentials {
 
 export default function SignInSide() {
   const [user, setUser] = useState<Credentials>({ loginid: '', password: '' });
+  const [showSnack, setShowSnack] = useState(false);
   const [userData, setuserData] = useState<any>({});
   const [message, setmessage] = useState<String>('');
   const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector<ProfileProps>((state) => state.profile.profile);
 
   const router = useRouter();
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('user', user);
-    dispatch(getUser(user));
-    setuserData(profile);
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+      console.log('user', user);
+      await dispatch(getUser(user));
+      const loginRes = await _serveAPI({
+        endPoint: 'login',
+        method: 'POST',
+        data: user
+      })
+      if(loginRes.status==="failed"){
+        throw new Error(loginRes.message);
+      }else{
+        
+        setuserData(profile);
+      }
+      
+    } catch (error) {
+      setShowSnack(true);
+      setmessage(error.message)
+      console.log("login failedjjjk")
+      
+    }
   };
 
   useEffect(() => {
@@ -65,15 +84,19 @@ export default function SignInSide() {
         endPoint: 'api/campaign/getbusinesstoken',
         method: 'POST',
         data: {
-          business: profile.business ? JSON.parse(profile.business) : null,
+          business: profile?.business ? JSON.parse(profile.business) : null,
           channeltype: 'CARROT',
-          managerid: profile.id,
-          roleid: profile.carrotrole
+          managerid: profile?.id,
+          roleid: profile?.carrotrole
         }
       }).then((res) => {
         console.log(res);
+        if(res.status==="failed"){
+          throw new Error(res.message);
+        }
         let token = '';
         console.log('token', res);
+        console.log(res)
         token = res.data.token;
 
         if (token.includes('ey')) {
@@ -82,7 +105,12 @@ export default function SignInSide() {
         } else {
           router.replace('/');
         }
-      });
+      }).catch(err=>{
+        console.log(err.message)
+        setShowSnack(true);
+        setmessage(err.message);
+        console.log("login failed");
+      })
     }
   
   }, [profile]);
@@ -91,7 +119,12 @@ export default function SignInSide() {
     <>
       {message !== '' ? (
         <Snackbar
-          open={true}
+          open={showSnack}
+          onClose={()=>{
+            setShowSnack(false);
+            setmessage("")
+          }}
+          autoHideDuration={3000}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
           <Alert severity="error" style={{ color: '#fff' }}>

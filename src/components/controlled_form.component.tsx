@@ -42,6 +42,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
     getValues
   } = useFormContext();
 
+  const [userSesData, setUserSesData] = useState("");
   const [market, setMarket] = useState({
     category_ids: [],
     gender: '',
@@ -52,6 +53,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
   });
 
   useEffect(() => {
+    sessionStorage.getItem("user")&&setUserSesData(JSON.parse(sessionStorage.getItem("user")));
     // const subscription = watch((value, { name, type }) =>
     //   console.log('FROM WATCHER', value, name, type)
     // );
@@ -85,12 +87,46 @@ export const ControlledForm = (props: ControlledFormProps) => {
         alignItems="center"
       >
         {fieldData.map((i) => {
+
+        if(userSesData?.carrotrole==2){
+          
           if (i.name === 'logo' && getValues('logo_file_key_edit')) {
             delete i.rules.required;
           }
           if (i.name === 'banner' && getValues('banner_file_key_edit')) {
             delete i.rules.required;
           }
+
+        }else{
+
+          if(i.name === 'logo'){
+
+          }else if(i.name === 'banner'){
+
+          }else if(i.name === 'name'){
+          
+          }else{
+            if(i?.rules?.required){
+              delete i.rules.required;
+            }
+          }
+
+
+          if (i.name === 'logo' && getValues('logo_file_key_edit')) {
+            delete i.rules.required;
+          }
+          if (i.name === 'banner' && getValues('banner_file_key_edit')) {
+            delete i.rules.required;
+          }
+
+          if(i.name==="tags"){
+            delete i.rules.required;
+          }
+
+          
+
+        }
+
           return (
             <Controller
               control={control ? control : null}
