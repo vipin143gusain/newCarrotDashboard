@@ -1,15 +1,15 @@
 import { configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import { Action, combineReducers } from "redux";
+import addOffer from "./slices/add_offer";
 import brand from "./slices/brand";
 import feed from "./slices/feed";
 import fileUpload from "./slices/file_upload";
 import modalWatcher from "./slices/modal_watcher";
 import profileReducer from "./slices/profile";
+import search from "./slices/search";
 import walletCategory from "./slices/wallet_category";
 import walletProduct from "./slices/wallet_product";
-import addOffer from "./slices/add_offer";
-import search from "./slices/search";
 
 const reducers = combineReducers({
   search,

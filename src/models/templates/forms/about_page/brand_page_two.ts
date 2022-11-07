@@ -1,5 +1,3 @@
-import { fileUpload } from "@/utils/common_upload_image";
-import { calcHeightWidth } from "../wallet_product/imageHeightWidthCalc";
 
 
 export const BrandPageTwo = [

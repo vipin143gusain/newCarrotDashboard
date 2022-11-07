@@ -2,7 +2,6 @@ import { fileUpload } from '@/utils/common_upload_image';
 import { calcHeightWidth } from '../wallet_product/imageHeightWidthCalc';
 
 
-
 export const carrotSubCategoryTemplate = [
     {
         title: 'Name',
@@ -44,7 +43,7 @@ export const carrotSubCategoryTemplate = [
   
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 5MB',
+          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
           imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
           imageDimension: async function(files) {
             const result =  await calcHeightWidth(files);
@@ -90,7 +89,7 @@ export const carrotSubCategoryTemplate = [
   
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 5MB',
+          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
           imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
           imageDimension: async function(files) {
             const result =  await calcHeightWidth(files);

@@ -9,10 +9,10 @@ import { doubleOfferTwo } from '@/models/templates/forms/feed_page/double_image/
 import { singleOfferOne } from '@/models/templates/forms/feed_page/single_offer';
 import { singleVideo } from '@/models/templates/forms/feed_page/single_video';
 import { categoryTemplate } from '@/models/templates/forms/wallet_category/category_template';
+import { hexToRgb } from '@/models/templates/forms/wallet_product/imageHeightWidthCalc';
 import { productTemplate } from '@/models/templates/forms/wallet_product/product_template';
 import { BrandTabTypes } from '@/models/types/brand_tabtype';
 import { OfferTypes } from '@/models/types/offers';
-import { hexToRgb } from '@/models/templates/forms/wallet_product/imageHeightWidthCalc';
 import {
   deleteOffer,
   getOffer,
@@ -20,17 +20,13 @@ import {
 } from '@/store/slices/add_offer';
 import {
   categoryList,
-  getFeedCards,
-  getFeedCategory,
-  getFeedSubCategory,
-  getFeedTags,
-  getFeedTheme,
-  loadingFeed,
+  getFeedCards, loadingFeed,
   subCategoryList,
   tagList,
   themeList
 } from '@/store/slices/feed';
 import { getModalState, setModalState } from '@/store/slices/modal_watcher';
+import { search } from '@/store/slices/search';
 import {
   addWalletCategoryAction,
   deleteCategoryAction,
@@ -46,11 +42,9 @@ import {
   loadingProduct,
   updateProduct
 } from '@/store/slices/wallet_product';
-import {search} from '@/store/slices/search';
 import { notify } from '@/utils/toaster';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import { ColorExtractor } from "react-color-extractor";
 import {
   Box,
   Button,
@@ -71,6 +65,7 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { SyntheticEvent, useEffect, useState } from 'react';
+import { ColorExtractor } from "react-color-extractor";
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

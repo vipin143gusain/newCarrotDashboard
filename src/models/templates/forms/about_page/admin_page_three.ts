@@ -131,16 +131,19 @@ export const adminPageThree = [
     rules: {
       required: {
         value: true,
-        message: 'You need to upload banner'
+        message: 'Brand Cashback is required'
       },
-
-      validate: {
-        // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-        // lessThan10MB: (files) => files[0]?.size > 5000000 || 'Max limit 5MB',
-        //  imageDimension: (files) => files[0]?.width > 500 || files[0]?.height > 500 || "Max image Dimensions 500px X 500px",
-        // acceptedFormats: (files) =>
-        //   ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
-        //   'Only PNG, JPEG format'
+      maxLength: {
+        value: 3,
+        message: 'Please enter max 3 characters'
+      },
+      minLength: {
+        value: 1,
+        message: 'Please enter min 1 character'
+      },
+         pattern: {
+        value: /^[0-9]*$/,
+        message: 'Allowed only numbers'
       }
     }
   },
@@ -156,23 +159,25 @@ export const adminPageThree = [
     rules: {
       required: {
         value: true,
-        message: 'You need to upload banner'
-      }
-      // validate: {
-      //   lessThan10MB: (files) => {
-      //     console.log(files[0])
-      //     return files[0]?.size < 5000000 || 'Max limit 5MB'
-      //   }
-      //   //  imageDimension: (files) => files[0]?.width > 500 || files[0]?.height > 500 || "Max image Dimensions 500px X 500px",
+        message: 'Expiry Period is required'
+      },
+      maxLength: {
+        value: 3,
+        message: 'Please enter max 3 characters'
+      },
+      minLength: {
+        value: 1,
+        message: 'Please enter min 1 character'
+      },
 
-      // //   acceptedFormats: (files) =>
-      // //     ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
-      // //     'Only PNG, JPEG format'
-      // }
+      pattern: {
+        value: /^[1-9]$|^[1-9]\d$|^10[0-0]$/,
+        message: 'Between 1-100 allowed only'
+      }
     }
   },
-  
-    {
+
+  {
     title: 'In-app Visibility',
     type: 'switch',
     name: 'visibility',
@@ -180,5 +185,5 @@ export const adminPageThree = [
     select: 'switch',
     defaultValue: false,
     label: 'In-app Visibility'
-  },
+  }
 ];

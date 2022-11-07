@@ -1,7 +1,5 @@
 import { useContext, useRef, useState } from 'react';
 
-import NextLink from 'next/link';
-
 import {
   Avatar,
   Box,
@@ -15,17 +13,18 @@ import {
   Popover,
   Typography
 } from '@mui/material';
+import NextLink from 'next/link';
 
 import { LoginContext } from '@/contexts/login.context';
 import { AppState } from '@/store';
+import { clearProfileData } from '@/store/slices/profile';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { styled } from '@mui/material/styles';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
-import { clearProfileData } from '@/store/slices/profile';
+import { useDispatch, useSelector } from 'react-redux';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -73,7 +72,7 @@ function HeaderUserbox() {
   }
   const user = {
     name: profile.firstname + ' ' + profile.lastname,
-    avatar: '/static/images/placeholders/covers/adorelogo.jpeg',
+    avatar: '/static/images/placeholders/covers/profileIcon.jpg',
     jobtitle: 'Brand User Account'
   };
 
@@ -130,7 +129,7 @@ function HeaderUserbox() {
           <Avatar variant="rounded" alt={user.name} src={user.avatar} />
           <UserBoxText>
             <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
+            <UserBoxDescription variant="body2" style={{marginTop:'10px'}}>
               {user.jobtitle}
             </UserBoxDescription>
           </UserBoxText>

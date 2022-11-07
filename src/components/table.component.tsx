@@ -8,6 +8,7 @@ import {
   subCategoryList
 } from '@/store/slices/feed';
 import { getModalState, setModalState } from '@/store/slices/modal_watcher';
+import { notify } from '@/utils/toaster';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -39,11 +40,10 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import Label from 'src/components/labelNow.component';
 import { CommonForm } from './common_form.component';
 import CommonModal from './common_modal.component';
-import { notify } from '@/utils/toaster';
-import { ToastContainer } from 'react-toastify';
 
 interface TableProps {
   gridType: 'CATEGORY' | 'SUBCATEGORY' | 'QC';

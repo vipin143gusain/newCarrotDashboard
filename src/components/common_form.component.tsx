@@ -1,3 +1,4 @@
+import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
 import { getModalState } from '@/store/slices/modal_watcher';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -15,9 +16,8 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import Lottie from 'react-lottie';
-import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
+import { useSelector } from 'react-redux';
 
 interface CommonFormProps {
   template: Array<{

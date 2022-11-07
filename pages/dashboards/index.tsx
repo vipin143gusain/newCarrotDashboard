@@ -30,17 +30,15 @@ import {
   Box,
   Container,
   Divider,
-  Grid, styled,
-  Tab, Tabs
+  Grid,
+  styled,
+  Tab,
+  Tabs
 } from '@mui/material';
 import Head from 'next/head';
 import ManagementUserProfile from 'pages/management/profile/index';
 import { ChangeEvent, useState } from 'react';
-import {
-  useDispatch,
-
-  useSelector
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import 'rodal/lib/rodal.css';
 
 const TabsWrapper = styled(Tabs)(
@@ -97,17 +95,25 @@ function DashboardTasks(props) {
       tabicon: <CategoryTwoTone />
     },
     { value: 'feed', label: 'Feed', tabicon: <DynamicFeedTwoTone /> },
+
     { value: 'addOffer', label: 'Add Offer', tabicon: <DynamicFeedTwoTone /> },
-    { value: 'carrot_category', label: 'Categories', tabicon: <DynamicFeedTwoTone /> },
-    { value: 'carrot_subcategory', label: 'Sub Categories', tabicon: <DynamicFeedTwoTone /> }
+    
+    {
+      value: 'carrot_category',
+      label: 'Categories',
+      tabicon: <DynamicFeedTwoTone />
+    },
+    {
+      value: 'carrot_subcategory',
+      label: 'Sub Categories',
+      tabicon: <DynamicFeedTwoTone />
+    }
   ];
 
   const handleTabsChange = (_event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);
     dispatch(changeTab(value));
   };
-
-  
 
   useEffect(() => {
     dispatch(getFeedCategory());
@@ -117,46 +123,51 @@ function DashboardTasks(props) {
     dispatch(getChannel());
   }, [dispatch]);
 
+  const statusOptions = [
+    {
+      id: 'all',
+      name: 'All'
+    },
+    {
+      id: 'active',
+      name: 'Active'
+    },
+    {
+      id: 'inactive',
+      name: 'Inactive'
+    }
+  ];
 
+  const active = {
+    0: {
+      text: 'Inactive',
+      color: 'error'
+    },
+    1: {
+      text: 'Active',
+      color: 'success'
+    }
+  };
 
+  const category_headers = [
+    {
+      name: 'ID'
+    },
+    { name: 'Category' },
+    { name: 'Hex Code' },
+    { name: 'Status' },
+    { name: 'Actions' }
+  ];
 
-const statusOptions = [
-  {
-    id: 'all',
-    name: 'All'
-  },
-  {
-    id: 'active',
-    name: 'Active'
-  },
-  {
-    id: 'inactive',
-    name: 'Inactive'
-  },
- 
-];
-
-const active = {
-  0: {
-    text: 'Inactive',
-    color: 'error'
-  },
-  1: {
-    text: 'Active',
-    color: 'success'
-  }
-};
-
-
-
-const category_headers = [{
-  name:'ID'
-},{name:'Category'},{name:'Hex Code'},{name:'Status'},{name:'Actions'}]
-
-const subcategory_headers = [{
-  name:'ID'
-},{name:'Sub Category'},{name:'Categories'},{name:'Status'},{name:'Actions'}]
-
+  const subcategory_headers = [
+    {
+      name: 'ID'
+    },
+    { name: 'Sub Category' },
+    { name: 'Categories' },
+    { name: 'Status' },
+    { name: 'Actions' }
+  ];
 
   const TabSwitcher = (tabname: string) => {
     switch (tabname) {
@@ -204,39 +215,37 @@ const subcategory_headers = [{
         );
 
       case 'carrot_category':
-      return (
-      <GridTable  
-      gridHeaders={category_headers} 
-      gridType='CATEGORY' 
-      data={categoryListData} 
-      title="Carrot Category" 
-      filters_suited={statusOptions} 
-      customStatusLabel={active}
-      onAdd={()=>dispatch(setModalState(true))}
-      onEdit={()=>alert('Edited')}
-      onDelete={()=>alert('Deleted')}
-
-      />
-      )
+        return (
+          <GridTable
+            gridHeaders={category_headers}
+            gridType="CATEGORY"
+            data={categoryListData}
+            title="Carrot Category"
+            filters_suited={statusOptions}
+            customStatusLabel={active}
+            onAdd={() => dispatch(setModalState(true))}
+            onEdit={() => alert('Edited')}
+            onDelete={() => alert('Deleted')}
+          />
+        );
 
       case 'carrot_subcategory':
-      return (
-      <GridTable 
-      gridHeaders={subcategory_headers} 
-      gridType='SUBCATEGORY' 
-      data={subCategoryListData} 
-      title="Carrot Sub Category" 
-      filters_suited={statusOptions} 
-      customStatusLabel={active}
-      onAdd={()=>dispatch(setModalState(true))}
-      onEdit={()=>alert('Edited')}
-      onDelete={()=>alert('Deleted')}
-
-      />
-      )
+        return (
+          <GridTable
+            gridHeaders={subcategory_headers}
+            gridType="SUBCATEGORY"
+            data={subCategoryListData}
+            title="Carrot SubCategory"
+            filters_suited={statusOptions}
+            customStatusLabel={active}
+            onAdd={() => dispatch(setModalState(true))}
+            onEdit={() => alert('Edited')}
+            onDelete={() => alert('Deleted')}
+          />
+        );
 
       default:
-      return <h4>Unknown Tab</h4>
+        return <h4>Unknown Tab</h4>;
     }
   };
   return (
@@ -287,8 +296,6 @@ const subcategory_headers = [{
         </Grid>
       </Container>
       <Footer />
-
-      
     </>
   );
 }

@@ -33,15 +33,22 @@ const initialState = {
   error: ''
 };
 
-export const getUser = createAsyncThunk('user/getAuth', async(payload:Credentials)=>{
+export const getUser = createAsyncThunk(
+  'user/getAuth',
+  async (payload: Credentials) => {
     return await _serveAPI({
-        endPoint:'login',   
-        method:'POST',
-        data:payload
-    }).then((res)=>{
-       return ( res.data)
-    }).catch((err)=>{return err})
-})
+      endPoint: 'login',
+      method: 'POST',
+      data: payload
+    })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
+);
 
 export const ProfileSlice = createSlice({
   name: 'profile',
@@ -51,7 +58,7 @@ export const ProfileSlice = createSlice({
     setProfileData: (state, action) => {
       state.profile = action.payload;
     },
-    clearProfileData: (state,action)=>{
+    clearProfileData: (state, action) => {
       state.profile = {
         accountaccess: '',
         adminaccess: '',
@@ -75,49 +82,47 @@ export const ProfileSlice = createSlice({
         status: '',
         superadmin: '',
         sysadmin: ''
-      }
+      };
     }
   },
 
-
-  
-    extraReducers: (builder) => {
-        builder.addCase(getUser.pending, (state) => {
-          state.loading = true;
-        });
-        builder.addCase(getUser.fulfilled, (state, action) => {
-          state.loading = false;
-          state.profile = action.payload;
-          state.error = '';
-        });
-        builder.addCase(getUser.rejected, (state, action) => {
-          state.loading = false;
-          state.profile = {
-            accountaccess: '',
-            adminaccess: '',
-            business: '',
-            campaignaccess: '',
-            carrotaccess: '',
-            carrotrole: '',
-            commsaccess: '',
-            contentaccess: '',
-            customercare: '',
-            email: '',
-            firstname: '',
-            id: 0,
-            isactive: '',
-            lastname: '',
-            loginid: '',
-            mobile: '',
-            offersaccess: '',
-            reporting: '',
-            scratchaccess: '',
-            status: '',
-            superadmin: '',
-            sysadmin: ''
-          };
-          state.error = action.error.message;
-        });
+  extraReducers: (builder) => {
+    builder.addCase(getUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.profile = action.payload;
+      state.error = '';
+    });
+    builder.addCase(getUser.rejected, (state, action) => {
+      state.loading = false;
+      state.profile = {
+        accountaccess: '',
+        adminaccess: '',
+        business: '',
+        campaignaccess: '',
+        carrotaccess: '',
+        carrotrole: '',
+        commsaccess: '',
+        contentaccess: '',
+        customercare: '',
+        email: '',
+        firstname: '',
+        id: 0,
+        isactive: '',
+        lastname: '',
+        loginid: '',
+        mobile: '',
+        offersaccess: '',
+        reporting: '',
+        scratchaccess: '',
+        status: '',
+        superadmin: '',
+        sysadmin: ''
+      };
+      state.error = action.error.message;
+    });
     // [HYDRATE]: (state, action) => {
     //   //TODO: handle client side state override
     //   if (!action.payload.profile.name) {
@@ -128,7 +133,7 @@ export const ProfileSlice = createSlice({
   }
 });
 
-export const { setProfileData,clearProfileData  } = ProfileSlice.actions;
+export const { setProfileData, clearProfileData } = ProfileSlice.actions;
 
 export const selectProfile = (state: AppState) => state.profile;
 

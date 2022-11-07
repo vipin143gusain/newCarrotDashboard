@@ -10,7 +10,9 @@ import { BrandOne } from '@/models/templates/forms/about_page/brand_page_one';
 import { BrandPageTwo } from '@/models/templates/forms/about_page/brand_page_two';
 import { getBrand, updateBrand } from '@/store/slices/brand';
 import {
-  categoryList, channelList, subCategoryList
+  categoryList,
+  channelList,
+  subCategoryList
 } from '@/store/slices/feed';
 import { getFileUpload, setBanner, setLogo } from '@/store/slices/file_upload';
 import { getModalState, setModalState } from '@/store/slices/modal_watcher';
@@ -73,15 +75,14 @@ const ProfileCover = (props: ProfileCoverProps) => {
       primary_offer: '',
       banner: '',
       logo: '',
-      price_rating:"",
-      brand_rating:"",
-      category_ids:[],
-      sub_category_ids:[],
-      brand_cashback:"",
-      validity_of_cashback:"",
-      channels:[],
-      visibility:false
-
+      price_rating: '',
+      brand_rating: '',
+      category_ids: [],
+      sub_category_ids: [],
+      brand_cashback: '',
+      validity_of_cashback: '',
+      channels: [],
+      visibility: false
     }
   });
 
@@ -102,9 +103,6 @@ const ProfileCover = (props: ProfileCoverProps) => {
     } catch (error) {}
   };
 
-
- 
-
   //THIS IS IMPORTANT
   const stepsData = [
     {
@@ -113,11 +111,11 @@ const ProfileCover = (props: ProfileCoverProps) => {
         <ControlledForm
           fieldData={BrandOne}
           defaultValue={BrandOne}
-          formTitle="Here we generally define the identity of your brand."
+          formTitle="Here we generally define the identity of your brand"
           handleFileChange={handleFileChange}
           categoryListData={categoryListData}
-        subCategoryListData={subCategoryListData}
-        channelListData={channelListData}
+          subCategoryListData={subCategoryListData}
+          channelListData={channelListData}
         />
       )
     },
@@ -127,7 +125,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         <ControlledForm
           fieldData={BrandPageTwo}
           defaultValue={BrandPageTwo}
-          formTitle="Your uniqueness for the user."
+          formTitle="Your uniqueness for the user"
           handleFileChange={handleFileChange}
           categoryListData={categoryListData}
           subCategoryListData={subCategoryListData}
@@ -135,20 +133,21 @@ const ProfileCover = (props: ProfileCoverProps) => {
         />
       )
     },
+    
     {
       id: 3,
       renderForm: (
         <ControlledForm
           fieldData={adminPageThree}
           defaultValue={adminPageThree}
-          formTitle="Your uniqueness for the user."
+          formTitle="For Admin purpose only"
           handleFileChange={handleFileChange}
           categoryListData={categoryListData}
-        subCategoryListData={subCategoryListData}
-        channelListData={channelListData}
+          subCategoryListData={subCategoryListData}
+          channelListData={channelListData}
         />
       )
-    },
+    }
   ];
 
   const handleNext = async (values) => {
@@ -167,15 +166,20 @@ const ProfileCover = (props: ProfileCoverProps) => {
           walletid: _theBrand.walletid,
           id: _theBrand.id
         };
-        payload.logo_file_key=payload.logo_file_key?payload.logo_file_key:payload.logo_file_key_edit;
-        payload.banner_file_key=payload.banner_file_key?payload.banner_file_key:payload.banner_file_key_edit;
-        payload.channels = values.channels.map(chan=>chan.name);
-        payload.category_ids=values.category_ids.map(cat=>cat.id);
-        payload.sub_category_ids=values.sub_category_ids.map(subCat=>subCat.id);
-        payload.price_rating=values.price_rating;
-        payload.brand_rating=values.brand_rating;
-        payload.visibility=values.visibility?1:0;
-
+        payload.logo_file_key = payload.logo_file_key
+          ? payload.logo_file_key
+          : payload.logo_file_key_edit;
+        payload.banner_file_key = payload.banner_file_key
+          ? payload.banner_file_key
+          : payload.banner_file_key_edit;
+        payload.channels = values.channels.map((chan) => chan.name);
+        payload.category_ids = values.category_ids.map((cat) => cat.id);
+        payload.sub_category_ids = values.sub_category_ids.map(
+          (subCat) => subCat.id
+        );
+        payload.price_rating = values.price_rating;
+        payload.brand_rating = values.brand_rating;
+        payload.visibility = values.visibility ? 1 : 0;
 
         // Object.keys(payload).map((el) => {
         //   if ((payload[`${el}`] == null)||(payload[`${el}`] == "")) {
@@ -194,26 +198,21 @@ const ProfileCover = (props: ProfileCoverProps) => {
             method: 'POST',
             data: payload
           });
-        
         }
 
-       
         setIsComplete(true);
-       
 
         let timeOut;
-        timeOut = setTimeout(()=>{
+        timeOut = setTimeout(() => {
           dispatch(setModalState(false));
           setActiveStep(0);
           setIsComplete(false);
-          setediting(false)
-          if(timeOut){
+          setediting(false);
+          if (timeOut) {
             clearTimeout(timeOut);
             setIsSubmitting(false);
           }
-
-        },2000)
-
+        }, 2000);
       } else {
         setActiveStep(activeStep + 1);
         // console.log('first step');
@@ -236,7 +235,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
       }
     } catch (error) {
       setIsSubmitting(false);
-      console.log('api failed',error.message);
+      console.log('api failed', error.message);
     }
   };
 
@@ -259,16 +258,23 @@ const ProfileCover = (props: ProfileCoverProps) => {
           website_url: _theBrand?.website_url,
           brand_colour: _theBrand?.brand_colour,
           primary_offer: _theBrand?.primary_offer,
-          logo_file_key_edit:_theBrand?.logo_file_key,
-          banner_file_key_edit:_theBrand?.banner_file_key,
-          channels:_theBrand?.channels&&_theBrand?.channels.length>0?_theBrand?.channels.map((el,index)=>{ return {id:(index+1),name:el} }):[],
-          category_ids:_theBrand?.categories?_theBrand?.categories:[],
-          sub_category_ids:_theBrand?.sub_categories?_theBrand?.sub_categories:[],
-          price_rating:_theBrand?.price_rating,
-          brand_rating:_theBrand?.brand_rating,
-          validity_of_cashback:_theBrand?.validity_of_cashback,
-          brand_cashback:_theBrand?.brand_cashback,
-          visibility:_theBrand?.visibility==1?true:false,
+          logo_file_key_edit: _theBrand?.logo_file_key,
+          banner_file_key_edit: _theBrand?.banner_file_key,
+          channels:
+            _theBrand?.channels && _theBrand?.channels.length > 0
+              ? _theBrand?.channels.map((el, index) => {
+                  return { id: index + 1, name: el };
+                })
+              : [],
+          category_ids: _theBrand?.categories ? _theBrand?.categories : [],
+          sub_category_ids: _theBrand?.sub_categories
+            ? _theBrand?.sub_categories
+            : [],
+          price_rating: _theBrand?.price_rating,
+          brand_rating: _theBrand?.brand_rating,
+          validity_of_cashback: _theBrand?.validity_of_cashback,
+          brand_cashback: _theBrand?.brand_cashback,
+          visibility: _theBrand?.visibility == 1 ? true : false
           // banner: _theBrand.banner,
         }
       });
@@ -301,8 +307,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
   useEffect(() => {
     // console.log('edit', editing);
     // renderMSForm();
-    setActiveStep(0)
-  }, [editing,modalState]);
+    setActiveStep(0);
+  }, [editing, modalState]);
 
   // useEffect(() => {
   //   fetchBrandDetail();
@@ -311,11 +317,10 @@ const ProfileCover = (props: ProfileCoverProps) => {
   return (
     <>
       <>
-     
         {loading && <h2>Loading Your brand...</h2>}
         {loading && error ? <p>Error:{error}</p> : null}
         <Box display="flex" mb={3}></Box>
-        {_theBrand?.name !== ''? (
+        {_theBrand?.name !== '' ? (
           <>
             <CardCover>
               <CardMedia
@@ -397,15 +402,12 @@ const ProfileCover = (props: ProfileCoverProps) => {
               ) : null}
 
               {user?.website_url && (
-              
                 <Button size="small" sx={{ mx: 1 }} variant="outlined">
-                    <Link href={user?.website_url}>
-                      <a target='_blank' rel="noopener noreferrer">
-                      {truncate_string(user?.website_url,10)}
-                      </a>
-                    
-                    </Link>
-               
+                  <Link href={user?.website_url}>
+                    <a target="_blank" rel="noopener noreferrer">
+                      {truncate_string(user?.website_url, 200)}
+                    </a>
+                  </Link>
                 </Button>
               )}
             </Box>
