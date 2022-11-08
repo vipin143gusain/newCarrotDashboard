@@ -90,7 +90,7 @@ export const CommonForm = (props: CommonFormProps) => {
     mode
   } = props;
 
-  // console.log('default value',defaultValues,mode)
+  console.log('default value',defaultValues,mode)
 
   const [market, setMarket] = useState({
     category_ids: [],
@@ -102,7 +102,6 @@ export const CommonForm = (props: CommonFormProps) => {
 
   const currentLoginProfile = sessionStorage.getItem("user")?JSON.parse(sessionStorage.getItem("user")):"";
 
-  console.log(currentLoginProfile)
 
   // console.log({
   //   categoryListData,
@@ -133,6 +132,9 @@ export const CommonForm = (props: CommonFormProps) => {
   useEffect(() => {
     // console.log('MARKETS', market);
     // console.log(defaultValues);
+    // return()=>{
+
+    // }
   }, [market, defaultValues]);
 
   useEffect(() => {
@@ -249,6 +251,16 @@ export const CommonForm = (props: CommonFormProps) => {
         theme_ids: [],
         sub_category_ids: []
       });
+
+      template.forEach(temp=>{
+        if(temp.type==="file"){
+          temp.filePath=""
+        }
+        // console.log(temp?.filePath)
+        
+      })
+
+
       reset();
     } else {
     }
@@ -259,6 +271,20 @@ export const CommonForm = (props: CommonFormProps) => {
     // return () => subscription.unsubscribe();
   }, [modalState, mode]);
   const renderFields = (fields) => {
+
+    // console.log(fields)
+    fields.forEach(fld=>{
+
+      if(fld.type==="file"&&fld?.filePath){
+        // console.log(fld.name,fld?.filePath)
+        delete fld.validationProps.required
+        delete fld.validationProps.validate
+      }
+      
+
+    })
+
+
 
    
 
@@ -281,9 +307,9 @@ export const CommonForm = (props: CommonFormProps) => {
         
 
         if(type==="file"){
-          console.log(field.filePath)
+          // console.log(field.filePath)
           // validationProps={}
-          console.log(validationProps)
+          // console.log(validationProps)
         }
 
         // const [market, setMarket] = useState<string[]>([]);
@@ -302,8 +328,9 @@ export const CommonForm = (props: CommonFormProps) => {
                     defaultValues.defaultValues?.search_image?defaultValues.defaultValues?.search_image:
                     errors[name]?.message.toString()
                       ? errors[name]?.message.toString()
-                      : fields.filePath
+                      : field.filePath
                   }
+                  // helperText={field.filePath}
                   error={errors[name] ? true : null}
                   key={name}
                   contentEditable={disabled}
@@ -324,9 +351,9 @@ export const CommonForm = (props: CommonFormProps) => {
                       </InputAdornment>
                       
                     )
-                    // readOnly:disabled
                   }}
                 />
+                
               </>
             ) : type === 'select' ? (
               <>
@@ -759,6 +786,7 @@ export const CommonForm = (props: CommonFormProps) => {
               </>
             )
           )}
+
 
           {/* {
           mode==="CREATE"&&

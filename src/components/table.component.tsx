@@ -366,15 +366,21 @@ const GridTable = (props: TableProps) => {
       }
       carrotCategoryDefault.purpose=""
       setCarrotCategoryDefault({ ...carrotCategoryDefault });
+      carrotCategoryTemplate[1].filePath = "";
+      carrotCategoryTemplate[2].filePath = "";
+      carrotCategoryTemplate[3].filePath = "";
 
-      // for (const subcatDefV in carrotSubCategoryDefault.defaultValues) {
-      //   if(Array.isArray(carrotSubCategoryDefault.defaultValues[subcatDefV])){
-      //     carrotSubCategoryDefault.defaultValues[subcatDefV]=[]
-      //   }else{
-      //     carrotSubCategoryDefault.defaultValues[subcatDefV]="";
-      //   }
-      // }
-      // setCarrotSubCategoryDefault({...carrotSubCategoryDefault})
+      carrotSubCategoryTemplate[1].filePath = "";
+      carrotSubCategoryTemplate[2].filePath = "";
+
+      for (const subcatDefV in carrotSubCategoryDefault.defaultValues) {
+        if(Array.isArray(carrotSubCategoryDefault.defaultValues[subcatDefV])){
+          carrotSubCategoryDefault.defaultValues[subcatDefV]=[]
+        }else{
+          carrotSubCategoryDefault.defaultValues[subcatDefV]="";
+        }
+      }
+      setCarrotSubCategoryDefault({...carrotSubCategoryDefault})
     }
   }, [modalCurrentState, mode]);
 
@@ -548,8 +554,9 @@ const GridTable = (props: TableProps) => {
                                 setTabValue("edit_asset");
                                 dispatch(setModalState(true));
                                 if (gridType === "CATEGORY") {
-                                  carrotCategoryTemplate[1].filePath =
-                                    data.small_image;
+                                  carrotCategoryTemplate[1].filePath = data.small_image;
+                                  carrotCategoryTemplate[2].filePath = data.banner_image;
+                                  carrotCategoryTemplate[3].filePath = data.search_image;
                                   carrotCategoryDefault.purpose = "update";
                                   carrotCategoryDefault.defaultValues = data;
                                   carrotCategoryDefault.defaultValues = {
@@ -571,8 +578,8 @@ const GridTable = (props: TableProps) => {
                                   carrotSubCategoryDefault.defaultValues = data;
                                   carrotSubCategoryDefault.defaultValues = {
                                     ...carrotSubCategoryDefault.defaultValues,
-                                    small_image_key_edit: data.small_image,
-                                    banner_image_key_edit: data.banner_image,
+                                    // small_image_key_edit: data.small_image,
+                                    // banner_image_key_edit: data.banner_image,
                                     is_active:
                                       data.is_active == 1
                                         ? "Active"

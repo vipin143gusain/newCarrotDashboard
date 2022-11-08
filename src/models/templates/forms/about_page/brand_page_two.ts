@@ -1,6 +1,7 @@
 
 
-export const BrandPageTwo = [
+export const BrandPageTwo = 
+[
   {
     title: 'Upload Product Logo',
     type: 'file',

@@ -80,9 +80,7 @@ export const carrotCategoryTemplate = [
       accept: 'image/jpeg,image/png',
       validationProps: {
         required: {
-          value: function(){
-            return carrotCategoryTemplate[2].filePath?false:true
-          },
+          value: true,
           message: 'You need to upload banner'
         },
   
