@@ -81,31 +81,46 @@ function DashboardTasks(props) {
   const productData = useSelector(walletProduct);
   const categoryData = useSelector(walletCategory);
   const addOfferData = useSelector(addOffer);
+  const [userSesData, setUserSesData] = useState({});
 
   const tabs = [
-    { value: 'about', label: 'About', tabicon: <Info /> },
+    { 
+      value: 'about',
+       label: 'About',
+       viewRoleId:[1,2],
+      tabicon: <Info /> },
     {
       value: 'walletproducts',
       label: 'Wallet Products',
+      viewRoleId:[1,2],
       tabicon: <Inventory2TwoTone />
     },
     {
       value: 'walletcategories',
       label: 'Wallet Categories',
+      viewRoleId:[1,2],
       tabicon: <CategoryTwoTone />
     },
-    { value: 'feed', label: 'Feed', tabicon: <DynamicFeedTwoTone /> },
+    { value: 'feed',
+     label: 'Feed',
+     viewRoleId:[1,2],
+      tabicon: <DynamicFeedTwoTone /> },
 
-    { value: 'addOffer', label: 'Add Offer', tabicon: <DynamicFeedTwoTone /> },
+    { value: 'addOffer',
+     label: 'Add Offer', 
+     viewRoleId:[1,2],
+     tabicon: <DynamicFeedTwoTone /> },
     
     {
       value: 'carrot_category',
       label: 'Categories',
+      viewRoleId:[1],
       tabicon: <DynamicFeedTwoTone />
     },
     {
       value: 'carrot_subcategory',
       label: 'Sub Categories',
+      viewRoleId:[1],
       tabicon: <DynamicFeedTwoTone />
     }
   ];
@@ -116,6 +131,10 @@ function DashboardTasks(props) {
   };
 
   useEffect(() => {
+    let sesData = sessionStorage.getItem("user")?JSON.parse(sessionStorage.getItem("user")):"";
+    if(sesData){
+      setUserSesData(sesData);
+    }
     dispatch(getFeedCategory());
     dispatch(getFeedSubCategory());
     dispatch(getFeedTheme());
@@ -269,7 +288,9 @@ function DashboardTasks(props) {
             textColor="primary"
             indicatorColor="primary"
           >
-            {tabs.map((tab) => (
+            {tabs.filter(t=>{
+              return t.viewRoleId.includes(Number(userSesData?.carrotrole))
+            }).map((tab) => (
               <Tab
                 icon={currentTab === tab.value ? tab.tabicon : null}
                 iconPosition="start"

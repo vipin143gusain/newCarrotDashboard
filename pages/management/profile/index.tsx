@@ -1,4 +1,4 @@
-
+import { useEffect } from 'react';
 import SidebarLayout from '@/layouts/side_bar';
 import Head from 'next/head';
 
@@ -15,13 +15,21 @@ import { useDispatch, useSelector } from 'react-redux';
 const ManagementUserProfile = () => {
   const [userCreated, setuserCreated] = useState('');
   const brandInfo = useSelector(brand);
-  const profileInfo = useSelector(state=>state.profile.profile)
+  const [userSesData, setUserSesData] = useState({});
 
   const dispatch = useDispatch();
 
 
  
-  const [roleID, setroleID] = useState<number>(parseInt(profileInfo.carrotrole));
+  
+  useEffect(()=>{
+      let sesData = sessionStorage.getItem("user")?JSON.parse(sessionStorage.getItem("user")):"";
+        if(sesData){
+          setUserSesData(sesData);
+        }
+
+    },[])
+
   return (
     <>
       <Head>
@@ -44,7 +52,7 @@ const ManagementUserProfile = () => {
               />
             </Grid>
 
-            {profileInfo.carrotrole=="1" ? (
+            {userSesData?.carrotrole=="1" ? (
               <>
                 <Grid item xs={12} md={4}>
                   <RecentActivity />

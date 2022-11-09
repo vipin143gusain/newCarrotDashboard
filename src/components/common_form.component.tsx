@@ -90,7 +90,8 @@ export const CommonForm = (props: CommonFormProps) => {
     mode
   } = props;
 
-  console.log('default value',defaultValues,mode)
+  // console.log('default value',defaultValues,mode)
+  // console.log("template",template)
 
   const [market, setMarket] = useState({
     category_ids: [],
@@ -135,6 +136,7 @@ export const CommonForm = (props: CommonFormProps) => {
     // return()=>{
 
     // }
+
   }, [market, defaultValues]);
 
   useEffect(() => {
@@ -243,6 +245,19 @@ export const CommonForm = (props: CommonFormProps) => {
           ...market
         });
       }
+
+     
+      // template.forEach(fld=>{
+
+      //   if(fld.type==="file"&&fld?.filePath){
+      //     delete fld.validationProps.required
+      //     delete fld.validationProps.validate
+      //   }
+        
+  
+      // })
+
+
     } else if (mode === 'CREATE') {
       setMarket({
         category_ids: [],
@@ -256,7 +271,6 @@ export const CommonForm = (props: CommonFormProps) => {
         if(temp.type==="file"){
           temp.filePath=""
         }
-        // console.log(temp?.filePath)
         
       })
 
@@ -286,7 +300,6 @@ export const CommonForm = (props: CommonFormProps) => {
 
 
 
-   
 
     return (
       fields &&
@@ -309,7 +322,7 @@ export const CommonForm = (props: CommonFormProps) => {
         if(type==="file"){
           // console.log(field.filePath)
           // validationProps={}
-          // console.log(validationProps)
+          console.log(validationProps)
         }
 
         // const [market, setMarket] = useState<string[]>([]);

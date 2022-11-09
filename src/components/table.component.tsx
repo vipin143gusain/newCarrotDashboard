@@ -142,6 +142,9 @@ const GridTable = (props: TableProps) => {
   const [filters, setFilters] = useState({
     status: null
   });
+  const [tempTemplateCat, setTempTemplateCat] = useState([]);
+  const [tempTemplateSubCat, setTempTemplateSubCat] = useState([]);
+
 
   const [carrotCategoryDefault, setCarrotCategoryDefault] = useState({
     purpose: '',
@@ -361,6 +364,8 @@ const GridTable = (props: TableProps) => {
 
   useEffect(() => {
     if (!modalCurrentState) {
+      // setTempTemplateCat(JSON.parse(JSON.stringify(carrotCategoryTemplate)))
+      // setTempTemplateSubCat(JSON.parse(JSON.stringify(carrotSubCategoryTemplate)))
       for (const catDefV in carrotCategoryDefault.defaultValues) {
         carrotCategoryDefault.defaultValues[catDefV] = '';
       }
@@ -555,9 +560,11 @@ const GridTable = (props: TableProps) => {
                                 dispatch(setModalState(true));
                                 if (gridType === "CATEGORY") {
                                   carrotCategoryTemplate[1].filePath = data.small_image;
+
                                   carrotCategoryTemplate[2].filePath = data.banner_image;
+
                                   carrotCategoryTemplate[3].filePath = data.search_image;
-                                  carrotCategoryDefault.purpose = "update";
+                                  // carrotCategoryDefault.purpose = "update";
                                   carrotCategoryDefault.defaultValues = data;
                                   carrotCategoryDefault.defaultValues = {
                                     ...carrotCategoryDefault.defaultValues,
@@ -572,9 +579,11 @@ const GridTable = (props: TableProps) => {
                                 } else if (gridType === "SUBCATEGORY") {
                                   carrotSubCategoryTemplate[1].filePath =
                                     data.small_image;
+                                    
                                   carrotSubCategoryTemplate[2].filePath =
                                     data.banner_image;
-                                  carrotSubCategoryDefault.purpose = "update";
+                                    
+                                  // carrotSubCategoryDefault.purpose = "update";
                                   carrotSubCategoryDefault.defaultValues = data;
                                   carrotSubCategoryDefault.defaultValues = {
                                     ...carrotSubCategoryDefault.defaultValues,
@@ -664,7 +673,7 @@ const GridTable = (props: TableProps) => {
       >
 
         {
-          mode==="EDIT"&&
+          mode==="EDIT_2"&&
           <>
         <Box sx={{ width: "100%", marginTop: "10px" }}>
           <Tabs
@@ -722,8 +731,8 @@ const GridTable = (props: TableProps) => {
 
 
 
-{
-  mode==="CREATE"&&
+{/* {
+  mode==="CREATE"&& */}
         <CommonForm
           containerStyle={{
             display: "flex",
@@ -760,7 +769,7 @@ const GridTable = (props: TableProps) => {
           }
         />
 
-}
+{/* } */}
       </CommonModal>
     </>
   );
