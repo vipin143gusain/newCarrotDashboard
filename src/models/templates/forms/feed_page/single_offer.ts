@@ -9,6 +9,7 @@ export const singleOfferOne = [
     id: 'logo',
     label: 'Upload',
     placeholder: 'Image',
+    accept: 'image/jpeg,image/png',
     collectionName: 'subcategory',
     filePath: '',
     validationProps: {

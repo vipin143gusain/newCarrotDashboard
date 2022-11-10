@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { TransitionProps } from '@mui/material/transitions';
-import { ChangeEvent, forwardRef, ReactElement, Ref, useCallback, useState } from 'react';
+import { ChangeEvent, forwardRef, ReactElement, Ref, useCallback, useState,useEffect } from 'react';
 
 import { _serveAPI } from '@/api/service';
 import { AppDispatch } from '@/store';
@@ -68,6 +68,7 @@ function HeaderSearch() {
   const [searchResult, setSearchResult] = useState([]);
   const searchData = useSelector(search);
   const {currentTab,walletId} = useSelector(search);
+  const [userSesData, setUserSesData] = useState("");
   const openSearchResults = useSelector(search).isResultOpen;
 
 
@@ -150,13 +151,21 @@ function HeaderSearch() {
     setSearchValue("")
   };
 
+  useEffect(()=>{
+    sessionStorage.getItem("user")&&setUserSesData(JSON.parse(sessionStorage.getItem("user")))
+  },[])
+
   return (
     <>
+
+    { 
+    userSesData?.carrotrole==1&&
       <Tooltip arrow title="Search">
         <IconButton color="primary" onClick={handleClickOpen}>
           <SearchTwoToneIcon />
         </IconButton>
       </Tooltip>
+    }
 
       <DialogWrapper
         open={open}

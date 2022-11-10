@@ -35,7 +35,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
 
   const {
     control,
-    formState: { errors },
+    formState: { errors, defaultValues },
     register,
     watch,
     setValue,
@@ -361,6 +361,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
                         {...register(i.name)}
                         {...field}
                         checked={getValues(i.name)}
+                        disabled={Object.values(getValues()).includes("")}
                         // onChange={()=>{
                         //   console.log(field)
                         // }}

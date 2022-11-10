@@ -99,9 +99,16 @@ function RecentActivity() {
     setMarket({
       ...market
     })
+
+
+
 if(_theBrand.brand_rating!==0)
 {
-  setBrandRating(_theBrand.brand_rating)
+  setBrandRating(_theBrand.brand_rating);
+}
+if(_theBrand.price_rating!==0)
+{
+  setPriceRating(_theBrand.price_rating )
 }
 
   },[_theBrand])
@@ -136,7 +143,7 @@ if(_theBrand.brand_rating!==0)
               name="customized-color"
               defaultValue={2}
               readOnly
-              value={_theBrand.price_rating}
+              value={_priceRating}
               onChange={(event, newValue) => {
                 setPriceRating(newValue);
                 console.log(event)
@@ -168,7 +175,7 @@ if(_theBrand.brand_rating!==0)
             <Rating
               name="simple-controlled"
               readOnly
-              value={_theBrand.brand_rating}
+              value={_brandRating}
               size="large"
               onChange={(event, newValue) => {
                 setBrandRating(newValue);

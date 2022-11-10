@@ -11,6 +11,7 @@ export const singleVideo = [
     label: 'Upload Video',
     placeholder: 'Image',
     collectionName: 'subcategory',
+    accept: 'video/mp4,video/mov',
     filePath: '',
     thumbPath:"",
     validationProps: {

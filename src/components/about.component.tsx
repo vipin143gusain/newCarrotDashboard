@@ -62,6 +62,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
     dispatch(getBrand());
   }, []);
 
+  const [totalStep, setTotalStep] = useState(3);
   const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [userSesData, setUserSesData] = useState("");
@@ -153,7 +154,12 @@ const ProfileCover = (props: ProfileCoverProps) => {
 
   const handleNext = async (values) => {
     try {
-      if (activeStep == allSteps.length - 1) {
+      let totalStep=3;
+      if(userSesData?.carrotrole==2){
+        totalStep=2
+      }
+      
+      if (activeStep == totalStep - 1) {
         setActiveStep(activeStep + 1);
 
         console.log('last step');
@@ -288,17 +294,20 @@ const ProfileCover = (props: ProfileCoverProps) => {
   const renderMSForm = () => {
    
   
+    let stepD=stepsData;
+    let allStp = allSteps;
+   
     if(userSesData?.carrotrole==2){
-      stepsData.length=2;
-      allSteps.length=2;
+      stepD=stepsData.slice(0,2);
+      allStp = allSteps.slice(0,2);
     }
     // console.log(abtValues);
     return abtValues.defaultValues.name !== '' ? (
       <MultiPartForm
         isFormComplete={isComplete}
         isSubmitting={isSubmitting}
-        stepData={stepsData}
-        allSteps={allSteps}
+        stepData={stepD}
+        allSteps={allStp}
         handleFileChange={handleFileChange}
         defaultValues={abtValues}
         activeStep={activeStep}
