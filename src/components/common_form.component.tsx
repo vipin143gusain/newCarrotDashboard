@@ -93,6 +93,7 @@ export const CommonForm = (props: CommonFormProps) => {
   // console.log('default value',defaultValues,mode)
   // console.log("template",template)
 
+
   const [market, setMarket] = useState({
     category_ids: [],
     gender: '',
@@ -125,7 +126,8 @@ export const CommonForm = (props: CommonFormProps) => {
     reset,
     setValue,
     control,
-    getValues
+    getValues,
+    clearErrors
   } = useForm({ defaultValues: defaultValues, shouldUnregister: true });
 
   const modalState = useSelector(getModalState);
@@ -136,14 +138,23 @@ export const CommonForm = (props: CommonFormProps) => {
     // return()=>{
 
     // }
-
+    // clearErrors()
   }, [market, defaultValues]);
 
   useEffect(() => {
     if (mode === 'EDIT') {
+
+      // console.log( template )
+      // console.log( defaultValues.defaultValues )
+
       if (defaultValues?.defaultValues) {
         Object.keys(defaultValues.defaultValues).map((el) => {
-          setValue(el, defaultValues.defaultValues[`${el}`]);
+          const fileType = template.find(temp=>temp.name===el)
+          if(fileType?.type!=="file"){
+            setValue(el, defaultValues.defaultValues[`${el}`]);
+          }else{
+            setValue(el, defaultValues.defaultValues[`${el}`],{shouldValidate:false });
+          }
         });
       }
 
@@ -246,15 +257,19 @@ export const CommonForm = (props: CommonFormProps) => {
         });
       }
 
-     
-      // template.forEach(fld=>{
+      if (
+        defaultValues?.defaultValues &&
+        defaultValues?.defaultValues?.small_image_key
+      ) {
+        setValue('small_image_key',  defaultValues?.defaultValues?.small_image_key,{shouldValidate: false, shouldDirty: true});
 
+      }
+
+      // template.forEach(fld=>{
       //   if(fld.type==="file"&&fld?.filePath){
       //     delete fld.validationProps.required
       //     delete fld.validationProps.validate
       //   }
-        
-  
       // })
 
 
@@ -267,12 +282,12 @@ export const CommonForm = (props: CommonFormProps) => {
         sub_category_ids: []
       });
 
-      template.forEach(temp=>{
-        if(temp.type==="file"){
-          temp.filePath=""
-        }
+      // template.forEach(temp=>{
+      //   if(temp.type==="file"){
+      //     temp.filePath=""
+      //   }
         
-      })
+      // })
 
 
       reset();
@@ -284,19 +299,22 @@ export const CommonForm = (props: CommonFormProps) => {
     // );
     // return () => subscription.unsubscribe();
   }, [modalState, mode]);
+
   const renderFields = (fields) => {
+    
+    // const fields=fieldTemplate.filter(fiel=>true);
 
     // console.log(fields)
-    fields.forEach(fld=>{
 
-      if(fld.type==="file"&&fld?.filePath){
-        // console.log(fld.name,fld?.filePath)
-        delete fld.validationProps.required
-        delete fld.validationProps.validate
-      }
-      
+    // console.log(fields)
 
-    })
+    // fields.forEach(fld=>{
+    //   if(fld.type==="file"&&fld?.filePath){
+        
+    //     delete fld.validationProps.required
+    //     delete fld.validationProps.validate
+    //   }
+    // })
 
 
 
@@ -319,10 +337,12 @@ export const CommonForm = (props: CommonFormProps) => {
         // console.log(name,validationProps)
         
 
-        if(type==="file"){
+        if(type==="file"&&field?.filePath){
           // console.log(field.filePath)
           // validationProps={}
-          console.log(validationProps)
+          // clearErrors(name)
+          console.log(field?.validationProps)
+          // console.log(field?.filePath)
         }
 
         // const [market, setMarket] = useState<string[]>([]);
@@ -652,8 +672,10 @@ export const CommonForm = (props: CommonFormProps) => {
 
     <form onSubmit={handleSubmit(onSubmitForm)}>
       <FormControl>
-        <div style={containerStyle}>{
-        renderFields(template)}</div>
+        <div style={containerStyle}>
+          { renderFields(template) }
+          
+        </div>
         <Divider style={{ marginTop: 15 }} />
         <Grid
           container

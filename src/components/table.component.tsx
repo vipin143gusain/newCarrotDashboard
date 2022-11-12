@@ -44,6 +44,7 @@ import { ToastContainer } from 'react-toastify';
 import Label from 'src/components/labelNow.component';
 import { CommonForm } from './common_form.component';
 import CommonModal from './common_modal.component';
+import {cloneDeep} from 'lodash';
 
 interface TableProps {
   gridType: 'CATEGORY' | 'SUBCATEGORY' | 'QC';
@@ -190,6 +191,8 @@ const GridTable = (props: TableProps) => {
       status: value
     }));
   };
+
+  // console.log(cloneDeep(carrotCategoryTemplate)===carrotCategoryTemplate)
 
   const handlePageChange = (_event, newPage) => {
     setPage(newPage);
@@ -568,6 +571,9 @@ const GridTable = (props: TableProps) => {
                                   carrotCategoryDefault.defaultValues = data;
                                   carrotCategoryDefault.defaultValues = {
                                     ...carrotCategoryDefault.defaultValues,
+                                    small_image_key:data.small_image,
+                                    banner_image_key:data.banner_image,
+                                    search_image_key:data.search_image,
                                     is_active:
                                       data.is_active == 1
                                         ? "Active"
@@ -764,8 +770,14 @@ const GridTable = (props: TableProps) => {
           onResetForm={onResetForm}
           template={
             gridType == "CATEGORY"
-              ? carrotCategoryTemplate
-              : carrotSubCategoryTemplate
+              ? cloneDeep(carrotCategoryTemplate).map(el=>{
+                if(el.type==="file"&&el?.filePath){
+                  delete el.validationProps.required
+                  delete el.validationProps.validate
+                }
+                return el
+              })
+              : cloneDeep(carrotSubCategoryTemplate)
           }
         />
 

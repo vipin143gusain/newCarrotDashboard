@@ -13,9 +13,7 @@ export const categoryTemplate = [
       accept: 'image/jpeg,image/png',
       validationProps: {
         required: {
-          value: function(){
-            return categoryTemplate[0].filePath?false:true
-          },
+          value: true,
           message: 'You need to upload banner'
         },
   

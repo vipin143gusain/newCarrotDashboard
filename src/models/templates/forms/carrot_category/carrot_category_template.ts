@@ -41,22 +41,13 @@ export const carrotCategoryTemplate = [
         },
   
         validate: {
-          // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
           lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
           imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
           imageDimension: async function(files) {
             const result =  await calcHeightWidth(files);
             return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
           },
-          // uploadFile:async (files) => {
-          //   const s3Detail = await fileUpload(
-          //     files[0],
-          //     'category',
-          //     'images',
-          //     ''
-          //   );
-          //   carrotCategoryTemplate[1].filePath = `${s3Detail.path}`;
-          // }
+          
           
         },
         
@@ -125,9 +116,7 @@ export const carrotCategoryTemplate = [
       validationProps: {
         
         required: {
-          value: function(){
-            return carrotCategoryTemplate[3].filePath?false:true
-          },
+          value: true,
           message: 'You need to upload banner'
         },
   
