@@ -91,7 +91,6 @@ export const CommonForm = (props: CommonFormProps) => {
   } = props;
 
   // console.log('default value',defaultValues,mode)
-  // console.log("template",template)
 
 
   const [market, setMarket] = useState({
@@ -304,7 +303,6 @@ export const CommonForm = (props: CommonFormProps) => {
     
     // const fields=fieldTemplate.filter(fiel=>true);
 
-    // console.log(fields)
 
     // console.log(fields)
 
@@ -341,11 +339,13 @@ export const CommonForm = (props: CommonFormProps) => {
           // console.log(field.filePath)
           // validationProps={}
           // clearErrors(name)
-          console.log(field?.validationProps)
+          // console.log(field?.validationProps)
           // console.log(field?.filePath)
+          if(mode==="EDIT"){
+            validationProps.required.value=false;
+            // validationProps.validate=false;
+          }
         }
-
-        // const [market, setMarket] = useState<string[]>([]);
 
         return (
           <>
@@ -354,13 +354,15 @@ export const CommonForm = (props: CommonFormProps) => {
                 <TextField
                   style={{ margin: '20px' }}
                   helperText={
+                    errors[name]?.message
+                      ? errors[name]?.message:
                     defaultValues.defaultValues?.image?defaultValues.defaultValues?.image:
                     defaultValues.defaultValues?.media_file?defaultValues.defaultValues?.media_file:
                     defaultValues.defaultValues?.small_image?defaultValues.defaultValues?.small_image:
                     defaultValues.defaultValues?.banner_image?defaultValues.defaultValues?.banner_image:
                     defaultValues.defaultValues?.search_image?defaultValues.defaultValues?.search_image:
-                    errors[name]?.message.toString()
-                      ? errors[name]?.message.toString()
+                    errors[name]?.message
+                      ? errors[name]?.message
                       : field.filePath
                   }
                   // helperText={field.filePath}
@@ -790,7 +792,10 @@ export const CommonForm = (props: CommonFormProps) => {
               <>
                 <Button
                   type="submit"
-                  onClick={handleSubmit(onSubmitForm)}
+                  onClick={()=>{
+                    handleSubmit(onSubmitForm)
+                  }
+                    }
                   variant="outlined"
                   startIcon={<CheckCircleTwoToneIcon />}
                   sx={{

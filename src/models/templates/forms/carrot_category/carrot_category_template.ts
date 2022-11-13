@@ -37,21 +37,40 @@ export const carrotCategoryTemplate = [
       validationProps: {
         required: {
           value: true,
-          message: 'You need to upload banner'
+          message: 'You need to upload Image'
         },
   
         validate: {
-          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
-          imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
-          imageDimension: async function(files) {
-            const result =  await calcHeightWidth(files);
-            return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
+          lessThan10MB: (files) =>{
+            console.log(files)
+            // return files&&files.length>0&&files[0]?.size < 1*1000*1024 || 'Max limit 2MB'
+            if(files&&files.length){
+              return files&&files.length>0&&files[0]?.size < 1*1000*1024 || 'Max limit 2MB'
+            }else{
+              return true
+            }
+            // return files&&files.length>0&&files[0]?.size < 1*1000*1024 || 'Max limit 2MB'
+          } ,
+          imgName: (files) =>{
+            if(files&&files.length){
+              return files[0]?.name.length < 30 || 'Max image name lenth is 30 only'
+            }else{
+              return true
+            }
           },
-          
-          
+          imageDimension: async function(files) {
+            if(files&&files.length>0){
+              const result =  await calcHeightWidth(files);
+              return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
+            }else{
+              return true
+            }
+          },
+        
         },
         
         onChange: async (e) => {
+
           const s3Detail = await fileUpload(
             e.target.files[0],
             'category',
@@ -59,7 +78,7 @@ export const carrotCategoryTemplate = [
             ''
           );
           carrotCategoryTemplate[1].filePath = `${s3Detail.path}`;
-        }
+        },
       }
     },
     {
@@ -72,16 +91,32 @@ export const carrotCategoryTemplate = [
       validationProps: {
         required: {
           value: true,
-          message: 'You need to upload banner'
+          message: 'You need to upload Image banner'
         },
   
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
-          imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
+          lessThan10MB: (files) =>{
+            if(files&&files.length>0){
+              return files[0]?.size < 1*1000*1024 || 'Max limit 2MB'
+            }else{
+              return true
+            }
+          },
+          imgName: (files) => {
+            if(files&&files.length>0){
+              return files[0]?.name.length < 30 || 'Max image name lenth is 30 only'
+            }else{
+              return true
+            }
+          },
           imageDimension: async function(files) {
-            const result =  await calcHeightWidth(files);
-            return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+            if(files&&files.length>0){
+              const result =  await calcHeightWidth(files);
+              return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+            }else{
+              return true
+            }
           },
           // uploadFile:async (files) => {
           //   const s3Detail = await fileUpload(
@@ -117,16 +152,32 @@ export const carrotCategoryTemplate = [
         
         required: {
           value: true,
-          message: 'You need to upload banner'
+          message: 'You need to upload Search banner'
         },
   
         validate: {
           // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-          lessThan10MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
-          imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
+          lessThan10MB: (files) => {
+            if(files&&files.length>0){
+              return files[0]?.size < 1*1000*1024 || 'Max limit 2MB'
+            }else{
+              return true
+            }
+          },
+          imgName: (files) => {
+            if(files&&files.length>0){
+              return files[0]?.name.length < 30 || 'Max image name lenth is 30 only'
+            }else{
+              return true
+            }
+          },
           imageDimension: async function(files) {
-            const result =  await calcHeightWidth(files);
-            return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+            if(files&&files.length>0){
+              const result =  await calcHeightWidth(files);
+              return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+            }else{
+              return true
+            }
           },
           // uploadFile:async (files) => {
           //   const s3Detail = await fileUpload(

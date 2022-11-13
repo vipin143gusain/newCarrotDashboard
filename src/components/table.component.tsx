@@ -571,9 +571,9 @@ const GridTable = (props: TableProps) => {
                                   carrotCategoryDefault.defaultValues = data;
                                   carrotCategoryDefault.defaultValues = {
                                     ...carrotCategoryDefault.defaultValues,
-                                    small_image_key:data.small_image,
-                                    banner_image_key:data.banner_image,
-                                    search_image_key:data.search_image,
+                                    // small_image_key:data.small_image,
+                                    // banner_image_key:data.banner_image,
+                                    // search_image_key:data.search_image,
                                     is_active:
                                       data.is_active == 1
                                         ? "Active"
@@ -772,8 +772,10 @@ const GridTable = (props: TableProps) => {
             gridType == "CATEGORY"
               ? cloneDeep(carrotCategoryTemplate).map(el=>{
                 if(el.type==="file"&&el?.filePath){
-                  delete el.validationProps.required
-                  delete el.validationProps.validate
+                  // console.log("deep cloneee before",el)
+                  // delete el.validationProps.required
+                  // delete el.validationProps.validate
+                  // console.log("deep cloneee after",el)
                 }
                 return el
               })
