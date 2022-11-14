@@ -1,4 +1,5 @@
 import { fileUpload } from '@/utils/common_upload_image';
+import { calcHeightWidth } from '../../wallet_product/imageHeightWidthCalc';
 
 export const doubleOfferTwo = [
   {
@@ -11,6 +12,22 @@ export const doubleOfferTwo = [
     collectionName: 'subcategory',
     filePath: '',
     validationProps: {
+      required: {
+        value: true,
+        message: 'You need to upload banner'
+      },
+      validate: {
+        lessThan10MB: (files) => files&&files.length===0?true:files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
+        imgName: (files) => files&&files.length===0?true:files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
+        imageDimension: async function(files) {
+          if(files&&files.length){
+            const result =  await calcHeightWidth(files);
+            return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
+          }else{
+            return true
+          }
+        },
+      },
       onChange: async (e) => {
         console.log('change listening');
         const s3Detail = await fileUpload(

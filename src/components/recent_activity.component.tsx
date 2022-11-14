@@ -338,7 +338,7 @@ if(_theBrand.price_rating!==0)
             id="outlined-search"
             // label="Brand Cashback"
             fullWidth
-            value={_theBrand.brand_cashback}
+            value={_theBrand?.brand_cashback}
             placeholder="eg. 10% Off"
           />
           <Divider />

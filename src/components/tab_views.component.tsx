@@ -74,6 +74,7 @@ import { getSelectionType } from '../utils/get_selections';
 import CategoryGrid, { CategoryGridProps } from './grid/category.grid';
 import FeedGrid, { FeedGridProps } from './grid/feed.grid';
 import ProductGrid, { ProductGridProps } from './grid/product.grid';
+import {cloneDeep} from "lodash"
 // const OutlinedInputWrapper = styled(OutlinedInput)(
 //   ({ theme }) => `
 //     background-color: ${theme.colors.alpha.white[100]};
@@ -380,14 +381,19 @@ const TaskSearch = (
     let filePath;
     if (tsType == 'WALLET_PRODUCT') {
       filePath = productTemplate[0].filePath;
-      objUrl=URL.createObjectURL(value['Upload Product Banner'][0])
-      setFileBlob(objUrl)
+      if(value?.['Upload Product Banner']&&value['Upload Product Banner'].length){
+        objUrl=URL.createObjectURL(value['Upload Product Banner'][0])
+        setFileBlob(objUrl)
+      }
+      
     } else if (tsType == 'WALLET_CATEGORY') {
       filePath = categoryTemplate[0].filePath;
     } else if (tsType === 'WALLET_FEED' && formType === 'SINGLE_OFFER_TYPE') {
       filePath = singleOfferOne[0].filePath;
-      objUrl=URL.createObjectURL(value['logo'][0])
-      setFileBlob(objUrl)
+      if(value['logo']&&value['logo'].length){
+        objUrl=URL.createObjectURL(value['logo'][0])
+        setFileBlob(objUrl)
+      }
     } else if (tsType === 'ADD_OFFER') {
       filePath = addOfferTemplate[0].filePath;
     } else if (tsType === 'WALLET_FEED' && formType === 'SINGLE_VIDEO_TYPE') {
@@ -1058,7 +1064,7 @@ const TaskSearch = (
               uploadFilePath={uploadFilePath}
               onSubmitForm={submitDoubleOfferTwo}
               onResetForm={onResetForm}
-              template={doubleOfferTwo}
+              template={ cloneDeep(doubleOfferTwo)}
             />
           </AccordionDetails>
         </Accordion>
@@ -1071,9 +1077,16 @@ const TaskSearch = (
     if (!modalState) {
       prodDefault.purpose = '';
       prodDefault.defaultValues.image = '';
+
       categoryDefault.purpose = '';
+      categoryDefault.defaultValues.image = '';
+
       feedDefault.purpose = '';
+      feedDefault.defaultValues.media_file=""
+
       addOfferDefault.purpose = '';
+      addOfferDefault.defaultValues.image="";
+
       setProdDefault({...prodDefault });
       setCategoryDefault({...categoryDefault });
       setFeedDefault({...feedDefault });
@@ -1094,6 +1107,8 @@ const TaskSearch = (
         ...editAddOfferDefault,
         purpose: ''
       });
+      productTemplate[0].filePath="";
+      categoryTemplate[0].filePath=""
     }
   }, [modalState, mode]);
 
@@ -1175,6 +1190,14 @@ const TaskSearch = (
             variant="outlined"
             size="medium"
             onClick={() => {
+              productTemplate[0].filePath="";
+              categoryTemplate[0].filePath="";
+              addOfferTemplate[0].filePath="";
+              singleOfferOne[0].filePath=""
+              singleVideo[0].filePath=""
+              singleVideo[0].thumbPath=""
+              doubleOfferOne[0].filePath="";
+              doubleOfferTwo[0].filePath="";
               tsType === 'WALLET_PRODUCT'
                 ? setcreateType('Add_Product')
                 : tsType === 'WALLET_CATEGORY'
@@ -1217,6 +1240,8 @@ const TaskSearch = (
             data={data}
             loadingData={loadingFeedData}
             onEditClick={(value) => {
+              // console.log(value)
+             
               feedDefault.defaultValues={...feedDefault.defaultValues,...value};
               feedDefault.purpose="";
               setFeedDefault({
@@ -1230,12 +1255,17 @@ const TaskSearch = (
               }
               if (value.widget_type === 'single_offer') {
                 setformType('SINGLE_OFFER_TYPE');
+                singleOfferOne[0].filePath=value.media_file;
               }
               if (value.widget_type === 'single_video') {
                 setformType('SINGLE_VIDEO_TYPE');
+                singleVideo[0].filePath=value.media_file;
+                singleVideo[0].thumbPath =value.video_thumbnail;
               }
               if (value.widget_type === 'double_offer') {
                 setformType('DOUBLE_OFFER_TYPE');
+                doubleOfferOne[0].filePath=value.media_file;
+                doubleOfferTwo[0].filePath=JSON.parse(value.sibling_item).media_file;
                 let doubleOfferDefault = { ...value };
                 dataOne.defaultValues={...dataOne.defaultValues,...JSON.parse(doubleOfferDefault.sibling_item)}
                 setdataOne({
@@ -1267,6 +1297,7 @@ const TaskSearch = (
             loadingData={loadingProductData}
             onEditClick={(value) => {
               prodDefault.defaultValues={...prodDefault.defaultValues,...value};
+              productTemplate[0].filePath=value.image;
               prodDefault.purpose="";
               setProdDefault({
                 ...prodDefault
@@ -1292,6 +1323,7 @@ const TaskSearch = (
             categoryData={data}
             loadingData={loadingCategoryData}
             onEditClick={(value) => {
+              categoryTemplate[0].filePath =value.image ;
               categoryDefault.defaultValues={...categoryDefault.defaultValues,...value}
               categoryDefault.purpose="";
               setCategoryDefault({
@@ -1316,6 +1348,7 @@ const TaskSearch = (
             data={data}
             loadingData={loadingAddOfferData}
             onEditClick={(value) => {
+              addOfferTemplate[0].filePath=value.image;
               addOfferDefault.defaultValues={...addOfferDefault.defaultValues,...value}
               addOfferDefault.purpose=""
               setAddOfferDefault({
@@ -1531,16 +1564,16 @@ const TaskSearch = (
                     template={
                       tsType === 'WALLET_FEED' &&
                       formType === 'SINGLE_OFFER_TYPE'
-                        ? singleOfferOne
+                        ? cloneDeep(singleOfferOne)
                         : tsType === 'WALLET_FEED' &&
                           formType === 'SINGLE_VIDEO_TYPE'
-                        ? singleVideo
+                        ? cloneDeep(singleVideo)
                         : tsType === 'WALLET_PRODUCT'
-                        ? productTemplate
+                        ? cloneDeep(productTemplate)
                         : tsType === 'WALLET_CATEGORY'
-                        ? categoryTemplate
+                        ? cloneDeep(categoryTemplate)
                         : tsType === 'ADD_OFFER'
-                        ? addOfferTemplate
+                        ? cloneDeep(addOfferTemplate)
                         : null
                     }
                   />
@@ -1710,16 +1743,16 @@ const TaskSearch = (
                     template={
                       tsType === 'WALLET_FEED' &&
                       formType === 'SINGLE_OFFER_TYPE'
-                        ? singleOfferOne
+                        ? cloneDeep(singleOfferOne)
                         : tsType === 'WALLET_FEED' &&
                           formType === 'SINGLE_VIDEO_TYPE'
-                        ? singleVideo
+                        ? cloneDeep(singleVideo)
                         : tsType === 'WALLET_PRODUCT'
-                        ? productTemplate
+                        ? cloneDeep(productTemplate)
                         : tsType === 'WALLET_CATEGORY'
-                        ? categoryTemplate
+                        ? cloneDeep(categoryTemplate)
                         : tsType === 'ADD_OFFER'
-                        ? addOfferTemplate
+                        ? cloneDeep(addOfferTemplate)
                         : null
                     }
                   />
@@ -1821,16 +1854,16 @@ const TaskSearch = (
                 onResetForm={onResetForm}
                 template={
                   tsType === 'WALLET_FEED' && formType === 'SINGLE_OFFER_TYPE'
-                    ? singleOfferOne
+                    ? cloneDeep(singleOfferOne)
                     : tsType === 'WALLET_FEED' &&
                       formType === 'SINGLE_VIDEO_TYPE'
-                    ? singleVideo
+                    ? cloneDeep(singleVideo)
                     : tsType === 'WALLET_PRODUCT'
-                    ? productTemplate
+                    ? cloneDeep(productTemplate)
                     : tsType === 'WALLET_CATEGORY'
-                    ? categoryTemplate
+                    ? cloneDeep(categoryTemplate)
                     : tsType === 'ADD_OFFER'
-                    ? addOfferTemplate
+                    ? cloneDeep(addOfferTemplate)
                     : null
                 }
               />

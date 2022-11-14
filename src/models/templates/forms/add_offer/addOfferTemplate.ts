@@ -14,12 +14,20 @@ export const addOfferTemplate = [
           message: 'You need to upload banner'
         },
         validate: {
-          lessThan10MB: (files) => files[0]?.size < 5000000 || 'Max limit 5MB',
+          lessThan10MB: (files) => {
+            return files&&files.length===0?true:files[0]?.size < 5000000 || 'Max limit 5MB'
+          },
+          
           //  imageDimension: (files) => files[0]?.width > 500 && files[0]?.height > 500 || "Max image Dimensions 500px X 500px",
   
-          acceptedFormats: (files) =>
-            ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
+          acceptedFormats: (files) =>{
+          if(files&&files.length){
+           return ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
             'Only PNG, JPEG format'
+          }else{
+            return true
+          }
+        }
         },
         onChange: async (e) => {
           const s3Detail = await fileUpload(
