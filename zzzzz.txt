@@ -1,0 +1,158 @@
+1. Write a function to generate random numbers between 100 to 200.
+  A  console.log("randaom number between 100 to 200 ="Math.floor(Math.random()*200);
+
+  NOT CORRECT ( function is mission )
+-------------------------------------------------------------------------------------------------
+2.What is difference between arrow function and function expression.
+ANS 
+
+----------------------------------------------------------------------------------------------
+3. Write a function to find maximum number from set of 2 number.
+        function findMaxNumber(12,24) // output should be 24
+ ANS  console.log(Math.max(12,24));
+
+ NOT CORRECT ( function is missing )
+------------------------------------------------------------------------------------------------
+4. Write arrow function to find averate of two number.
+        function findAvarage (10,20) // output should be 15
+ANS
+    var avg=  (n1,n2)=>{ var total=n1+n2;
+                          var  avg=total/2;
+                             return avg;
+                             }
+
+              
+        consoe.log(avg(n1,n2));
+
+CORRECT
+----------------------------------------------------------------------------------------------------------------------
+5. what is callbacks, give an example.
+ANS 
+     in simple word callbacks is one function name pass as a parameter in another funcction.
+
+example:-
+      function a(fun){
+                console.log("function a");
+               b();
+            }
+
+       function b(){onsole.log("function b");}
+         a(b);
+
+CORRECT
+       
+---------------------------------------------------------------------------------------------------------------------------
+6. How many types of timers in javascript, name with syntax
+   
+ANS  a - setTimeout()
+           syntax :-
+             setTimeout(function, milliseconds).
+     b-  clearTimeout()
+           syntax :-
+
+               clearTimeout(setTimeout function name);
+     c-  setInterval()
+             syntax :-
+                  setInterval(function, milliseconds).
+     d-   clearInterval
+             syntax:-
+                  setInterval(sesetInterval function name)
+
+CORRECT
+
+------------------------------------------------------------------------------------------------------------------------------
+7. Write a function to show if given input is integer.
+    example.    function integerTest("number") // output false
+                function integerTest(12) // output true
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+8.  What is event listener in javascript.
+
+ANS 
+
+-event listener is use when some action perform on any element , button ,etc
+-The addEventListener() method attaches an event handler to the specified element.
+
+-The addEventListener() method attaches an event handler to an element without overwriting existing event handlers.
+
+-You can add many event handlers to one element.
+
+-You can add many event handlers of the same type to one element.
+
+-You can add event listeners to any DOM object not only HTML elements.
+
+syntax :-
+element.addEventListener(event, function, useCapture)
+
+CORRECT
+-----------------------------------------------------------------------------------------------------------------------------------------
+9.  what is DOM.
+ANS:-
+
+The Document Object Model or DOM is created by the browser when a webpage is loaded. 
+document :- it is a page which is loaded on web browser.
+Object:- in page tag and element is object .
+MOdel:-all element in page in form of tree structure called model.
+
+CORRECT
+ ----------------------------------------------------------------------------------------------------------------------------------------
+10.How many methods to select a dom element, give example to each type.
+ANS:- 6 method use for select element a dom element
+       a-getElementById – search element by element_id
+         example:-
+         <div id="name"><div>
+          document.getElementById("name");
+       b-getElementsByTagName – search element by tag name
+          example:-
+           <input type="text" >
+           document.getElementById("input");
+
+       c-getElementsByClassName – search element by class name
+          
+          example:-
+              <div class="name"><div>
+               document.getElementById("name");
+       d-getElementsByName – search element by name attribute
+            example
+              example:-
+              <div class="name"  name="a"><div>
+               document.getElementById("a"); 
+       e-querySelector – returns the first element that matches the specified selector
+           example:-
+              <ul >
+                <list>android<list>
+                <list>java <list>
+                <list>PHP<list>
+              <ul>
+            
+              
+              <div class="name"  name="a"><div>
+               document.querySelector("ul");
+
+       f-querySelectorAll – returns elements that match the specified selector
+
+CORRECT
+
+--------------------------------------------------------------------------------------------------------------------
+11. what is ajax, and what is use.
+ANS:-
+     -Ajax is used for  load data in page without refresh the page
+     - AJAX is used to fetch data from server without refresh the page.
+     - Ajax is used to send data to server background to the page and without effect page.
+
+CORRECT
+-------------------------------------------------------------------------------------------------------------------
+12. Explain promises in javascript.
+ANS:-
+      promises in object in javascript is used to fetch data in late then it is used 
+      promise have three state 
+      a- pending 
+      b- resolve
+      c-reject
+
+PARTIAL CORRECT
+
+
+7.5/15=> 50%;
+

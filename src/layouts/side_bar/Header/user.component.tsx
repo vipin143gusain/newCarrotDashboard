@@ -14,6 +14,9 @@ import {
   Typography
 } from '@mui/material';
 import NextLink from 'next/link';
+import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
+import Lottie from 'react-lottie';
+
 
 import { LoginContext } from '@/contexts/login.context';
 import { AppState } from '@/store';
@@ -79,6 +82,7 @@ function HeaderUserbox() {
   const dispatch = useDispatch();
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { username } = useContext(LoginContext);
   const router = useRouter();
 
@@ -91,15 +95,22 @@ function HeaderUserbox() {
   };
 
   const handleLogOut = async(): void => {
+    setIsLoading(true)
     await dispatch(clearProfileData());
     deleteCookie('token', { path: '/', sameSite: true });
-    setTimeout(() => {
+    let logoutTimer
+    logoutTimer = setTimeout(() => {
+      setIsLoading(false)
+      if(logoutTimer){
+        clearTimeout(logoutTimer)
+      }
       router.replace('/');
     }, 3000);
   };
 
   return (
     <>
+
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
         <Avatar alt={user.name} src={user.avatar} />
         <Hidden mdDown>
@@ -144,12 +155,29 @@ function HeaderUserbox() {
           </NextLink>
         </List>
         <Divider />
+        {
+          isLoading&&
+          <Lottie
+        options={{
+          loop: true,
+          autoplay: true,
+          animationData: loaderIcon
+        }}
+        height={150}
+        width={150}
+        // isStopped={this.state.isStopped}
+        // isPaused={this.state.isPaused}
+      />
+        }
+        {
+          !isLoading&&
         <Box sx={{ m: 1 }}>
           <Button color="primary" fullWidth onClick={handleLogOut}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>
         </Box>
+        }
       </Popover>
     </>
   );

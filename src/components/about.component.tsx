@@ -351,7 +351,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
                     : user?.coverImg
                 }
               />
-              <CardCoverAction>
+              {/* <CardCoverAction>
                 <Button
                   startIcon={<UploadTwoToneIcon />}
                   variant="contained"
@@ -360,7 +360,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
                 >
                   {user?.banner === '' ? 'Upload Banner' : 'Change Banner'}
                 </Button>
-              </CardCoverAction>
+              </CardCoverAction> */}
             </CardCover>
             <AvatarWrapper>
               <Avatar
@@ -375,7 +375,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
                     : user?.logo
                 }
               />
-              <ButtonUploadWrapper>
+              {/* <ButtonUploadWrapper>
                 <IconButton
                   component="span"
                   color="primary"
@@ -383,7 +383,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
                 >
                   <UploadTwoToneIcon />
                 </IconButton>
-              </ButtonUploadWrapper>
+              </ButtonUploadWrapper> */}
             </AvatarWrapper>
           </>
         ) : null}
