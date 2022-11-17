@@ -701,6 +701,8 @@ export const CommonForm = (props: CommonFormProps) => {
                 <>
                   <div style={{ width: '100%', float: 'left', color: 'red' }}>
                     <p>
+                       <p style={{color:'yellow'}}>Status: Your edit request is pending approval from Carrot Admin</p>
+                    </p>
                       {
                         defaultValues.purpose === 'delete'?
                         "Your Withdraw request is already in queue"
@@ -708,7 +710,7 @@ export const CommonForm = (props: CommonFormProps) => {
                         "You can withdraw your request to click on the below button"
 
                       }
-                    </p>
+                     
                   </div>
                   {
                     defaultValues.purpose === 'delete'?
@@ -723,7 +725,7 @@ export const CommonForm = (props: CommonFormProps) => {
                     sx={{
                       borderWidth: '1px',
                       // borderColor: '#0cad5d',
-                      borderColor: 'red',
+                      borderColor: 'red', marginTop:'10px',
 
                       // color: '#0cad5d',
                       color: 'red',
