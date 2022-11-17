@@ -4,9 +4,13 @@ import { makeStyles } from '@mui/styles';
 import { FormProvider, useForm } from 'react-hook-form';
 import Lottie from 'react-lottie';
 import * as loaderIcon from '@/public/static/images/loaders/carrot-loader-2x.json';
+import { getModalState } from '@/store/slices/modal_watcher';
+
 
 
 import { EastTwoTone, KeyboardBackspaceTwoTone } from '@mui/icons-material';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -62,9 +66,25 @@ const MultiPartForm = (props: MultiPartFormProps) => {
 
   const classes = useStyles();
 
-  const methods = useForm(defaultValues);
+  const methods = useForm({defaultValues:defaultValues.defaultValues,shouldUnregister: true});
+  const {setValue } = methods;
 
   const steps = getSteps(allSteps);
+  const modalState = useSelector(getModalState);
+
+
+  console.log({defaultValues,value:methods.getValues()})
+
+  useEffect(()=>{
+
+    Object.keys(defaultValues.defaultValues).map(objKey=>{
+      setValue(objKey,defaultValues.defaultValues[objKey])
+    })
+
+
+
+  },[modalState,defaultValues])
+ 
 
 
   return (

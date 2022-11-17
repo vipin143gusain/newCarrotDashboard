@@ -59,7 +59,11 @@ const ProfileCover = (props: ProfileCoverProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getBrand());
+    let sesOrig = sessionStorage.getItem("user")?JSON.parse(sessionStorage.getItem("user")):""
+    if(sesOrig&&sesOrig?.carrotrole==2){
+      dispatch(getBrand());
+    }
+    
   }, []);
 
   const [totalStep, setTotalStep] = useState(3);
@@ -250,16 +254,15 @@ const ProfileCover = (props: ProfileCoverProps) => {
     setActiveStep(activeStep - 1);
   };
 
-  useEffect(() => {
-    
-    // console.log('Brand', _theBrand);
-  }, [_theBrand]);
+ 
   // Checking the available redux state
   useEffect(() => {
-    sessionStorage.getItem("user")&&setUserSesData(JSON.parse(sessionStorage.getItem("user")))
+    sessionStorage.getItem("user")&&setUserSesData(JSON.parse(sessionStorage.getItem("user")));
+       
     if (_theBrand?.name !== '') {
       setAbtValues({
-        defaultValues: {
+        ...abtValues,
+        defaultValues:{
           name: _theBrand?.name,
           about: _theBrand?.about,
           description: _theBrand?.description,
@@ -284,15 +287,17 @@ const ProfileCover = (props: ProfileCoverProps) => {
           validity_of_cashback: _theBrand?.validity_of_cashback,
           brand_cashback: _theBrand?.brand_cashback,
           visibility: _theBrand?.visibility == 1 ? true : false
-          // banner: _theBrand.banner,
         }
       });
+
+      
+
     }
-  }, [_theBrand]);
+  }, [_theBrand?.name]);
 
   //renderint updated form
   const renderMSForm = () => {
-   
+ 
   
     let stepD=stepsData;
     let allStp = allSteps;
@@ -302,7 +307,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
       allStp = allSteps.slice(0,2);
     }
     // console.log(abtValues);
-    return abtValues.defaultValues.name !== '' ? (
+  
+     return (
       <MultiPartForm
         isFormComplete={isComplete}
         isSubmitting={isSubmitting}
@@ -317,16 +323,21 @@ const ProfileCover = (props: ProfileCoverProps) => {
         subCategoryListData={categoryListData}
         channelListData={channelListData}
       />
-    ) : null;
+     )
+    
   };
 
   const [editing, setediting] = useState(false);
 
   useEffect(() => {
-    // console.log('edit', editing);
+    // console.log('edit', editing,modalState);
     // renderMSForm();
     setActiveStep(0);
-  }, [editing, modalState]);
+    if(modalState===false){
+      setediting(false)
+    }
+    
+  }, [editing,modalState]);
 
   // useEffect(() => {
   //   fetchBrandDetail();
@@ -338,8 +349,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
         {loading && <h2>Loading Your brand...</h2>}
         {loading && error ? <p>Error:{error}</p> : null}
         <Box display="flex" mb={3}></Box>
-        {_theBrand?.name !== '' ? (
-          <>
+       
             <CardCover>
               <CardMedia
                 image={
@@ -356,7 +366,12 @@ const ProfileCover = (props: ProfileCoverProps) => {
                   startIcon={<UploadTwoToneIcon />}
                   variant="contained"
                   component="span"
-                  onClick={onCoverImageClick}
+                  onClick={()=>{
+                    onCoverImageClick();
+  
+
+                  }
+                  }
                 >
                   {user?.banner === '' ? 'Upload Banner' : 'Change Banner'}
                 </Button>
@@ -385,8 +400,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
                 </IconButton>
               </ButtonUploadWrapper> */}
             </AvatarWrapper>
-          </>
-        ) : null}
+          
 
         <Box>
           <Typography variant="h3" component="h3" gutterBottom marginLeft={2}>
@@ -406,18 +420,20 @@ const ProfileCover = (props: ProfileCoverProps) => {
             marginTop={2}
           >
             <Box>
-              {user?.name ? (
+              
                 <Button
                   size="small"
                   variant="contained"
                   startIcon={<ModeEditOutlineTwoToneIcon />}
                   onClick={() => {
-                    setediting(() => true), dispatch(setModalState(true));
+                    setediting(true);
+                    dispatch(setModalState(true));
+                    
                   }}
                 >
                   Edit
                 </Button>
-              ) : null}
+             
 
               {user?.website_url && (
                 <Button size="small" sx={{ mx: 1 }} variant="outlined">
