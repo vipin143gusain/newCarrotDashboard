@@ -73,7 +73,7 @@ const MultiPartForm = (props: MultiPartFormProps) => {
   const modalState = useSelector(getModalState);
 
 
-  console.log({defaultValues,value:methods.getValues()})
+  // console.log({defaultValues,value:methods.getValues()})
 
   useEffect(()=>{
 

@@ -1,3 +1,5 @@
+import { fileUpload } from "@/utils/common_upload_image";
+import { calcHeightWidth } from "../wallet_product/imageHeightWidthCalc";
 
 
 export const BrandPageTwo = 
@@ -16,38 +18,25 @@ export const BrandPageTwo =
         value: true,
         message: 'You need to upload logo'
       },
-
-    validate: {
-          // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-          // lessThan2MB: (files) => files[0]?.size < 2*1000*1024 || 'Max limit 2MB',
-          // imgName: (files) => files[0]?.name?.length < 30 || 'Max image name lenth is 30 only',
-          // imageDimension: async function(files) {              
-          //     const result =  await calcHeightWidth(files);
-          //     return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
-          //   }
-          // },
-          // uploadFile:async (files) => {
-          //   const s3Detail = await fileUpload(
-          //     files[0],
-          //     'category',
-          //     'images',
-          //     ''
-          //   );
-          //   BrandPageTwo[3].filePath = `${s3Detail.path}`;
-          // }
-          
-        },
-        // onChange: async (e) => {
-        //   console.log(e)
-        //   const s3Detail = await fileUpload(
-        //     e.target.files[0],
-        //     'category',
-        //     'images',
-        //     ''
-        //   );
-        //   BrandPageTwo[0].filePath = `${s3Detail.path}`;
-        // }
-    }
+      validate: {
+          lessThan2MB: (files) => files&&files[0]?.size < 2*1000*1024 || 'Max limit 2MB',
+          imgName: (files) => files&&files[0]?.name?.length < 30 || 'Max image name lenth is 30 only',
+          imageDimension: async function(files) {              
+              const result =  await calcHeightWidth(files);
+              return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
+            }
+          },          
+          onChange: async (e) => {
+            console.log(e.target.files)
+            const s3Detail = await fileUpload(
+              e.target.files[0],
+              'category',
+              'images',
+              ''
+            );
+            BrandPageTwo[0].filePath = `${s3Detail.path}`;
+          }
+      },
   },
 
   {
@@ -64,25 +53,23 @@ export const BrandPageTwo =
         value: true,
         message: 'You need to upload banner'
       },
-    //  validate: {
-    //       // lessThan: e => e.target.files[0].size >  5000000 || "Please upload a file smaller than 5 MB",
-    //       lessThan2MB: (files) => files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
-    //       imgName: (files) => files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
-    //       imageDimension: async function(files) {
-    //         const result =  await calcHeightWidth(files);
-    //         return (result.width < 500 )||( result.height < 500 )|| "Max image Dimensions 500px X 500px"
-    //       },
-    //       uploadFile:async (files) => {
-    //         const s3Detail = await fileUpload(
-    //           files[0],
-    //           'category',
-    //           'images',
-    //           ''
-    //         );
-    //         // carrotCategoryTemplate[3].filePath = `${s3Detail.path}`;
-    //       }
-          
-    //     },
+      validate: {
+        lessThan2MB: (files) => files&&files&&files[0]?.size < 2*1000*1024 || 'Max limit 2MB',
+        imgName: (files) => files&&files&&files[0]?.name?.length < 30 || 'Max image name lenth is 30 only',
+        imageDimension: async function(files) {              
+            const result =  await calcHeightWidth(files);
+            return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
+          }
+        },          
+        onChange: async (e) => {
+          const s3Detail = await fileUpload(
+            e.target.files[0],
+            'category',
+            'images',
+            ''
+          );
+          BrandPageTwo[1].filePath = `${s3Detail.path}`;
+        }
     }
   },
 

@@ -92,6 +92,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
     }
   });
 
+  // not using this (>>>>> remove this line then start using )
   const handleFileChange = async (e: any) => {
     try {
       const s3Detail = await fileUploadApi(
@@ -169,11 +170,13 @@ const ProfileCover = (props: ProfileCoverProps) => {
         console.log('last step');
         setIsSubmitting(true);
 
+        
+
         let payload = {
           ...values,
           website_url: values.website_url,
-          banner_file_key: fileUpload.banner.split(IMAGE_URL)[1],
-          logo_file_key: fileUpload.logo.split(IMAGE_URL)[1],
+          banner_file_key: BrandPageTwo[1]?.filePath,
+          logo_file_key: BrandPageTwo[0]?.filePath,
           walletid: _theBrand.walletid,
           id: _theBrand.id
         };
@@ -205,7 +208,7 @@ const ProfileCover = (props: ProfileCoverProps) => {
           dispatch(getBrand());
         } else {
           await _serveAPI({
-            endPoint: '/admin/wallet/create',
+            endPoint: 'admin/wallet/create',
             method: 'POST',
             data: payload
           });
@@ -222,6 +225,8 @@ const ProfileCover = (props: ProfileCoverProps) => {
           if (timeOut) {
             clearTimeout(timeOut);
             setIsSubmitting(false);
+            BrandPageTwo[1].filePath="";
+            BrandPageTwo[0].filePath="";
           }
         }, 2000);
       } else {

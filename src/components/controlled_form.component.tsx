@@ -330,30 +330,35 @@ export const ControlledForm = (props: ControlledFormProps) => {
                       )}
                     </>
                   )}
+                  
                   {(i.type === 'text' || i.type === 'file') && (
-                    <TextField style={{marginLeft:'20px'}}
-                      inputProps={{ accept: 'image/png, image/jpeg' }}
-                      id={i.id}
-                      type={i.type}
-                      label={i.label}
-                      variant="outlined"
-                      sx={{ width: 355, margin: '10px' }}x
-                      placeholder={i.placeholder}
-                      {...register(i.name)}
-                      fullWidth
-                      margin="normal"
-                      {...field}
-                      {...onChangeDest.onChangeVal(i.type)}
-                      error={Boolean(errors?.[i.name])}
-                      helperText={
-                        field.name === 'logo'
-                          ? getValues('logo_file_key_edit')
-                          : field.name === 'banner'
-                          ? getValues('banner_file_key_edit')
-                          : errors[i.name]?.message.toString()
-                        }
-                    />
+
+                      <TextField style={{marginLeft:'20px'}}
+                        inputProps={{ accept: 'image/png, image/jpeg' }}
+                        id={i.id}
+                        type={i.type}
+                        label={i.label}
+                        variant="outlined"
+                        sx={{ width: 355, margin: '10px' }}x
+                        placeholder={i.placeholder}
+                        {...register(i.name)}
+                        fullWidth
+                        margin="normal"
+                        // {...field}
+                        // {...onChangeDest.onChangeVal(i.type)}
+                        error={Boolean(errors?.[i.name])}
+                        helperText={
+                          errors[i.name]?.message.toString()?errors[i.name]?.message.toString():
+                          field.name === 'logo'
+                            ? getValues('logo_file_key_edit')
+                            : field.name === 'banner'
+                            ? getValues('banner_file_key_edit')
+                            : errors[i.name]?.message.toString()
+                          }
+                      />
+
                   )}
+
                   {i.type === 'switch' && (
                     <div style={{marginLeft:'30px'}}>
                       <label htmlFor="">{i.label} </label>
