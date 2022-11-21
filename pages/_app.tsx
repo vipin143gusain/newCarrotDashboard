@@ -16,6 +16,10 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import createEmotionCache from 'src/createEmotionCache';
 import ThemeProvider from 'src/theme/ThemeProvider';
 import { LoginContext } from '../src/contexts/login.context';
+// import {ErrorBoundary} from 'react-error-boundary'
+import ErrorBoundary from './_errorBoundary';
+
+import ErrorFallback from "./404";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -28,6 +32,8 @@ interface CarrotAppProps extends AppProps {
 }
 
 const App = (props: CarrotAppProps) => {
+   
+    
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -49,6 +55,9 @@ const App = (props: CarrotAppProps) => {
   }, [])
 
   return (
+   
+    <ErrorBoundary>
+
     <CacheProvider value={emotionCache}>
       <Head>
         <title>Carrot NextJS Typescript Admin Dashboard</title>
@@ -70,7 +79,14 @@ const App = (props: CarrotAppProps) => {
         </SidebarProvider>
       </LoginContext.Provider>
     </CacheProvider>
+
+    </ErrorBoundary>
   );
+
+
+
+
 };
+
 
 export default wrapper.withRedux(App);

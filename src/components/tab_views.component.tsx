@@ -842,6 +842,7 @@ const TaskSearch = (
     }).then((res) => {
       notify('success', res.message);
       dispatch(getProduct({ walletId, qc_status: filter }));
+      dispatch(setModalState(false));
     });
   };
   const categoryWithDraw = async (id) => {
@@ -851,6 +852,7 @@ const TaskSearch = (
     }).then((res) => {
       notify('success', res.message);
       dispatch(getCategory({ walletId: 279, qc_status: filter }));
+      dispatch(setModalState(false));
     });
   };
 
@@ -861,6 +863,7 @@ const TaskSearch = (
     }).then((res) => {
       notify('success', res.message);
       dispatch(getFeedCards({ walletId, qc_status: filter }));
+      dispatch(setModalState(false));
     });
   };
 
@@ -871,6 +874,7 @@ const TaskSearch = (
     }).then((res) => {
       notify('success', res.message);
       dispatch(getOffer({ walletId, qc_status: filter }));
+      dispatch(setModalState(false));
     });
   };
 
@@ -1077,15 +1081,27 @@ const TaskSearch = (
     if (!modalState) {
       prodDefault.purpose = '';
       prodDefault.defaultValues.image = '';
+      Object.keys(prodDefault.defaultValues).map(prodEl=>{
+        prodDefault.defaultValues[prodEl]=""
+      })
 
       categoryDefault.purpose = '';
       categoryDefault.defaultValues.image = '';
+      Object.keys(categoryDefault.defaultValues).map(catEl=>{
+        categoryDefault.defaultValues[catEl]=""
+      })
 
       feedDefault.purpose = '';
-      feedDefault.defaultValues.media_file=""
+      feedDefault.defaultValues.media_file="";
+      Object.keys(feedDefault.defaultValues).map(feedEl=>{
+        feedDefault.defaultValues[feedEl]=""
+      })
 
       addOfferDefault.purpose = '';
       addOfferDefault.defaultValues.image="";
+      Object.keys(addOfferDefault.defaultValues).map(feedEl=>{
+        addOfferDefault.defaultValues[feedEl]=""
+      })
 
       setProdDefault({...prodDefault });
       setCategoryDefault({...categoryDefault });

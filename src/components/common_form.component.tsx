@@ -90,7 +90,7 @@ export const CommonForm = (props: CommonFormProps) => {
     mode
   } = props;
 
-  // console.log('default value',defaultValues,mode)
+  console.log('default value',defaultValues,mode)
 
 
   const [market, setMarket] = useState({

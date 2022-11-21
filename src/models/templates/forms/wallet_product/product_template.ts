@@ -18,7 +18,14 @@ export const productTemplate = [
         },
   
         validate: {
-          lessThan10MB: (files) => files&&files.length===0?true:files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
+          checkItem:(files)=>{
+            console.log(files)
+            if(files===undefined){
+              return "value is not passed"
+
+            }
+          },
+          lessThan10MB: (files) => (files&&files.length===0)?true:(files[0]?.size < 1*1000*1024 || 'Max limit 2MB'),
           imgName: (files) => files&&files.length===0?true:files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
           imageDimension: async function(files) {
             if(files&&files.length){
@@ -28,19 +35,9 @@ export const productTemplate = [
               return true
             }
           },
-          // uploadFile:async function (files){
+
+       
           
-          //   const s3Detail = await fileUpload(
-          //     files[0],
-          //     'category',
-          //     'images',
-          //     ''
-          //   );
-          //   productTemplate[0].filePath = `${s3Detail.path}`;
-          // }
-          // acceptedFormats: (files) =>
-          //   ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
-          //   'Only PNG, JPEG format'
         },
         onChange: async function (e){
           
