@@ -15,7 +15,7 @@ export const addOfferTemplate = [
         },
         validate: {
           lessThan10MB: (files) => {
-            return files&&files.length===0?true:files[0]?.size < 5000000 || 'Max limit 5MB'
+            return files&&(files.length===0)?true:files[0]?.size < 5000000 || 'Max limit 5MB'
           },
           
           //  imageDimension: (files) => files[0]?.width > 500 && files[0]?.height > 500 || "Max image Dimensions 500px X 500px",

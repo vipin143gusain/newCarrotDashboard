@@ -1,5 +1,4 @@
 //@ts-nocheck
-import { _serveAPI } from '@/api/service';
 import CommonModal from '@/components/common_modal.component';
 import { ControlledForm } from '@/components/controlled_form.component';
 import MultiPartForm from '@/components/multi_step_form.component';
@@ -8,7 +7,7 @@ import { adminPageThree } from '@/models/templates/forms/about_page/admin_page_t
 import { allSteps } from '@/models/templates/forms/about_page/all_steps';
 import { BrandOne } from '@/models/templates/forms/about_page/brand_page_one';
 import { BrandPageTwo } from '@/models/templates/forms/about_page/brand_page_two';
-import { getBrand, updateBrand } from '@/store/slices/brand';
+import { createBrand, getBrand, updateBrand } from '@/store/slices/brand';
 import {
   categoryList,
   channelList,
@@ -207,11 +206,9 @@ const ProfileCover = (props: ProfileCoverProps) => {
           await dispatch(updateBrand(payload));
           dispatch(getBrand());
         } else {
-          await _serveAPI({
-            endPoint: 'admin/wallet/create',
-            method: 'POST',
-            data: payload
-          });
+          await dispatch(createBrand(payload));
+          dispatch(getBrand());
+      
         }
 
         setIsComplete(true);

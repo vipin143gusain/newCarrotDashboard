@@ -14,21 +14,32 @@ import { productTemplate } from '@/models/templates/forms/wallet_product/product
 import { BrandTabTypes } from '@/models/types/brand_tabtype';
 import { OfferTypes } from '@/models/types/offers';
 import {
+  addOfferAction,
+  addOfferEditRequest,
+  addOfferWithdrawAction,
   deleteOffer,
   getOffer,
-  loadingAddOffer
+  loadingAddOffer,
+  updateOffer,
+  updateOfferv2
 } from '@/store/slices/add_offer';
 import {
   categoryList,
+  createWalletFeed,
+  feedEditRequest,
+  feedWithdrawAction,
   getFeedCards, loadingFeed,
   subCategoryList,
   tagList,
-  themeList
+  themeList,
+  updateWalletFeed
 } from '@/store/slices/feed';
 import { getModalState, setModalState } from '@/store/slices/modal_watcher';
 import { search } from '@/store/slices/search';
 import {
   addWalletCategoryAction,
+  categoryEditRequest,
+  categoryWithdrawAction,
   deleteCategoryAction,
   getCategory,
   loadingCategory,
@@ -37,10 +48,14 @@ import {
 } from '@/store/slices/wallet_category';
 import {
   addWalletProductAction,
+  approveProductAction,
   deleteProductAction,
   getProduct,
   loadingProduct,
-  updateProduct
+  productEditRequest,
+  rejectProductAction,
+  updateProduct,
+  withdrawProductAction
 } from '@/store/slices/wallet_product';
 import { notify } from '@/utils/toaster';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -189,6 +204,7 @@ const TaskSearch = (
   const [activeTab, setTabValue] = useState('live_asset');
   const [fileBlob, setFileBlob] = useState("");
   const [imageColor, setImageColor] = useState("");
+  const [userSesData, setUserSesData] = useState({});
 
   const handleTabChange = (event: SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
@@ -473,13 +489,9 @@ const TaskSearch = (
         dispatch(setModalState(false));
         categoryTemplate[0].filePath = '';
       } else if (tsType === 'WALLET_FEED') {
-        _serveAPI({
-          method: 'POST',
-          endPoint: 'api/wallet/banner/v2',
-          data: outData
-        })
-          .then((res) => {
-            notify('success', res.message);
+        dispatch(createWalletFeed(outData))
+        .then(({payload}) => {
+            notify('success', payload.message);
             dispatch(getFeedCards({ walletId, qc_status: filter }));
             setIsSubmitting(false)
             dispatch(setModalState(false));
@@ -489,13 +501,14 @@ const TaskSearch = (
             setIsSubmitting(false)
           });
       } else if (tsType === 'ADD_OFFER') {
-        _serveAPI({
-          method: 'POST',
-          endPoint: 'api/wallet/offer/v2',
-          data: outData
-        })
-          .then((res) => {
-            notify('success', res.message);
+        // _serveAPI({
+        //   method: 'POST',
+        //   endPoint: 'api/wallet/offer/v2',
+        //   data: outData
+        // })
+        dispatch(addOfferAction(outData))
+          .then(({payload}) => {
+            notify('success', payload.message);
             dispatch(getOffer({ walletId, qc_status: filter }));
             setIsSubmitting(false)
             dispatch(setModalState(false));
@@ -523,13 +536,14 @@ const TaskSearch = (
         dispatch(setModalState(false));
         categoryTemplate[0].filePath = '';
       } else if (tsType === 'WALLET_FEED') {
-        _serveAPI({
-          method: 'PUT',
-          endPoint: `api/wallet/banner/v2/${outData.id}`,
-          data: outData
-        })
-          .then((res) => {
-            notify('success', res.message);
+        // _serveAPI({
+        //   method: 'PUT',
+        //   endPoint: `api/wallet/banner/v2/${outData.id}`,
+        //   data: outData
+        // })
+        dispatch(updateWalletFeed(outData))
+          .then(({payload}) => {
+            notify('success', payload.message);
             dispatch(getFeedCards({ walletId, qc_status: filter }));
             setIsSubmitting(false)
             dispatch(setModalState(false));
@@ -542,13 +556,14 @@ const TaskSearch = (
             setIsSubmitting(false)
           });
       } else if (tsType === 'ADD_OFFER') {
-        _serveAPI({
-          method: 'PUT',
-          endPoint: `api/wallet/offer/v2/${outData.id}`,
-          data: outData
-        })
-          .then((res) => {
-            notify('success', res.message);
+        // _serveAPI({
+        //   method: 'PUT',
+        //   endPoint: `api/wallet/offer/v2/${outData.id}`,
+        //   data: outData
+        // })
+        dispatch(updateOffer(outData))
+          .then(({payload}) => {
+            notify('success', payload.message);
             dispatch(getOffer({ walletId, qc_status: filter }));
             setIsSubmitting(false)
             dispatch(setModalState(false));
@@ -741,14 +756,15 @@ const TaskSearch = (
     data.sibling_item = dataOne;
     setdataTwo(data);
     if (mode === 'CREATE') {
-      _serveAPI({
-        method: 'POST',
-        endPoint: 'api/wallet/banner',
-        data: data
-      })
-        .then((res) => {
+      // _serveAPI({
+      //   method: 'POST',
+      //   endPoint: 'api/wallet/banner',
+      //   data: data
+      // })
+      dispatch(addOfferActionNew(data))
+        .then(({payload}) => {
           setIsSubmitting(true)
-          notify('success', res.message);
+          notify('success', payload.message);
           dispatch(getFeedCards({ walletId, qc_status: filter }));
           dispatch(setModalState(false));
           doubleOfferOne[0].filePath = '';
@@ -765,14 +781,15 @@ const TaskSearch = (
       delete data.qc_status;
       delete data.qc_status_asset;
 
-      _serveAPI({
-        method: 'PUT',
-        endPoint: `api/wallet/offer/v2/${data.id}`,
-        data: data
-      })
-        .then((res) => {
+      // _serveAPI({
+      //   method: 'PUT',
+      //   endPoint: `api/wallet/offer/v2/${data.id}`,
+      //   data: data
+      // })
+      dispatch(updateOfferv2(data))
+        .then(({payload}) => {
           setIsSubmitting(false)
-          notify('success', res.message);
+          notify('success', payload.message);
           dispatch(getOffer({ walletId, qc_status: filter }));
           dispatch(setModalState(false));
           doubleOfferOne[0].filePath = '';
@@ -802,13 +819,14 @@ const TaskSearch = (
       approver_notes: 'data approved'
     };
 
-    _serveAPI({
-      method: 'PATCH',
-      endPoint: `api/qcintegration/approve/${id}`,
-      data
-    })
-      .then((res) => {
-        notify('success', res.message);
+    // _serveAPI({
+    //   method: 'PATCH',
+    //   endPoint: `api/qcintegration/approve/${id}`,
+    //   data
+    // })
+    dispatch(approveProductAction({data,id}))
+      .then(({payload}) => {
+        notify('success', payload.message);
         dispatch(getProduct({ walletId, qc_status: filter }));
         dispatch(setModalState(false));
       })
@@ -817,16 +835,11 @@ const TaskSearch = (
 
   const rejectProduct = (id) => {
     let data = {
-      approver_id: 255,
-      approver_name: 'Vipin_admin',
+      approver_id: userSesData?.id,
+      approver_name: userSesData?.loginid,
       approver_notes: 'data rejected'
     };
-
-    _serveAPI({
-      method: 'PATCH',
-      endPoint: `api/qcintegration/reject/${id}`,
-      data
-    })
+    dispatch(rejectProductAction({data,id}))
       .then((res) => {
         notify('success', res.message);
         dispatch(getProduct({ walletId: 279, qc_status: filter }));
@@ -836,66 +849,73 @@ const TaskSearch = (
   };
 
   const prodWithDraw = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/product/v2/withdrawn/${id}`,
-      method: 'PUT'
-    }).then((res) => {
-      notify('success', res.message);
+   
+    dispatch(withdrawProductAction(id))
+    .then(({payload}) => {
+      notify('success', payload.message);
       dispatch(getProduct({ walletId, qc_status: filter }));
       dispatch(setModalState(false));
     });
   };
   const categoryWithDraw = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/category/v2/withdrawn/${id}`,
-      method: 'PUT'
-    }).then((res) => {
-      notify('success', res.message);
+    // _serveAPI({
+    //   endPoint: `api/wallet/category/v2/withdrawn/${id}`,
+    //   method: 'PUT'
+    // })
+    dispatch(categoryWithdrawAction(id))
+    .then(({payload}) => {
+      notify('success', payload.message);
       dispatch(getCategory({ walletId: 279, qc_status: filter }));
       dispatch(setModalState(false));
     });
   };
-
+  
   const feedWithDraw = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/banner/v2/withdrawn/${id}`,
-      method: 'PUT'
-    }).then((res) => {
-      notify('success', res.message);
+    // _serveAPI({
+    //   endPoint: `api/wallet/banner/v2/withdrawn/${id}`,
+    //   method: 'PUT'
+    // })
+    dispatch(feedWithdrawAction(id))
+    .then(({payload}) => {
+      notify('success', payload.message);
       dispatch(getFeedCards({ walletId, qc_status: filter }));
       dispatch(setModalState(false));
     });
   };
-
+  
   const addOfferWithDraw = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/offer/v2/withdrawn/${id}`,
-      method: 'PUT'
-    }).then((res) => {
-      notify('success', res.message);
+    // _serveAPI({
+    //   endPoint: `api/wallet/offer/v2/withdrawn/${id}`,
+    //   method: 'PUT'
+    // })
+    dispatch(addOfferWithdrawAction(id))
+    .then(({payload}) => {
+      notify('success', payload.message);
       dispatch(getOffer({ walletId, qc_status: filter }));
       dispatch(setModalState(false));
     });
   };
-
+  
   const fetchProdEditRequest = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/product/v2/getEditedRequest/${id}`,
-      method: 'GET'
-    }).then((res) => {
-      const prodEditedVal = JSON.parse(res.data[0].reference_payload);
+    // _serveAPI({
+    //   endPoint: `api/wallet/product/v2/getEditedRequest/${id}`,
+    //   method: 'GET'
+    // })
+    dispatch(productEditRequest(id))
+    .then(({payload}) => {
+      const prodEditedVal = JSON.parse(payload.data[0].reference_payload);
       if (prodEditedVal?.qc_status_asset) {
         delete prodEditedVal.qc_status_asset;
       }
       setEditProdDefault({
         ...editProdDefault,
-        purpose: res.data[0].purpose,
+        purpose: payload.data[0].purpose,
         defaultValues: {
           ...prodDefault.defaultValues,
           ...prodEditedVal
         }
       });
-      prodDefault.purpose = res.data[0].purpose;
+      prodDefault.purpose = payload.data[0].purpose;
       console.log(prodDefault.defaultValues);
       setProdDefault({
         ...prodDefault
@@ -903,42 +923,46 @@ const TaskSearch = (
     });
   };
   const fetchCategoryEditRequest = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/category/v2/getEditedRequest/${id}`,
-      method: 'GET'
-    }).then((res) => {
-      const categoryEditedVal = JSON.parse(res.data[0].reference_payload);
+    // _serveAPI({
+    //   endPoint: `api/wallet/category/v2/getEditedRequest/${id}`,
+    //   method: 'GET'
+    // })
+    dispatch(categoryEditRequest(id))
+    .then(({payload}) => {
+      const categoryEditedVal = JSON.parse(payload.data[0].reference_payload);
       delete categoryEditedVal.qc_status_asset;
       setEditCategoryDefault({
         ...editCategoryDefault,
-        purpose: res.data[0].purpose,
+        purpose: payload.data[0].purpose,
         defaultValues: {
           ...categoryDefault.defaultValues,
           ...categoryEditedVal
         }
       });
-      categoryDefault.purpose = res.data[0].purpose;
+      categoryDefault.purpose = payload.data[0].purpose;
       setCategoryDefault({
         ...categoryDefault
       });
     });
   };
   const fetchFeedEditRequest = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/banner/v2/getEditedRequest/${id}`,
-      method: 'GET'
-    }).then((res) => {
-      const feedEditedVal = JSON.parse(res.data[0].reference_payload);
-      delete feedEditedVal.qc_status_asset;
+    // _serveAPI({
+    //   endPoint: `api/wallet/banner/v2/getEditedRequest/${id}`,
+    //   method: 'GET'
+    // })
+      dispatch(feedEditRequest(id))
+      .then(({payload}) => {
+        const feedEditedVal = JSON.parse(payload.data[0].reference_payload);
+        delete feedEditedVal.qc_status_asset;
       setEditFeedDefault({
         ...editFeedDefault,
-        purpose: res.data[0].purpose,
+        purpose: payload.data[0].purpose,
         defaultValues: {
           ...feedDefault.defaultValues,
           ...feedEditedVal
         }
       });
-      feedDefault.purpose = res.data[0].purpose;
+      feedDefault.purpose = payload.data[0].purpose;
       setFeedDefault({
         ...feedDefault
         // purpose:res.data[0].purpose
@@ -946,21 +970,23 @@ const TaskSearch = (
     });
   };
   const fetchAddOfferEditRequest = async (id) => {
-    _serveAPI({
-      endPoint: `api/wallet/offer/v2/getEditedRequest/${id}`,
-      method: 'GET'
-    }).then((res) => {
-      const addOfferEditedVal = JSON.parse(res.data[0].reference_payload);
+    // _serveAPI({
+    //   endPoint: `api/wallet/offer/v2/getEditedRequest/${id}`,
+    //   method: 'GET'
+    // })
+    dispatch(addOfferEditRequest(id))
+    .then(({payload}) => {
+      const addOfferEditedVal = JSON.parse(payload.data[0].reference_payload);
       delete addOfferEditedVal.qc_status_asset;
       setEditAddOfferDefault({
         ...editAddOfferDefault,
-        purpose: res.data[0].purpose,
+        purpose: payload.data[0].purpose,
         defaultValues: {
           ...addOfferDefault.defaultValues,
           ...addOfferEditedVal
         }
       });
-      addOfferDefault.purpose = res.data[0].purpose;
+      addOfferDefault.purpose = payload.data[0].purpose;
       setAddOfferDefault({
         ...addOfferDefault
         // purpose:res.data[0].purpose
@@ -1077,6 +1103,10 @@ const TaskSearch = (
   };
 
   useEffect(() => {
+    let sesData = sessionStorage.getItem("user")?JSON.parse(sessionStorage.getItem("user")):"";
+    if(sesData){
+      setUserSesData(sesData);
+    }
     setTabValue('live_asset');
     if (!modalState) {
       prodDefault.purpose = '';

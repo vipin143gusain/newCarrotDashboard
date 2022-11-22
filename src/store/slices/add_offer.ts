@@ -29,9 +29,62 @@ export const updateOffer = createAsyncThunk(
   async (data: object | any) => {
     return await _serveAPI({
       method: 'PUT',
-      endPoint: `api/wallet/product/v2/${data.id}`,
+      endPoint: `api/wallet/offer/${data.id}`,
       data
-    }).then((res) => res.message);
+    }).then((res) => res);
+  }
+);
+
+export const updateOfferv2 = createAsyncThunk(
+  'walletProduct/updateOfferv2',
+  async (data: object | any) => {
+    return await _serveAPI({
+      method: 'PUT',
+        endPoint: `api/wallet/offer/v2/${data.id}`,
+        data
+    }).then((res) => res);
+  }
+);
+
+export const addOfferWithdrawAction = createAsyncThunk(
+  "wallet/addOfferWithdrawAction",
+  async (id) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/offer/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => res);
+  }
+);
+
+export const addOfferAction = createAsyncThunk(
+  'walletProduct/addOfferAction',
+  async (data: object | any) => {
+    return await _serveAPI({
+      method: 'POST',
+      endPoint: 'api/wallet/offer/v2',
+      data
+    }).then((res) => res);
+  }
+);
+
+export const addOfferActionNew = createAsyncThunk(
+  'walletProduct/addOfferActionNew',
+  async (data: object | any) => {
+    return await _serveAPI({
+      method: 'POST',
+      endPoint: 'api/wallet/banner',
+      data
+    }).then((res) => res);
+  }
+);
+
+export const addOfferEditRequest = createAsyncThunk(
+  "walletProduct/editRequestAddOffer",
+  async (id: object | any) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/offer/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => res);
   }
 );
 

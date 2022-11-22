@@ -45,6 +45,27 @@ export const deleteCategoryAction = createAsyncThunk(
   }
 );
 
+export const categoryWithdrawAction = createAsyncThunk(
+  "wallet/categoryWithdrawAction",
+  async (id) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/category/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => res);
+  }
+);
+
+export const categoryEditRequest = createAsyncThunk(
+  "walletProduct/editRequestCategory",
+  async (id: object | any) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/category/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => res);
+  }
+);
+
+
 export const WalletCategory = createSlice({
   name: "walletCategory",
 

@@ -50,6 +50,41 @@ export const getUser = createAsyncThunk(
   }
 );
 
+export const getBusinessToken = createAsyncThunk(
+  'user/getBusinessToken',
+  async (payload: Credentials) => {
+    return await _serveAPI({
+      endPoint: 'api/campaign/getbusinesstoken',
+      method: 'POST',
+      data: payload
+    })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
+);
+
+export const userLogin = createAsyncThunk(
+  'user/userLogin',
+  async (payload: Credentials) => {
+    return await _serveAPI({
+      endPoint: 'login',
+      method: 'POST',
+      data: payload
+    })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
+);
+
+
 export const ProfileSlice = createSlice({
   name: 'profile',
   initialState,

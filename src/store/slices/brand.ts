@@ -52,6 +52,17 @@ export const updateBrand = createAsyncThunk(
   }
 );
 
+export const createBrand = createAsyncThunk(
+  'brand/createBrand',
+  async (data) => {
+    return await _serveAPI({
+      endPoint: 'api/admin/wallet/create',
+      method: 'POST',
+      data
+    })
+  }
+);
+
 export const Brand = createSlice({
   name: 'brand',
   initialState,

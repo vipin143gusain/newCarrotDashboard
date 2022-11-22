@@ -47,6 +47,48 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
+export const approveProductAction = createAsyncThunk(
+  "walletProduct/approveProduct",
+  async ({data,id}: object | any) => {
+    return await _serveAPI({
+      method: 'PATCH',
+      endPoint: `api/qcintegration/approve/${id}`,
+      data,
+    }).then((res) => res);
+  }
+);
+
+export const rejectProductAction = createAsyncThunk(
+  "walletProduct/rejectProduct",
+  async ({data,id}: object | any) => {
+    return await _serveAPI({
+      method: 'PATCH',
+      endPoint: `api/qcintegration/reject/${id}`,
+      data,
+    }).then((res) => res);
+  }
+);
+
+export const withdrawProductAction = createAsyncThunk(
+  "walletProduct/withdrawProduct",
+  async (id: object | any) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/product/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => res);
+  }
+);
+
+export const productEditRequest = createAsyncThunk(
+  "walletProduct/editRequestProduct",
+  async (id: object | any) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/product/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => res);
+  }
+);
+
 export const WalletProduct = createSlice({
   name: "walletProduct",
 

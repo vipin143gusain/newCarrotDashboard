@@ -64,6 +64,7 @@ export const getFeedCards = createAsyncThunk(
     }).then((res) => { return res.data});
   }
 );
+
 export const deleteFeedCard = createAsyncThunk(
   "feed/deleteFeedCard",
   async (feedCardId: number) => {
@@ -73,6 +74,52 @@ export const deleteFeedCard = createAsyncThunk(
     }).then((res) => { return res});
   }
 );
+
+export const createWalletFeed = createAsyncThunk(
+  "feed/addFeedCard",
+  async (payload) => {
+    return await _serveAPI({
+      method: 'POST',
+          endPoint: 'api/wallet/banner/v2',
+          data: payload
+    }).then((res) => { return res});
+  }
+);
+
+export const feedWithdrawAction = createAsyncThunk(
+  "wallet/feedWithdrawAction",
+  async (id) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/banner/v2/withdrawn/${id}`,
+      method: 'PUT'
+    }).then((res) => res);
+  }
+);
+
+export const feedEditRequest = createAsyncThunk(
+  "walletProduct/editRequestFeed",
+  async (id: object | any) => {
+    return await _serveAPI({
+      endPoint: `api/wallet/banner/v2/getEditedRequest/${id}`,
+      method: 'GET'
+    }).then((res) => res);
+  }
+);
+
+export const updateWalletFeed = createAsyncThunk(
+  "feed/updateFeedCard",
+  async (payload) => {
+    return await _serveAPI({
+          method: 'PUT',
+          endPoint: `api/wallet/banner/v2/${payload.id}`,
+          data: payload
+    }).then((res) => { return res});
+  }
+);
+
+
+
+
 
 export const Feed = createSlice({
   name: "feed",

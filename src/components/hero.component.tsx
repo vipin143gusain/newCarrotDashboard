@@ -1,7 +1,7 @@
 import { _serveAPI } from '@/api/service';
 import { ProfileProps } from '@/models/interfaces/profile';
 import { AppDispatch } from '@/store';
-import { getUser } from '@/store/slices/profile';
+import { getBusinessToken, getUser, userLogin } from '@/store/slices/profile';
 import { Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -51,18 +51,20 @@ export default function SignInSide() {
   const profile = useSelector<ProfileProps>((state) => state.profile.profile);
 
   const router = useRouter();
+  
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
       console.log('user', user);
       await dispatch(getUser(user));
-      const loginRes = await _serveAPI({
-        endPoint: 'login',
-        method: 'POST',
-        data: user
-      })
-      if(loginRes.status==="failed"){
-        throw new Error(loginRes.message);
+      const {payload} = await dispatch(userLogin(user));
+      // const loginRes = await _serveAPI({
+      //   endPoint: 'login',
+      //   method: 'POST',
+      //   data: user
+      // })
+      if(payload.status==="failed"){
+        throw new Error(payload.message);
       }else{
         
         setuserData(profile);
@@ -80,37 +82,36 @@ export default function SignInSide() {
     if (profile?.firstname !== '') {
       console.log('UserNOW', profile);
       sessionStorage.setItem('user', JSON.stringify(profile));
-      _serveAPI({
-        endPoint: 'api/campaign/getbusinesstoken',
-        method: 'POST',
-        data: {
-          business: profile?.business ? JSON.parse(profile.business) : null,
-          channeltype: 'CARROT',
-          managerid: profile?.id,
-          roleid: profile?.carrotrole
-        }
-      }).then((res) => {
-        console.log(res);
-        if(res.status==="failed"){
-          throw new Error(res.message);
-        }
-        let token = '';
-        console.log('token', res);
-        console.log(res)
-        token = res.data.token;
+      let payloadData ={
+        business: profile?.business ? JSON.parse(profile.business) : null,
+        channeltype: 'CARROT',
+        managerid: profile?.id,
+        roleid: profile?.carrotrole
+      }
+      dispatch(getBusinessToken(payloadData)).then(({payload})=>{
+        console.log(payload);
 
-        if (token.includes('ey')) {
-          setCookie('token', token, {path:'/', sameSite:true});
-          router.push('dashboards');
-        } else {
-          router.replace('/');
-        }
-      }).catch(err=>{
-        console.log(err.message)
+            if(payload.status==="failed"){
+              throw new Error(payload.message);
+            }
+            let token = '';
+            console.log('token', payload);
+            console.log(payload)
+            token = payload.data.token;
+    
+            if (token.includes('ey')) {
+              setCookie('token', token, {path:'/', sameSite:true});
+              router.push('dashboards');
+            } else {
+              router.replace('/');
+            }
+
+      }).catch((error)=>{
+        console.log(error.message)
         setShowSnack(true);
-        setmessage(err.message);
-        console.log("login failed");
+        setmessage(error.message);
       })
+      
     }
   
   }, [profile]);
