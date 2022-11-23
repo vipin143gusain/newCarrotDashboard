@@ -51,6 +51,9 @@ interface CommonFormProps {
   genderOption?: any;
   onApproveClick?: any;
   onRejectClick?: any;
+  onRejectMessage?: any;
+  rejectError?: any;
+  rejectMessage?: any;
 
   //selectValues?: [] | any
 }
@@ -86,11 +89,14 @@ export const CommonForm = (props: CommonFormProps) => {
     themeListData,
     tagListData,
     genderOption,
+    onRejectMessage,
     // collectionName,
-    mode
+    mode,
+    rejectError,
+    rejectMessage
   } = props;
 
-  console.log('default value',defaultValues,mode)
+  // console.log('default value',defaultValues,mode)
 
 
   const [market, setMarket] = useState({
@@ -775,6 +781,21 @@ export const CommonForm = (props: CommonFormProps) => {
                   >
                     Reject
                   </Button>
+
+                  <TextField
+                  variant="outlined"
+                  sx={{
+                    ml: 1
+                  }}
+                  value={rejectMessage}
+                  inputProps={{maxLength:150}}
+                  onChange={(e)=>{
+                    onRejectMessage(e);
+                  }}
+                  helperText={rejectError.errorMessage}
+                  error={rejectError.isError}
+
+                   />
 
                     </>
                   }

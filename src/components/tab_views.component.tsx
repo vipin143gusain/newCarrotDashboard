@@ -205,6 +205,11 @@ const TaskSearch = (
   const [fileBlob, setFileBlob] = useState("");
   const [imageColor, setImageColor] = useState("");
   const [userSesData, setUserSesData] = useState({});
+  const [rejectMessage, setRejectMessage] = useState("");
+  const [rejectError, setRejectError] = useState({
+    isError:false,
+    errorMessage:""
+  })
 
   const handleTabChange = (event: SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
@@ -814,9 +819,9 @@ const TaskSearch = (
 
   const approveProduct = (id) => {
     let data = {
-      approver_id: 255,
-      approver_name: 'Vipin_admin',
-      approver_notes: 'data approved'
+      approver_id: userSesData?.id,
+      approver_name: userSesData?.loginid,
+      approver_notes: rejectMessage
     };
 
     // _serveAPI({
@@ -834,10 +839,17 @@ const TaskSearch = (
   };
 
   const rejectProduct = (id) => {
+    console.log("reject product called",rejectMessage)
+    if(!rejectMessage){
+      rejectError.isError=true;
+      rejectError.errorMessage="Please enter message";
+      setRejectError({...rejectError})
+      return
+    }
     let data = {
       approver_id: userSesData?.id,
       approver_name: userSesData?.loginid,
-      approver_notes: 'data rejected'
+      approver_notes: rejectMessage
     };
     dispatch(rejectProductAction({data,id}))
       .then((res) => {
@@ -1024,6 +1036,7 @@ const TaskSearch = (
                 collectionName: 'subcategory'
               }}
               // defaultValues={}
+              rejectMessage={rejectMessage}
               isSubmitting={isSubmitting}
               mode={mode}
               onWithdrawClick={(id: number) => {
@@ -1035,6 +1048,7 @@ const TaskSearch = (
               onRejectClick={(id) => {
                 console.log('reject id', id);
               }}
+              rejectError={rejectError}
               disabled={false}
               subCategoryListData={subCategoryListData}
               categoryListData={categoryListData}
@@ -1072,6 +1086,11 @@ const TaskSearch = (
                 borderRadius: '10px',
                 collectionName: 'subcategory'
               }}
+              onRejectMessage={(e)=>{
+                console.log(e)
+              }}
+              rejectError={rejectError}
+              rejectMessage={rejectMessage}
               isSubmitting={isSubmitting}
               categoryListData={categoryListData}
               subCategoryListData={subCategoryListData}
@@ -1109,6 +1128,10 @@ const TaskSearch = (
     }
     setTabValue('live_asset');
     if (!modalState) {
+      rejectError.isError=false;
+      rejectError.errorMessage="";
+      setRejectError({...rejectError})
+      setRejectMessage("")
       prodDefault.purpose = '';
       prodDefault.defaultValues.image = '';
       Object.keys(prodDefault.defaultValues).map(prodEl=>{
@@ -1516,6 +1539,12 @@ const TaskSearch = (
                       borderRadius: '10px',
                       collectionName: 'subcategory'
                     }}
+                    onRejectMessage={(e)=>{
+                      setRejectMessage(e.target.value)
+                     
+                    }}
+                    rejectMessage={rejectMessage}
+                    rejectError={rejectError}
                     isSubmitting={isSubmitting}
                     categoryListData={categoryListData}
                     subCategoryListData={subCategoryListData}
@@ -1693,6 +1722,11 @@ const TaskSearch = (
                       borderRadius: '10px',
                       collectionName: 'subcategory'
                     }}
+                    onRejectMessage={(e)=>{
+                      setRejectMessage(e.target.value)
+                    }}
+                    rejectMessage={rejectMessage}
+                    rejectError={rejectError}
                     isSubmitting={isSubmitting}
                     categoryListData={categoryListData}
                     subCategoryListData={subCategoryListData}
@@ -1869,6 +1903,11 @@ const TaskSearch = (
                   borderRadius: '10px',
                   collectionName: 'subcategory'
                 }}
+                onRejectMessage={(e)=>{
+                  setRejectMessage(e.target.value)
+                }}
+                rejectMessage={rejectMessage}
+                rejectError={rejectError}
                 isSubmitting={isSubmitting}
                 categoryListData={categoryListData}
                 subCategoryListData={subCategoryListData}

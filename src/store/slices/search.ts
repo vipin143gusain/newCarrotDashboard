@@ -33,6 +33,20 @@ export const getSearchResult = createAsyncThunk('search/getSearchResult', async 
 );
 });
 
+export const searchApiCall = createAsyncThunk(
+  "search/searchApiCall",
+  async (payload: object) => {
+    return await _serveAPI({
+      endPoint:"api/admin/wallet/search",
+      method:"POST",
+      data:{
+        name:payload
+      }
+    }).then((res) => res)
+
+  }
+);
+
 
 
 export const Search = createSlice({

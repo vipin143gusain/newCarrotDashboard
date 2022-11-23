@@ -45,6 +45,8 @@ import Label from 'src/components/labelNow.component';
 import { CommonForm } from './common_form.component';
 import CommonModal from './common_modal.component';
 import {cloneDeep} from 'lodash';
+import { createCategory, createCategoryAction, deleteCarrotCategory, editCarrotCategoryAction } from '@/store/slices/carrot_category';
+import { createSubCateoryAction, deleteSubCategoryAction, editSubCateoryAction } from '@/store/slices/carrot_sub_category';
 
 interface TableProps {
   gridType: 'CATEGORY' | 'SUBCATEGORY' | 'QC';
@@ -228,19 +230,25 @@ const GridTable = (props: TableProps) => {
       outVal.created_by = 200;
 
       if (mode === 'CREATE') {
-        let addedC = await _serveAPI({
-          endPoint: 'api/category',
-          data: outVal,
-          method: 'POST'
-        });
-        message=addedC.message
+        // let addedC = await _serveAPI({
+        //   endPoint: 'api/category',
+        //   method: 'POST',
+        //   data: outVal,
+        // });
+        dispatch(createCategoryAction(outVal)).then(({payload})=>{
+          message=payload.message;
+          notify("success",payload.message);
+        })
       } else if (mode === 'EDIT') {
-        let editedC = await _serveAPI({
-          endPoint: `api/category/${outVal.id}`,
-          data: outVal,
-          method: 'PUT'
-        });
-        message=editedC.message
+        // let editedC = await _serveAPI({
+        //   endPoint: `api/category/${outVal.id}`,
+        //   data: outVal,
+        //   method: 'PUT'
+        // });
+        dispatch(editCarrotCategoryAction(outVal)).then(({payload})=>{
+          message=payload.message;
+          notify("success",payload.message);
+        })
       } else {
         setIsSubmitting(false);
         return null;
@@ -263,12 +271,15 @@ const GridTable = (props: TableProps) => {
       let outData = {
         deleted_by: 100
       };
-      const deletedC = await _serveAPI({
-        endPoint: `api/category/${value.id}`,
-        data: outData,
-        method: 'DELETE'
-      });
-      message=deletedC.message;
+      // const deletedC = await _serveAPI({
+      //   endPoint: `api/category/${value.id}`,
+      //   method: 'DELETE',
+      //   data: outData,
+      // });
+      dispatch(deleteCarrotCategory({outData,value})).then(({payload})=>{
+        message=payload.message;
+        notify("success",payload.message);
+      })
       if(message){
         notify("success",message)
       }
@@ -282,12 +293,15 @@ const GridTable = (props: TableProps) => {
       let outData = {
         deleted_by: 100
       };
-      let deleteSC = await _serveAPI({
-        endPoint: `api/subcategory/${value.id}`,
-        data: outData,
-        method: 'DELETE'
-      });
-      message=deleteSC.message;
+      // let deleteSC = await _serveAPI({
+      //   endPoint: `api/subcategory/${value.id}`,
+      //   method: 'DELETE',
+      //   data: outData,
+      // });
+      dispatch(deleteSubCategoryAction({outData,value})).then(({payload})=>{
+        message=payload.message;
+        notify("success",payload.message);
+      })
       if(message){
         notify("success",message)
       }
@@ -314,12 +328,15 @@ const GridTable = (props: TableProps) => {
       console.log(outVal);
 
       if (mode === 'CREATE') {
-        const addedSC = await _serveAPI({
-          endPoint: 'api/subcategory',
-          data: outVal,
-          method: 'POST'
-        });
-        message=addedSC.message;
+        // const addedSC = await _serveAPI({
+        //   endPoint: 'api/subcategory',
+        //   data: outVal,
+        //   method: 'POST'
+        // });
+        dispatch(createSubCateoryAction(outVal)).then(({payload})=>{
+          message=payload.message;
+          notify("success",payload.message);
+        })
       } else if (mode === 'EDIT') {
         outVal.add_category_ids = value.category_ids.map((cat) => {
           return { id: cat.id, display_order: cat.display_order };
@@ -332,12 +349,17 @@ const GridTable = (props: TableProps) => {
         delete outVal.category;
         delete outVal.created_by;
         outVal.updated_by = 200;
-        const editedSC = await _serveAPI({
-          endPoint: `api/subcategory/${outVal.id}`,
-          data: outVal,
-          method: 'PUT'
-        });
-        message=editedSC.message;
+        // const editedSC = await _serveAPI({
+        //   endPoint: `api/subcategory/${outVal.id}`,
+        //   data: outVal,
+        //   method: 'PUT'
+        // });
+
+        dispatch(editSubCateoryAction(outVal)).then(({payload})=>{
+          message=payload.message;
+          notify("success",payload.message);
+        })
+
       } else {
         setIsSubmitting(false);
         return null;

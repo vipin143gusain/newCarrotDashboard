@@ -19,7 +19,7 @@ import { AppDispatch } from '@/store';
 import { getOffer } from '@/store/slices/add_offer';
 import { UPDATE_BRAND_SEARCH } from '@/store/slices/brand';
 import { getFeedCards } from '@/store/slices/feed';
-import { search, TOGGLE_RESULTS, updateWalletId } from '@/store/slices/search';
+import { search, searchApiCall, TOGGLE_RESULTS, updateWalletId } from '@/store/slices/search';
 import { getCategory } from '@/store/slices/wallet_category';
 import { getProduct } from '@/store/slices/wallet_product';
 import { throttle } from 'lodash';
@@ -73,16 +73,26 @@ function HeaderSearch() {
 
 
   const apiCall = async(val)=>{
-      _serveAPI({
-        endPoint:"api/admin/wallet/search",
-        method:"POST",
-        data:{
-          name:val
-        }
-      }).then(res=>{
-        if(res.status==="success"){
-          setSearchResult(res.data.data)
-          return res.data.data
+      // _serveAPI({
+      //   endPoint:"api/admin/wallet/search",
+      //   method:"POST",
+      //   data:{
+      //     name:val
+      //   }
+      // }).then(res=>{
+      //   if(res.status==="success"){
+      //     setSearchResult(res.data.data)
+      //     return res.data.data
+      //   }else{
+      //     setSearchResult([])
+      //     return []
+      //   }
+      // })
+
+      dispatch(searchApiCall(val)).then(({payload})=>{
+        if(payload.status==="success"){
+          setSearchResult(payload.data.data)
+          return payload.data.data
         }else{
           setSearchResult([])
           return []

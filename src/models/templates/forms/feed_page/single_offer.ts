@@ -19,6 +19,12 @@ export const singleOfferOne = [
         message: 'You need to upload banner'
       },
       validate: {
+        test :(files)=>{
+          console.log(files);
+          if(files===undefined){
+            return "files is undefined"
+          }
+        },
         lessThan10MB: (files) => files&&files.length===0?true:files[0]?.size < 1*1000*1024 || 'Max limit 2MB',
         imgName: (files) => files&&files.length===0?true:files[0]?.name.length < 30 || 'Max image name lenth is 30 only',
         imageDimension: async function(files) {

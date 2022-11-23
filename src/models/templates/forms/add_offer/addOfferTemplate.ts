@@ -14,6 +14,12 @@ export const addOfferTemplate = [
           message: 'You need to upload banner'
         },
         validate: {
+          test:(files)=>{
+            console.log(files);
+            if(files===undefined){
+              return "files is undefined"
+            }
+          },
           lessThan10MB: (files) => {
             return files&&(files.length===0)?true:files[0]?.size < 5000000 || 'Max limit 5MB'
           },
