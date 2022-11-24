@@ -816,6 +816,19 @@ const TaskSearch = (
   const handleChange = (event: SelectChangeEvent) => {
     setformType(event.target.value);
   };
+  const handleRejectMessage = (e)=>{
+    setRejectMessage(e.target.value)
+    if(e.target.value&&e.target.value.length<=3){
+      rejectError.isError=true;
+      rejectError.errorMessage="Please enter 3 character";
+      setRejectError({...rejectError})
+    }else{
+      rejectError.isError=false;
+      rejectError.errorMessage="";
+      setRejectError({...rejectError})
+    }
+    
+  }
 
   const approveProduct = (id) => {
     let data = {
@@ -852,8 +865,8 @@ const TaskSearch = (
       approver_notes: rejectMessage
     };
     dispatch(rejectProductAction({data,id}))
-      .then((res) => {
-        notify('success', res.message);
+      .then(({payload}) => {
+        notify('success', payload.message);
         dispatch(getProduct({ walletId: 279, qc_status: filter }));
         dispatch(setModalState(false));
       })
@@ -1047,6 +1060,7 @@ const TaskSearch = (
               }}
               onRejectClick={(id) => {
                 console.log('reject id', id);
+                rejectProduct(id);
               }}
               rejectError={rejectError}
               disabled={false}
@@ -1086,9 +1100,7 @@ const TaskSearch = (
                 borderRadius: '10px',
                 collectionName: 'subcategory'
               }}
-              onRejectMessage={(e)=>{
-                console.log(e)
-              }}
+              onRejectMessage={handleRejectMessage}
               rejectError={rejectError}
               rejectMessage={rejectMessage}
               isSubmitting={isSubmitting}
@@ -1105,6 +1117,7 @@ const TaskSearch = (
               }}
               onRejectClick={(id) => {
                 console.log('reject id', id);
+                rejectProduct(id);
               }}
               disabled={false}
               mode={mode}
@@ -1539,10 +1552,7 @@ const TaskSearch = (
                       borderRadius: '10px',
                       collectionName: 'subcategory'
                     }}
-                    onRejectMessage={(e)=>{
-                      setRejectMessage(e.target.value)
-                     
-                    }}
+                    onRejectMessage={handleRejectMessage}
                     rejectMessage={rejectMessage}
                     rejectError={rejectError}
                     isSubmitting={isSubmitting}
@@ -1568,6 +1578,7 @@ const TaskSearch = (
                     }}
                     onRejectClick={(id) => {
                       console.log('reject id', id);
+                      rejectProduct(id);
                     }}
                     disabled={
                       categoryDefault.defaultValues.qc_status_asset ===
@@ -1722,9 +1733,7 @@ const TaskSearch = (
                       borderRadius: '10px',
                       collectionName: 'subcategory'
                     }}
-                    onRejectMessage={(e)=>{
-                      setRejectMessage(e.target.value)
-                    }}
+                    onRejectMessage={handleRejectMessage}
                     rejectMessage={rejectMessage}
                     rejectError={rejectError}
                     isSubmitting={isSubmitting}
@@ -1903,9 +1912,7 @@ const TaskSearch = (
                   borderRadius: '10px',
                   collectionName: 'subcategory'
                 }}
-                onRejectMessage={(e)=>{
-                  setRejectMessage(e.target.value)
-                }}
+                onRejectMessage={handleRejectMessage}
                 rejectMessage={rejectMessage}
                 rejectError={rejectError}
                 isSubmitting={isSubmitting}

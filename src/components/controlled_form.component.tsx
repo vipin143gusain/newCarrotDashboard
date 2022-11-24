@@ -33,6 +33,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
     subCategoryListData
   } = props;
 
+
   const {
     control,
     formState: { errors, defaultValues },
@@ -87,6 +88,7 @@ export const ControlledForm = (props: ControlledFormProps) => {
         alignItems="center"
       >
         {fieldData.map((i) => {
+
 
         if(userSesData?.carrotrole==2){
           

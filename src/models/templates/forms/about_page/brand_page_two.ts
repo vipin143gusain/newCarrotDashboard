@@ -19,11 +19,16 @@ export const BrandPageTwo =
         message: 'You need to upload logo'
       },
       validate: {
-          lessThan2MB: (files) => files&&files[0]?.size < 2*1000*1024 || 'Max limit 2MB',
-          imgName: (files) => files&&files[0]?.name?.length < 30 || 'Max image name lenth is 30 only',
-          imageDimension: async function(files) {              
+       
+          lessThan2MB: (files) => (files.length===0)?true:(files&&files[0]?.size < 2*1000*1024 || 'Max limit 2MB'),
+          imgName: (files) => (files.length===0)?true:(files&&files[0]?.name?.length < 30 || 'Max image name lenth is 30 only'),
+          imageDimension: async function(files) { 
+            if(files&&files.length){
               const result =  await calcHeightWidth(files);
               return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
+            }else{
+              return true
+            }         
             }
           },          
           onChange: async (e) => {
@@ -54,11 +59,15 @@ export const BrandPageTwo =
         message: 'You need to upload banner'
       },
       validate: {
-        lessThan2MB: (files) => files&&files&&files[0]?.size < 2*1000*1024 || 'Max limit 2MB',
-        imgName: (files) => files&&files&&files[0]?.name?.length < 30 || 'Max image name lenth is 30 only',
-        imageDimension: async function(files) {              
+        lessThan2MB: (files) => (files.length===0)?true:(files&&files&&files[0]?.size < 2*1000*1024 || 'Max limit 2MB'),
+        imgName: (files) => (files.length===0)?true:(files&&files&&files[0]?.name?.length < 30 || 'Max image name lenth is 30 only'),
+        imageDimension: async function(files) {    
+          if(files&&files.length){
             const result =  await calcHeightWidth(files);
             return (result.width <= 300 )||( result.height <= 300 )|| "Max image Dimensions 300px X 300px"
+          }else{
+            return true
+          }      
           }
         },          
         onChange: async (e) => {
